@@ -9,8 +9,8 @@ function OrdersItem({ item }) {
     <Collapse ghost key={item.id}>
       <Panel
         header={`Заказ клиента №${item.uid} от <дата создания>,
-        компания: ${item.company.name}, 
-        ИНН: ${item.company.inn}`}
+        компания: ${item.company?.name}, 
+        ИНН: ${item.company?.inn}`}
         key={item.id}>
         <div></div>
         <Divider />
