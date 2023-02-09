@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
-import { setClients } from "../../features/clientsSlice";
-import { setCompany } from "../../features/companySlice";
 import { Input, Select } from "antd";
 import {
   useAddOrderMutation,
@@ -50,7 +48,7 @@ function CreareOrder({ open }) {
       closable={false}
       maskClosable={false}
       open={isModalOpen}
-      onOk={handleOk}
+      // onOk={handleOk}
       onCancel={handleCancel}>
       <Input
         placeholder="uid заказа"
