@@ -16,7 +16,6 @@ import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
   useGetClientQuery,
-  useGetCompanyQuery,
   useGetWorkQuery,
 } from "../../api";
 import { Content, Header } from "antd/es/layout/layout";
@@ -25,12 +24,11 @@ const { TextArea } = Input;
 const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
   const { data: clients = [], isLoading: isClientLoading } =
     useGetClientQuery();
-  const { data: company = [], isLoading: isCompanyLoading } =
-    useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const [isModalOpen, setIsModalOpen] = useState(open);
   const [formValue, setFormValue] = useState({
@@ -38,6 +36,17 @@ function CreareOrder({ open }) {
     client_id: 0,
     company_id: 0,
   });
+
+  const handleChangeWork = (id) => {
+    works.map((work) => {
+      if (work.id === id) {
+        console.log(work.price);
+        form.setFieldValue({
+          WorksList_1_price: String(work.price),
+        });
+      }
+    });
+  };
 
   const handleOk = async () => {
     await addOrder({
@@ -72,7 +81,7 @@ function CreareOrder({ open }) {
           Для создание заказа неободимо заполнить все поля
         </Header>
         <Content>
-          <Form autoComplete={false} labelCol={{ span: 3 }}>
+          <Form labelCol={{ span: 3 }} form={form}>
             <Form.Item
               label="Клиент"
               name="client"
@@ -95,58 +104,7 @@ function CreareOrder({ open }) {
             </Form.Item>
             <Form.Item label="Список работ" name="works">
               <Collapse>
-                <Panel header="Список работ" key="1">
-                  <Form.List name="WorksList">
-                    {(fields, { add, remove }) => (
-                      <>
-                        {fields.map(({ key, name, ...restField }) => (
-                          <Space
-                            key={key}
-                            style={{ display: "flex", marginBottom: 8 }}
-                            align="baseline">
-                            <Form.Item
-                              {...restField}
-                              name={[name, "first"]}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Missing first name",
-                                },
-                              ]}>
-                              <Select
-                                loading={isLoadingWork}
-                                options={works?.map((work) => {
-                                  return { value: work.id, label: work.name };
-                                })}
-                              />
-                            </Form.Item>
-                            <Form.Item
-                              {...restField}
-                              name={[name, "last"]}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Missing last name",
-                                },
-                              ]}>
-                              <Input placeholder="Last Name" />
-                            </Form.Item>
-                            <MinusCircleOutlined onClick={() => remove(name)} />
-                          </Space>
-                        ))}
-                        <Form.Item>
-                          <Button
-                            type="dashed"
-                            onClick={() => add()}
-                            block
-                            icon={<PlusOutlined />}>
-                            Add field
-                          </Button>
-                        </Form.Item>
-                      </>
-                    )}
-                  </Form.List>
-                </Panel>
+                <Panel header="Список работ" key="1"></Panel>
               </Collapse>
             </Form.Item>
             <Form.Item
