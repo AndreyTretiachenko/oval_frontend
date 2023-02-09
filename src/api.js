@@ -36,6 +36,11 @@ export const ovalApi = createApi({
         url: "company",
       }),
     }),
+    getWork: builder.query({
+      query: () => ({
+        url: "work",
+      }),
+    }),
   }),
 });
 
@@ -44,4 +49,5 @@ export const {
   useAddOrderMutation,
   useGetClientQuery,
   useGetCompanyQuery,
+  useGetWorkQuery,
 } = ovalApi;

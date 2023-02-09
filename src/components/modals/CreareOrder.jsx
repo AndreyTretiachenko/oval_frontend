@@ -1,13 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import {
+  Button,
+  Form,
+  Layout,
+  Modal,
+  Space,
+  Input,
+  Select,
+  Collapse,
+} from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import uuid from "react-uuid";
+import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
-import { Input, Select } from "antd";
 import {
   useAddOrderMutation,
   useGetClientQuery,
   useGetCompanyQuery,
+  useGetWorkQuery,
 } from "../../api";
+import { Content, Header } from "antd/es/layout/layout";
+
+const { TextArea } = Input;
+const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
   const dispatch = useDispatch();
@@ -16,6 +31,7 @@ function CreareOrder({ open }) {
     useGetClientQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
+  const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const [isModalOpen, setIsModalOpen] = useState(open);
   const [formValue, setFormValue] = useState({
     uid: "",
@@ -44,45 +60,111 @@ function CreareOrder({ open }) {
 
   return (
     <Modal
+      width={"70%"}
       title="Создание заказа"
       closable={false}
       maskClosable={false}
       open={isModalOpen}
       // onOk={handleOk}
       onCancel={handleCancel}>
-      <Input
-        placeholder="uid заказа"
-        title="UID"
-        showCount={true}
-        allowClear
-        onChange={(e) => setFormValue({ ...formValue, uid: e.target.value })}
-      />
-      <Select
-        style={{ width: 120 }}
-        value={formValue.client_id}
-        onChange={(value) =>
-          setFormValue({
-            ...formValue,
-            client_id: value,
-          })
-        }
-        options={clients?.map((client) => {
-          return { value: client.id, label: client.uid };
-        })}
-      />
-      <Select
-        style={{ width: 200 }}
-        value={formValue.company_id}
-        onChange={(value) =>
-          setFormValue({
-            ...formValue,
-            company_id: value,
-          })
-        }
-        options={company?.map((company) => {
-          return { value: company.id, label: company.name };
-        })}
-      />
+      <Layout>
+        <Header style={{ backgroundColor: "whitesmoke" }}>
+          Для создание заказа неободимо заполнить все поля
+        </Header>
+        <Content>
+          <Form autoComplete={false} labelCol={{ span: 3 }}>
+            <Form.Item
+              label="Клиент"
+              name="client"
+              rules={[
+                { required: true, message: "Выберите клинета из списка!" },
+              ]}>
+              <Select
+                style={{ width: 120 }}
+                value={formValue.client_id}
+                onChange={(value) =>
+                  setFormValue({
+                    ...formValue,
+                    client_id: value,
+                  })
+                }
+                options={clients?.map((client) => {
+                  return { value: client.id, label: client.uid };
+                })}
+              />
+            </Form.Item>
+            <Form.Item label="Список работ" name="works">
+              <Collapse>
+                <Panel header="Список работ" key="1">
+                  <Form.List name="WorksList">
+                    {(fields, { add, remove }) => (
+                      <>
+                        {fields.map(({ key, name, ...restField }) => (
+                          <Space
+                            key={key}
+                            style={{ display: "flex", marginBottom: 8 }}
+                            align="baseline">
+                            <Form.Item
+                              {...restField}
+                              name={[name, "first"]}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Missing first name",
+                                },
+                              ]}>
+                              <Select
+                                loading={isLoadingWork}
+                                options={works?.map((work) => {
+                                  return { value: work.id, label: work.name };
+                                })}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, "last"]}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Missing last name",
+                                },
+                              ]}>
+                              <Input placeholder="Last Name" />
+                            </Form.Item>
+                            <MinusCircleOutlined onClick={() => remove(name)} />
+                          </Space>
+                        ))}
+                        <Form.Item>
+                          <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            block
+                            icon={<PlusOutlined />}>
+                            Add field
+                          </Button>
+                        </Form.Item>
+                      </>
+                    )}
+                  </Form.List>
+                </Panel>
+              </Collapse>
+            </Form.Item>
+            <Form.Item
+              label="Комментарий"
+              name="comment"
+              rules={[
+                { required: true, message: "Выберите клинета из списка!" },
+              ]}>
+              <TextArea
+                rows={4}
+                placeholder="ваш комментарий по заказу"
+                maxLength={50}
+                showCount
+              />
+            </Form.Item>
+          </Form>
+        </Content>
+      </Layout>
     </Modal>
   );
 }

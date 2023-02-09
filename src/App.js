@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import Navigate from "./components/Navigate";
 import { useDispatch, useSelector } from "react-redux";
 import Clients from "./components/Clients";
-import { Button as ButtonAntd, Tooltip } from "antd";
+import { Button, Tooltip } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import Modals from "./components/Modals";
@@ -76,7 +76,7 @@ function App() {
               arrow={{
                 pointAtCenter: true,
               }}>
-              <ButtonAntd
+              <Button
                 type="primary"
                 style={{ float: "right", marginTop: 10 }}
                 size="large"
