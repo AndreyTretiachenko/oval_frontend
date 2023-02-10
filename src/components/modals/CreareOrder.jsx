@@ -15,6 +15,7 @@ import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
   useGetClientQuery,
+  useGetPersonQuery,
   useGetWorkQuery,
 } from "../../api";
 import { Content, Header } from "antd/es/layout/layout";
@@ -28,6 +29,9 @@ function CreareOrder({ open }) {
   const [addOrder] = useAddOrderMutation();
   const { data: clients = [], isLoading: isClientLoading } =
     useGetClientQuery();
+  const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
+  const { data: company = [], isLoading: isCompanyLoading } =
+    useGetPersonQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const [isModalOpen, setIsModalOpen] = useState(open);
   const [formValue, setFormValue] = useState({
@@ -77,7 +81,7 @@ function CreareOrder({ open }) {
                 { required: true, message: "Выберите клинета из списка!" },
               ]}>
               <Select
-                style={{ width: 120 }}
+                style={{ width: 300 }}
                 value={formValue.client_id}
                 onChange={(value) =>
                   setFormValue({
@@ -86,7 +90,14 @@ function CreareOrder({ open }) {
                   })
                 }
                 options={clients?.map((client) => {
-                  return { value: client.id, label: client.uid };
+                  return {
+                    value: client?.company[0]?.id || client?.persons[0]?.id,
+                    label:
+                      client?.company[0]?.name ||
+                      client?.persons[0]?.firstName +
+                        "" +
+                        client?.persons[0]?.lastName,
+                  };
                 })}
               />
             </Form.Item>
