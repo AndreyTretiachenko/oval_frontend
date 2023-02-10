@@ -9,7 +9,6 @@ import {
   Select,
   Collapse,
 } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import uuid from "react-uuid";
 import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
@@ -36,17 +35,6 @@ function CreareOrder({ open }) {
     client_id: 0,
     company_id: 0,
   });
-
-  const handleChangeWork = (id) => {
-    works.map((work) => {
-      if (work.id === id) {
-        console.log(work.price);
-        form.setFieldValue({
-          WorksList_1_price: String(work.price),
-        });
-      }
-    });
-  };
 
   const handleOk = async () => {
     await addOrder({
