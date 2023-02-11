@@ -37,6 +37,7 @@ function CreareOrder({ open }) {
     uid: "",
     client_id: 0,
     company_id: 0,
+    comment: "",
   });
   const [typeListClient, setTypeListClient] = useState("company");
 
@@ -45,11 +46,13 @@ function CreareOrder({ open }) {
       uid: uuid(),
       person_id: formValue.person_id || null,
       company_id: formValue.company_id || null,
+      comment: formValue.comment || null,
     }).unwrap();
     setFormValue({
       uid: "",
       client_id: 0,
       company_id: 0,
+      comment: "",
     });
     dispatch(updateModals({ modal: "", keyModal: 0 }));
   };
@@ -149,6 +152,13 @@ function CreareOrder({ open }) {
                 placeholder="ваш комментарий по заказу"
                 maxLength={50}
                 showCount
+                value={formValue.comment}
+                onChange={(e) =>
+                  setFormValue({
+                    ...formValue,
+                    comment: e.target.value,
+                  })
+                }
               />
             </Form.Item>
           </Form>
