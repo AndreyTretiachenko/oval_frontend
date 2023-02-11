@@ -82,7 +82,7 @@ function CreateWorkList({ open }) {
               />
             </Form.Item>
             <Form.Item label="Количество" name="count">
-              <InputNumber defaultValue={1} />
+              <InputNumber />
             </Form.Item>
             <Form.Item label="Цена" name="price">
               <Input />

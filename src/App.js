@@ -29,8 +29,6 @@ function App() {
   const { header, keyAction } = useSelector((state) => state.navigate);
   const modals = useSelector((state) => state.modals);
 
-  console.log(modals);
-
   return (
     <>
       <Layout style={{ height: "", margin: 0 }}>
