@@ -99,6 +99,7 @@ export const {
   useGetPersonQuery,
   useGetPaymentsQuery,
   useGetMaterialQuery,
+  useGetWorksQuery,
   useGetWorklistQuery,
   useAddWorkListMutation,
 } = ovalApi;

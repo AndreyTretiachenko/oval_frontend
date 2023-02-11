@@ -3,10 +3,14 @@ import { Modal, Table } from "antd";
 import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
-import { Layout } from "antd";
+import { Layout, Form } from "antd";
+import { setWorklist } from "../../features/workListSlice";
+import { useGetWorkQuery, useGetWorksQuery } from "../../api";
 
 function CreateWorkList({ open }) {
   const dispatch = useDispatch();
+  const { data: works = [] } = useGetWorksQuery();
+  const { data: work = [] } = useGetWorkQuery();
   const handleCancel = () => {
     dispatch(updateModals({ modal: 2 }));
   };
@@ -22,7 +26,9 @@ function CreateWorkList({ open }) {
         onCancel={handleCancel}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}></Header>
-          <Content>input data</Content>
+          <Content>
+            <Form></Form>
+          </Content>
         </Layout>
       </Modal>
     </>
