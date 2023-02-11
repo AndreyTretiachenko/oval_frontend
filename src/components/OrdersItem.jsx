@@ -7,15 +7,23 @@ import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 const { Panel } = Collapse;
 
 function OrdersItem({ item }) {
-  const { data: companys = [] } = useGetCompanyQuery();
-  const { data: persons = [] } = useGetPersonQuery();
-
   return (
     <Collapse ghost key={item.id}>
       <Panel
-        header={`Заказ клиента №${item.id} от <дата создания>,
-        заказчик: , 
-        ИНН: `}
+        header={`Заказ клиента №${item.id} от ${
+          item.date_created &&
+          new Date(Date.parse(item.date_created)).toLocaleDateString("ru-RU") +
+            " " +
+            new Date(Date.parse(item.date_created)).toLocaleTimeString("ru-RU")
+        },
+        заказчик: ${
+          item.client.type === "company"
+            ? item.client.name
+            : item.client.firstName + " " + item.client.lastName
+        }
+        ${item.client.type === "company" ? ", юр лицо" : ", физ лицо"}
+        ${item.client.type === "company" ? ", ИНН: " + item.client.inn : ""}
+        `}
         key={item.id}>
         <div></div>
         <Divider />

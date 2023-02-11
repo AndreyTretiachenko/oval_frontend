@@ -32,7 +32,7 @@ function CreareOrder({ open }) {
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
-  const [isModalOpen, setIsModalOpen] = useState(open);
+
   const [formValue, setFormValue] = useState({
     uid: "",
     client_id: 0,
@@ -58,8 +58,7 @@ function CreareOrder({ open }) {
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-    dispatch(updateModals({ modal: "", keyModal: 0 }));
+    dispatch(updateModals({ modal: 1 }));
   };
 
   const onChangeType = ({ target: { value } }) => {
@@ -75,7 +74,7 @@ function CreareOrder({ open }) {
       title="Создание заказа"
       closable={false}
       maskClosable={false}
-      open={isModalOpen}
+      open={open}
       onOk={handleCreateOrder}
       onCancel={handleCancel}>
       <Layout>
@@ -138,7 +137,18 @@ function CreareOrder({ open }) {
             </Form.Item>
             <Form.Item label="Список работ" name="works">
               <Collapse>
-                <Panel header="Список работ" key="1"></Panel>
+                <Panel header="Список работ" key="1">
+                  <Button
+                    label="add"
+                    onClick={() =>
+                      dispatch(
+                        updateModals({
+                          modal: 2,
+                        })
+                      )
+                    }
+                  />
+                </Panel>
               </Collapse>
             </Form.Item>
             <Form.Item

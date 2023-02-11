@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Orders from "./components/Orders";
 import { Layout } from "antd";
 import Navigate from "./components/Navigate";
@@ -7,8 +7,9 @@ import Clients from "./components/Clients";
 import { Button, Tooltip } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
-import Modals from "./components/Modals";
 import { updateModals } from "./features/modalsSlice";
+import CreareOrder from "./components/modals/CreareOrder";
+import CreateWorkList from "./components/modals/CreateWorkList";
 
 const { Header, Content, Footer } = Layout;
 
@@ -26,11 +27,15 @@ const renderSwitch = (keyAction) => {
 function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
+  const modals = useSelector((state) => state.modals);
+
+  console.log(modals);
 
   return (
     <>
       <Layout style={{ height: "", margin: 0 }}>
-        <Modals />
+        <CreareOrder open={modals?.find((item) => item.modal === 1).open} />
+        <CreateWorkList open={modals?.find((item) => item.modal === 2).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header
@@ -50,8 +55,7 @@ function App() {
                         onClick={() =>
                           dispatch(
                             updateModals({
-                              modal: "Создать заказ",
-                              keyModal: 1,
+                              modal: 1,
                             })
                           )
                         }>
