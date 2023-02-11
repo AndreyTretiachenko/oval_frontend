@@ -27,6 +27,7 @@ function CreateWorkList({ open }) {
   };
   const handleCancelAddWork = () => {
     setIsOpenAddWork(false);
+    setWorkData({ id: 0, price: 0, name: "" });
   };
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function CreateWorkList({ open }) {
               />
             </Form.Item>
             <Form.Item label="Количество" name="count">
-              <InputNumber />
+              <InputNumber defaultValue={1} />
             </Form.Item>
             <Form.Item label="Цена" name="price">
               <Input />
