@@ -1,23 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import {
+  Button,
+  Form,
+  Layout,
+  Modal,
+  Space,
+  Input,
+  Select,
+  Collapse,
+} from "antd";
+import uuid from "react-uuid";
+import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
-import { setClients } from "../../features/clientsSlice";
-import { setCompany } from "../../features/companySlice";
-import { Input, Select } from "antd";
 import {
   useAddOrderMutation,
   useGetClientQuery,
-  useGetCompanyQuery,
+  useGetPersonQuery,
+  useGetWorkQuery,
 } from "../../api";
+import { Content, Header } from "antd/es/layout/layout";
+
+const { TextArea } = Input;
+const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
   const { data: clients = [], isLoading: isClientLoading } =
     useGetClientQuery();
+  const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
-    useGetCompanyQuery();
+    useGetPersonQuery();
+  const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const [isModalOpen, setIsModalOpen] = useState(open);
   const [formValue, setFormValue] = useState({
     uid: "",
@@ -46,45 +61,67 @@ function CreareOrder({ open }) {
 
   return (
     <Modal
+      width={"70%"}
       title="Создание заказа"
       closable={false}
       maskClosable={false}
       open={isModalOpen}
-      onOk={handleOk}
+      // onOk={handleOk}
       onCancel={handleCancel}>
-      <Input
-        placeholder="uid заказа"
-        title="UID"
-        showCount={true}
-        allowClear
-        onChange={(e) => setFormValue({ ...formValue, uid: e.target.value })}
-      />
-      <Select
-        style={{ width: 120 }}
-        value={formValue.client_id}
-        onChange={(value) =>
-          setFormValue({
-            ...formValue,
-            client_id: value,
-          })
-        }
-        options={clients?.map((client) => {
-          return { value: client.id, label: client.uid };
-        })}
-      />
-      <Select
-        style={{ width: 200 }}
-        value={formValue.company_id}
-        onChange={(value) =>
-          setFormValue({
-            ...formValue,
-            company_id: value,
-          })
-        }
-        options={company?.map((company) => {
-          return { value: company.id, label: company.name };
-        })}
-      />
+      <Layout>
+        <Header style={{ backgroundColor: "whitesmoke" }}>
+          Для создание заказа неободимо заполнить все поля
+        </Header>
+        <Content>
+          <Form labelCol={{ span: 3 }} form={form}>
+            <Form.Item
+              label="Клиент"
+              name="client"
+              rules={[
+                { required: true, message: "Выберите клинета из списка!" },
+              ]}>
+              <Select
+                style={{ width: 300 }}
+                value={formValue.client_id}
+                onChange={(value) =>
+                  setFormValue({
+                    ...formValue,
+                    client_id: value,
+                  })
+                }
+                options={clients?.map((client) => {
+                  return {
+                    value: client?.company[0]?.id || client?.persons[0]?.id,
+                    label:
+                      client?.company[0]?.name ||
+                      client?.persons[0]?.firstName +
+                        "" +
+                        client?.persons[0]?.lastName,
+                  };
+                })}
+              />
+            </Form.Item>
+            <Form.Item label="Список работ" name="works">
+              <Collapse>
+                <Panel header="Список работ" key="1"></Panel>
+              </Collapse>
+            </Form.Item>
+            <Form.Item
+              label="Комментарий"
+              name="comment"
+              rules={[
+                { required: true, message: "Выберите клинета из списка!" },
+              ]}>
+              <TextArea
+                rows={4}
+                placeholder="ваш комментарий по заказу"
+                maxLength={50}
+                showCount
+              />
+            </Form.Item>
+          </Form>
+        </Content>
+      </Layout>
     </Modal>
   );
 }

@@ -36,6 +36,36 @@ export const ovalApi = createApi({
         url: "company",
       }),
     }),
+    getWork: builder.query({
+      query: () => ({
+        url: "work",
+      }),
+    }),
+    getMaterial: builder.query({
+      query: () => ({
+        url: "material",
+      }),
+    }),
+    getTransport: builder.query({
+      query: () => ({
+        url: "transport",
+      }),
+    }),
+    getPerson: builder.query({
+      query: () => ({
+        url: "person",
+      }),
+    }),
+    getPayments: builder.query({
+      query: () => ({
+        url: "payment",
+      }),
+    }),
+    getWorks: builder.query({
+      query: () => ({
+        url: "works",
+      }),
+    }),
   }),
 });
 
@@ -44,4 +74,9 @@ export const {
   useAddOrderMutation,
   useGetClientQuery,
   useGetCompanyQuery,
+  useGetWorkQuery,
+  useGetTransportQuery,
+  useGetPersonQuery,
+  useGetPaymentsQuery,
+  useGetMaterialQuery,
 } = ovalApi;

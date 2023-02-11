@@ -2,15 +2,20 @@ import React from "react";
 import { Table } from "antd";
 import { Collapse } from "antd";
 import { Divider } from "antd";
+import { useGetCompanyQuery, useGetPersonQuery } from "../api";
+
 const { Panel } = Collapse;
 
 function OrdersItem({ item }) {
+  const { data: companys = [] } = useGetCompanyQuery();
+  const { data: persons = [] } = useGetPersonQuery();
+
   return (
     <Collapse ghost key={item.id}>
       <Panel
-        header={`Заказ клиента №${item.uid} от <дата создания>,
-        компания: ${item.company?.name}, 
-        ИНН: ${item.company?.inn}`}
+        header={`Заказ клиента №${item.id} от <дата создания>,
+        заказчик: , 
+        ИНН: `}
         key={item.id}>
         <div></div>
         <Divider />

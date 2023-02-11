@@ -1,5 +1,4 @@
 import React from "react";
-import "../src/assets/main.css";
 import Orders from "./components/Orders";
 import { Layout } from "antd";
 import Navigate from "./components/Navigate";
