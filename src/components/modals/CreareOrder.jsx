@@ -40,11 +40,11 @@ function CreareOrder({ open }) {
   });
   const [typeListClient, setTypeListClient] = useState("company");
 
-  const handleOk = async () => {
+  const handleCreateOrder = async () => {
     await addOrder({
-      uid: formValue.uid,
-      client_id: formValue.client_id,
-      company_id: formValue.company_id,
+      uid: uuid(),
+      person_id: formValue.person_id || null,
+      company_id: formValue.company_id || null,
     }).unwrap();
     setFormValue({
       uid: "",
@@ -61,6 +61,9 @@ function CreareOrder({ open }) {
 
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
+    form.setFieldsValue({
+      client: "",
+    });
   };
 
   return (
@@ -70,7 +73,7 @@ function CreareOrder({ open }) {
       closable={false}
       maskClosable={false}
       open={isModalOpen}
-      // onOk={handleOk}
+      onOk={handleCreateOrder}
       onCancel={handleCancel}>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
@@ -97,15 +100,25 @@ function CreareOrder({ open }) {
                 { required: true, message: "Выберите клинета из списка!" },
               ]}>
               <Select
+                loading={
+                  typeListClient === "company"
+                    ? isCompanyLoading
+                    : isPersonLoading
+                }
                 style={{ width: 300 }}
                 defaultActiveFirstOption={0}
                 value={formValue.client_id}
-                onChange={(value) =>
-                  setFormValue({
-                    ...formValue,
-                    client_id: value,
-                  })
-                }
+                onChange={(value) => {
+                  typeListClient === "company"
+                    ? setFormValue({
+                        ...formValue,
+                        company_id: value,
+                      })
+                    : setFormValue({
+                        ...formValue,
+                        person_id: value,
+                      });
+                }}
                 options={
                   typeListClient === "company"
                     ? company?.map((item) => {
