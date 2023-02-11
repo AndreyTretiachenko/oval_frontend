@@ -4,6 +4,7 @@ import {
   Form,
   Layout,
   Modal,
+  Radio,
   Space,
   Input,
   Select,
@@ -14,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
-  useGetClientQuery,
+  useGetCompanyQuery,
   useGetPersonQuery,
   useGetWorkQuery,
 } from "../../api";
@@ -27,11 +28,9 @@ function CreareOrder({ open }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
-  const { data: clients = [], isLoading: isClientLoading } =
-    useGetClientQuery();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
-    useGetPersonQuery();
+    useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const [isModalOpen, setIsModalOpen] = useState(open);
   const [formValue, setFormValue] = useState({
@@ -39,6 +38,7 @@ function CreareOrder({ open }) {
     client_id: 0,
     company_id: 0,
   });
+  const [typeListClient, setTypeListClient] = useState("company");
 
   const handleOk = async () => {
     await addOrder({
@@ -59,6 +59,10 @@ function CreareOrder({ open }) {
     dispatch(updateModals({ modal: "", keyModal: 0 }));
   };
 
+  const onChangeType = ({ target: { value } }) => {
+    setTypeListClient(value);
+  };
+
   return (
     <Modal
       width={"70%"}
@@ -74,6 +78,18 @@ function CreareOrder({ open }) {
         </Header>
         <Content>
           <Form labelCol={{ span: 3 }} form={form}>
+            <Form.Item label="Тип клиента" name="type">
+              <Radio.Group
+                options={[
+                  { label: "юр.лицо", value: "company" },
+                  { label: "физ.лицо", value: "fl" },
+                ]}
+                value={typeListClient}
+                onChange={onChangeType}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </Form.Item>
             <Form.Item
               label="Клиент"
               name="client"
@@ -82,6 +98,7 @@ function CreareOrder({ open }) {
               ]}>
               <Select
                 style={{ width: 300 }}
+                defaultActiveFirstOption={0}
                 value={formValue.client_id}
                 onChange={(value) =>
                   setFormValue({
@@ -89,16 +106,18 @@ function CreareOrder({ open }) {
                     client_id: value,
                   })
                 }
-                options={clients?.map((client) => {
-                  return {
-                    value: client?.company[0]?.id || client?.persons[0]?.id,
-                    label:
-                      client?.company[0]?.name ||
-                      client?.persons[0]?.firstName +
-                        "" +
-                        client?.persons[0]?.lastName,
-                  };
-                })}
+                options={
+                  typeListClient === "company"
+                    ? company?.map((item) => {
+                        return { label: item.name, value: item.id };
+                      })
+                    : person?.map((per) => {
+                        return {
+                          label: per.firstName + " " + per.lastName,
+                          value: per.id,
+                        };
+                      })
+                }
               />
             </Form.Item>
             <Form.Item label="Список работ" name="works">
