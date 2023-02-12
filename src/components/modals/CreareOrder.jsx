@@ -136,20 +136,16 @@ function CreareOrder({ open }) {
               />
             </Form.Item>
             <Form.Item label="Список работ" name="works">
-              <Collapse>
-                <Panel header="Список работ" key="1">
-                  <Button
-                    label="add"
-                    onClick={() =>
-                      dispatch(
-                        updateModals({
-                          modal: 2,
-                        })
-                      )
-                    }
-                  />
-                </Panel>
-              </Collapse>
+              <Button
+                onClick={() =>
+                  dispatch(
+                    updateModals({
+                      modal: 2,
+                    })
+                  )
+                }>
+                добавить
+              </Button>
             </Form.Item>
             <Form.Item
               label="Комментарий"
