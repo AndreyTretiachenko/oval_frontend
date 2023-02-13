@@ -6,22 +6,16 @@ const { Sider } = Layout;
 
 const menuItems = [
   { key: "1", label: "Заказы" },
-  { key: "2", label: "Клиенты" },
   { key: "3", label: "Оплаты" },
-  { key: "4", label: "Транспорт" },
-  { key: "5", label: "Компании" },
+
   {
     key: "6",
     label: "Справочники",
     children: [
-      {
-        label: "Работы",
-        key: "6.1",
-      },
-      {
-        label: "Материалы",
-        key: "6.2",
-      },
+      { key: "4", label: "Транспорт" },
+      { key: "2", label: "Клиенты" },
+      { key: "6.1", label: "Работы" },
+      { key: "6.2", label: "Материалы" },
     ],
   },
 ];

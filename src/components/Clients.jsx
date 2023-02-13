@@ -29,6 +29,12 @@ function Clients() {
         buttonStyle="solid"
       />
       <Table
+        loading={
+          typeListClient === "company" ? isLoadingCompany : isLoadingPerson
+        }
+        pagination={{
+          pageSize: 10,
+        }}
         columns={
           typeListClient === "company"
             ? [
