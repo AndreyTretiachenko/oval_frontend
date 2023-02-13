@@ -26,11 +26,6 @@ export const ovalApi = createApi({
       }),
       invalidatesTags: [{ type: "order", id: "LIST" }],
     }),
-    getClient: builder.query({
-      query: () => ({
-        url: "client",
-      }),
-    }),
     getCompany: builder.query({
       query: () => ({
         url: "company",
@@ -92,7 +87,6 @@ export const ovalApi = createApi({
 export const {
   useGetOrdersQuery,
   useAddOrderMutation,
-  useGetClientQuery,
   useGetCompanyQuery,
   useGetWorkQuery,
   useGetTransportQuery,

@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { Table, Radio } from "antd";
-import {
-  useGetClientQuery,
-  useGetCompanyQuery,
-  useGetPersonQuery,
-} from "../api";
+import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 
 function Clients() {
   const { data: company = [], isLoading: isLoadingCompany } =
     useGetCompanyQuery();
   const { data: person = [], isLoading: isLoadingPerson } = useGetPersonQuery();
   const [typeListClient, setTypeListClient] = useState("company");
-  useGetClientQuery();
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
   };
