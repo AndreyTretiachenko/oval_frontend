@@ -54,7 +54,7 @@ function CreareOrder({ open }) {
       company_id: 0,
       comment: "",
     });
-    dispatch(updateModals({ modal: "", keyModal: 0 }));
+    dispatch(updateModals({ modal: 1 }));
   };
 
   const handleCancel = () => {
@@ -102,6 +102,13 @@ function CreareOrder({ open }) {
                 { required: true, message: "Выберите клинета из списка!" },
               ]}>
               <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
                 loading={
                   typeListClient === "company"
                     ? isCompanyLoading

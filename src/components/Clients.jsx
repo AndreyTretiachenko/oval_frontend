@@ -1,22 +1,19 @@
 import React, { useState } from "react";
-import { Table, Radio } from "antd";
-import {
-  useGetClientQuery,
-  useGetCompanyQuery,
-  useGetPersonQuery,
-} from "../api";
+import { Table, Radio, Space } from "antd";
+import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 
 function Clients() {
   const { data: company = [], isLoading: isLoadingCompany } =
     useGetCompanyQuery();
   const { data: person = [], isLoading: isLoadingPerson } = useGetPersonQuery();
   const [typeListClient, setTypeListClient] = useState("company");
-  useGetClientQuery();
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
   };
   return (
     <div>
+      <div>Выберите тип клиента</div>
+      <br />
       <Radio.Group
         options={[
           { label: "юр.лицо", value: "company" },
@@ -28,7 +25,15 @@ function Clients() {
         optionType="button"
         buttonStyle="solid"
       />
+      <br />
       <Table
+        bordered
+        loading={
+          typeListClient === "company" ? isLoadingCompany : isLoadingPerson
+        }
+        pagination={{
+          pageSize: 10,
+        }}
         columns={
           typeListClient === "company"
             ? [

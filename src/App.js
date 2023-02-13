@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Orders from "./components/Orders";
 import { Layout } from "antd";
 import Navigate from "./components/Navigate";
 import { useDispatch, useSelector } from "react-redux";
 import Clients from "./components/Clients";
-import { Button, Tooltip } from "antd";
+import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import { updateModals } from "./features/modalsSlice";
 import CreareOrder from "./components/modals/CreareOrder";
 import CreateWorkList from "./components/modals/CreateWorkList";
+import Transport from "./components/Transport";
+import Payments from "./components/Payments";
+import Works from "./components/Works";
+import Materials from "./components/Materials";
 
 const { Header, Content, Footer } = Layout;
 
@@ -21,6 +25,14 @@ const renderSwitch = (keyAction) => {
       return <Orders />;
     case "2":
       return <Clients />;
+    case "3":
+      return <Payments />;
+    case "4":
+      return <Transport />;
+    case "6.1":
+      return <Works />;
+    case "6.2":
+      return <Materials />;
   }
 };
 
@@ -61,16 +73,14 @@ function App() {
                       </a>
                     ),
                   },
-                  { key: 2, label: <a href="/#addClient">клиента</a> },
-                  { key: 3, label: <a href="/#addOrder">оплату</a> },
+                  { key: 2, label: <a href="/#">клиента</a> },
+                  { key: 3, label: <a href="/#">оплату</a> },
                   {
                     key: 4,
-                    label: <a href="/#addClient">транспорт</a>,
+                    label: <a href="/#">транспорт</a>,
                   },
-                  { key: 5, label: <a href="/#addOrder">компанию</a> },
-                  { key: 6, label: <a href="/#addClient">физлицо</a> },
-                  { key: 7, label: <a href="/#addOrder">работу</a> },
-                  { key: 8, label: <a href="/#addClient">материал</a> },
+                  { key: 7, label: <a href="/#">работу</a> },
+                  { key: 8, label: <a href="/#">материал</a> },
                 ],
               }}
               placement="bottomRight"

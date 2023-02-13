@@ -4,30 +4,23 @@ import { useDispatch } from "react-redux";
 import { updateHeader } from "../features/navigateSlice";
 const { Sider } = Layout;
 
-const menuItems = [
-  { key: "1", label: "Заказы" },
-  { key: "2", label: "Клиенты" },
-  { key: "3", label: "Оплаты" },
-  { key: "4", label: "Транспорт" },
-  { key: "5", label: "Компании" },
-  {
-    key: "6",
-    label: "Справочники",
-    children: [
-      {
-        label: "Работы",
-        key: "6.1",
-      },
-      {
-        label: "Материалы",
-        key: "6.2",
-      },
-    ],
-  },
-];
-
 function Navigate() {
   const dispatch = useDispatch();
+  const menuItems = [
+    { key: "1", label: "Заказы" },
+    { key: "3", label: "Оплаты" },
+
+    {
+      key: "6",
+      label: "Справочники",
+      children: [
+        { key: "4", label: "Транспорт" },
+        { key: "2", label: "Клиенты" },
+        { key: "6.1", label: "Работы" },
+        { key: "6.2", label: "Материалы" },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -35,7 +28,7 @@ function Navigate() {
         trigger={null}
         collapsible
         collapsed={false}
-        style={{ backgroundColor: "white", borderRight: "1px solid gray" }}>
+        style={{ backgroundColor: "white", borderRight: "0px solid gray" }}>
         <div
           style={{
             height: 32,
@@ -48,7 +41,11 @@ function Navigate() {
           onClick={(e) =>
             dispatch(
               updateHeader({
-                header: menuItems.find((item) => item.key === e.key)?.label,
+                header: [
+                  menuItems[0],
+                  menuItems[1],
+                  ...menuItems[2].children,
+                ].find((item) => item.key === e.key).label,
                 keyAction: e.key,
               })
             )
