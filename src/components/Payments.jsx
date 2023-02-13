@@ -30,6 +30,7 @@ function Payments() {
   return (
     <>
       <Table
+        bordered
         loading={isLoadingPayments}
         columns={columns}
         dataSource={payments}

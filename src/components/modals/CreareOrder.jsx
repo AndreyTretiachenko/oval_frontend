@@ -102,6 +102,13 @@ function CreareOrder({ open }) {
                 { required: true, message: "Выберите клинета из списка!" },
               ]}>
               <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
                 loading={
                   typeListClient === "company"
                     ? isCompanyLoading

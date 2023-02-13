@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Radio } from "antd";
+import { Table, Radio, Space } from "antd";
 import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 
 function Clients() {
@@ -12,6 +12,8 @@ function Clients() {
   };
   return (
     <div>
+      <div>Выберите тип клиента</div>
+      <br />
       <Radio.Group
         options={[
           { label: "юр.лицо", value: "company" },
@@ -23,7 +25,9 @@ function Clients() {
         optionType="button"
         buttonStyle="solid"
       />
+      <br />
       <Table
+        bordered
         loading={
           typeListClient === "company" ? isLoadingCompany : isLoadingPerson
         }

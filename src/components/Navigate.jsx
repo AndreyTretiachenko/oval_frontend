@@ -28,7 +28,7 @@ function Navigate() {
         trigger={null}
         collapsible
         collapsed={false}
-        style={{ backgroundColor: "white", borderRight: "1px solid gray" }}>
+        style={{ backgroundColor: "white", borderRight: "0px solid gray" }}>
         <div
           style={{
             height: 32,

@@ -24,6 +24,7 @@ function Works() {
   return (
     <>
       <Table
+        bordered
         loading={isLoadingWorks}
         columns={columns}
         dataSource={works}

@@ -35,6 +35,7 @@ function Transport() {
   return (
     <>
       <Table
+        bordered
         columns={columns}
         dataSource={transports}
         pagination={{ pageSize: 10 }}
