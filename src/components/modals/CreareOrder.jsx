@@ -54,7 +54,7 @@ function CreareOrder({ open }) {
       company_id: 0,
       comment: "",
     });
-    dispatch(updateModals({ modal: "", keyModal: 0 }));
+    dispatch(updateModals({ modal: 1 }));
   };
 
   const handleCancel = () => {
