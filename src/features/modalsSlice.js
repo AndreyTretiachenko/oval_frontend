@@ -1,20 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  modal: "",
-  keyModal: 0,
-};
+const initialState = [
+  {
+    modal: 1,
+    open: false,
+  },
+  {
+    modal: 2,
+    open: false,
+  },
+];
 
 export const modalsSlice = createSlice({
   name: "modals",
   initialState,
   reducers: {
     updateModals: (state, action) => {
-      return {
-        ...state,
-        modal: action.payload.modal,
-        keyModal: action.payload.keyModal,
-      };
+      return [...state].map((item) => {
+        if (item.modal === action.payload.modal)
+          return { ...item, open: !item.open };
+        else return item;
+      });
     },
   },
 });

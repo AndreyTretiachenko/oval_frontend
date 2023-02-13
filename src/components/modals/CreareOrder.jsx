@@ -4,6 +4,7 @@ import {
   Form,
   Layout,
   Modal,
+  Radio,
   Space,
   Input,
   Select,
@@ -14,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
-  useGetClientQuery,
+  useGetCompanyQuery,
   useGetPersonQuery,
   useGetWorkQuery,
 } from "../../api";
@@ -27,36 +28,44 @@ function CreareOrder({ open }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
-  const { data: clients = [], isLoading: isClientLoading } =
-    useGetClientQuery();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
-    useGetPersonQuery();
+    useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
-  const [isModalOpen, setIsModalOpen] = useState(open);
+
   const [formValue, setFormValue] = useState({
     uid: "",
     client_id: 0,
     company_id: 0,
+    comment: "",
   });
+  const [typeListClient, setTypeListClient] = useState("company");
 
-  const handleOk = async () => {
+  const handleCreateOrder = async () => {
     await addOrder({
-      uid: formValue.uid,
-      client_id: formValue.client_id,
-      company_id: formValue.company_id,
+      uid: uuid(),
+      person_id: formValue.person_id || null,
+      company_id: formValue.company_id || null,
+      comment: formValue.comment || null,
     }).unwrap();
     setFormValue({
       uid: "",
       client_id: 0,
       company_id: 0,
+      comment: "",
     });
     dispatch(updateModals({ modal: "", keyModal: 0 }));
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
-    dispatch(updateModals({ modal: "", keyModal: 0 }));
+    dispatch(updateModals({ modal: 1 }));
+  };
+
+  const onChangeType = ({ target: { value } }) => {
+    setTypeListClient(value);
+    form.setFieldsValue({
+      client: "",
+    });
   };
 
   return (
@@ -65,8 +74,8 @@ function CreareOrder({ open }) {
       title="Создание заказа"
       closable={false}
       maskClosable={false}
-      open={isModalOpen}
-      // onOk={handleOk}
+      open={open}
+      onOk={handleCreateOrder}
       onCancel={handleCancel}>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
@@ -74,6 +83,18 @@ function CreareOrder({ open }) {
         </Header>
         <Content>
           <Form labelCol={{ span: 3 }} form={form}>
+            <Form.Item label="Тип клиента" name="type">
+              <Radio.Group
+                options={[
+                  { label: "юр.лицо", value: "company" },
+                  { label: "физ.лицо", value: "fl" },
+                ]}
+                value={typeListClient}
+                onChange={onChangeType}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </Form.Item>
             <Form.Item
               label="Клиент"
               name="client"
@@ -81,30 +102,50 @@ function CreareOrder({ open }) {
                 { required: true, message: "Выберите клинета из списка!" },
               ]}>
               <Select
-                style={{ width: 300 }}
-                value={formValue.client_id}
-                onChange={(value) =>
-                  setFormValue({
-                    ...formValue,
-                    client_id: value,
-                  })
+                loading={
+                  typeListClient === "company"
+                    ? isCompanyLoading
+                    : isPersonLoading
                 }
-                options={clients?.map((client) => {
-                  return {
-                    value: client?.company[0]?.id || client?.persons[0]?.id,
-                    label:
-                      client?.company[0]?.name ||
-                      client?.persons[0]?.firstName +
-                        "" +
-                        client?.persons[0]?.lastName,
-                  };
-                })}
+                style={{ width: 300 }}
+                defaultActiveFirstOption={0}
+                value={formValue.client_id}
+                onChange={(value) => {
+                  typeListClient === "company"
+                    ? setFormValue({
+                        ...formValue,
+                        company_id: value,
+                      })
+                    : setFormValue({
+                        ...formValue,
+                        person_id: value,
+                      });
+                }}
+                options={
+                  typeListClient === "company"
+                    ? company?.map((item) => {
+                        return { label: item.name, value: item.id };
+                      })
+                    : person?.map((per) => {
+                        return {
+                          label: per.firstName + " " + per.lastName,
+                          value: per.id,
+                        };
+                      })
+                }
               />
             </Form.Item>
             <Form.Item label="Список работ" name="works">
-              <Collapse>
-                <Panel header="Список работ" key="1"></Panel>
-              </Collapse>
+              <Button
+                onClick={() =>
+                  dispatch(
+                    updateModals({
+                      modal: 2,
+                    })
+                  )
+                }>
+                добавить
+              </Button>
             </Form.Item>
             <Form.Item
               label="Комментарий"
@@ -117,6 +158,13 @@ function CreareOrder({ open }) {
                 placeholder="ваш комментарий по заказу"
                 maxLength={50}
                 showCount
+                value={formValue.comment}
+                onChange={(e) =>
+                  setFormValue({
+                    ...formValue,
+                    comment: e.target.value,
+                  })
+                }
               />
             </Form.Item>
           </Form>
