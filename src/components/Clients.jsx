@@ -10,7 +10,7 @@ function Clients() {
   const { data: company = [], isLoading: isLoadingCompany } =
     useGetCompanyQuery();
   const { data: person = [], isLoading: isLoadingPerson } = useGetPersonQuery();
-  const [typeListClient, setTypeListClient] = useState();
+  const [typeListClient, setTypeListClient] = useState("company");
   useGetClientQuery();
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
@@ -23,6 +23,7 @@ function Clients() {
           { label: "физ.лицо", value: "fl" },
         ]}
         value={typeListClient}
+        defaultValue={1}
         onChange={onChangeType}
         optionType="button"
         buttonStyle="solid"
