@@ -22,7 +22,6 @@ import {
 import { Content, Header } from "antd/es/layout/layout";
 
 const { TextArea } = Input;
-const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
   const [form] = Form.useForm();
