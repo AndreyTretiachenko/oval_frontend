@@ -16,10 +16,14 @@ export const createOrderSlice = createSlice({
     setDataCreateOrder: (state, action) => {
       return (state = action.payload);
     },
+    setDefaultDataCreateOrder: (state, action) => {
+      return (state = initialState);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setDataCreateOrder } = createOrderSlice.actions;
+export const { setDataCreateOrder, setDefaultDataCreateOrder } =
+  createOrderSlice.actions;
 
 export default createOrderSlice.reducer;
