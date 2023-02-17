@@ -8,7 +8,9 @@ export const workListSlice = createSlice({
   name: "workList",
   initialState,
   reducers: {
-    setWorklist: (state, action) => {},
+    setWorklist: (state, action) => {
+      return { ...state, data: action.payload };
+    },
   },
 });
 

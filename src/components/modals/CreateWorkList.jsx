@@ -9,12 +9,13 @@ import {
   Input,
   InputNumber,
 } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
 import { setWorklist } from "../../features/workListSlice";
 import { useGetWorkQuery, useGetWorksQuery } from "../../api";
 import uuid from "react-uuid";
+import { Hidden } from "@mui/material";
 
 function CreateWorkList({ open }) {
   const columns = [
@@ -47,10 +48,13 @@ function CreateWorkList({ open }) {
       dataIndex: "actions",
       key: "actions",
       render: (id) => (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           onClick={() =>
-            setWorkListData(
-              [...workListData].filter((item) => item.id_item !== id)
+            dispatch(
+              setWorklist(
+                [...workListData].filter((item) => item.id_item !== id)
+              )
             )
           }>
           удалить
@@ -68,9 +72,10 @@ function CreateWorkList({ open }) {
     count: 1,
     sum: 0,
   });
-  const [workListData, setWorkListData] = useState([]);
+  const workListData = useSelector((state) => state.worklist.data);
   const { data: works = [] } = useGetWorksQuery();
   const { data: work = [] } = useGetWorkQuery();
+
   const handleCancel = () => {
     dispatch(updateModals({ modal: 2 }));
   };
@@ -78,15 +83,17 @@ function CreateWorkList({ open }) {
   const handleOkCreateWork = () => {
     const id_uuid = uuid();
     setIsOpenAddWork(false);
-    setWorkListData([
-      ...workListData,
-      {
-        ...workData,
-        id_item: id_uuid,
-        sum: workData.count * workData.price,
-        actions: id_uuid,
-      },
-    ]);
+    dispatch(
+      setWorklist([
+        ...workListData,
+        {
+          ...workData,
+          id_item: id_uuid,
+          sum: workData.count * workData.price,
+          actions: id_uuid,
+        },
+      ])
+    );
     setWorkData({ id: 0, price: 0, name: "", count: 0, sum: 0 });
   };
 
@@ -109,8 +116,8 @@ function CreateWorkList({ open }) {
         title="Создание сметы на работы"
         closable={false}
         maskClosable={false}
-        onOk={() => {}}
-        onCancel={handleCancel}>
+        cancelButtonProps={{ type: "ghost" }}
+        onOk={handleCancel}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}></Header>
           <Content>

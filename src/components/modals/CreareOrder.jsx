@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -11,10 +11,12 @@ import {
   Collapse,
 } from "antd";
 import uuid from "react-uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
+  useAddWorkListMutation,
+  useAddWorksMutation,
   useGetCompanyQuery,
   useGetPersonQuery,
   useGetWorkQuery,
@@ -28,18 +30,25 @@ function CreareOrder({ open }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
+  const [addWorkList] = useAddWorkListMutation();
+  const [addWorks] = useAddWorksMutation();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
-
+  const worklist = useSelector((state) => state.worklist.data);
   const [formValue, setFormValue] = useState({
     uid: "",
     client_id: 0,
     company_id: 0,
     comment: "",
+    worklist: [],
   });
   const [typeListClient, setTypeListClient] = useState("company");
+
+  useEffect(() => {
+    setFormValue({ ...formValue, worklist: worklist });
+  }, [worklist]);
 
   const handleCreateOrder = async () => {
     await addOrder({
@@ -47,14 +56,34 @@ function CreareOrder({ open }) {
       person_id: formValue.person_id || null,
       company_id: formValue.company_id || null,
       comment: formValue.comment || null,
-    }).unwrap();
-    setFormValue({
-      uid: "",
-      client_id: 0,
-      company_id: 0,
-      comment: "",
-    });
-    dispatch(updateModals({ modal: 1 }));
+    })
+      .unwrap()
+      .then((res) => {
+        if (res.status === "successful")
+          addWorkList({ order_id: res.order })
+            .unwrap()
+            .then((res) => {
+              if (res.status === "successful")
+                formValue?.worklist?.map((work) =>
+                  addWorks({
+                    count: work.count,
+                    id_worklist: res.workList,
+                    id_work: work.id,
+                  }).unwrap()
+                );
+            })
+            .finally(() => {
+              dispatch(updateModals({ modal: 1 }));
+              setFormValue({
+                uid: "",
+                client_id: 0,
+                company_id: 0,
+                comment: "",
+                worklist: [],
+              });
+            });
+      })
+      .catch(console.log("error response"));
   };
 
   const handleCancel = () => {
