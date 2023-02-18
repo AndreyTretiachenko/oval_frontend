@@ -12,9 +12,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
-import { setWorklist } from "../../features/workListSlice";
+import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
 import { useGetWorkQuery, useGetWorksQuery } from "../../api";
 import uuid from "react-uuid";
+import { setCreateOrderValue } from "../../features/createOrderSlice";
 
 function CreateWorkList({ open }) {
   const columns = [
@@ -28,19 +29,16 @@ function CreateWorkList({ open }) {
       title: "Количество",
       dataIndex: "count",
       key: "count",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Цена",
       dataIndex: "price",
       key: "price",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Стоимость",
       dataIndex: "sum",
       key: "sum",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Действия",
@@ -63,6 +61,7 @@ function CreateWorkList({ open }) {
   ];
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const formValue = useSelector((state) => state.createOrder);
   const [isOpenAddWork, setIsOpenAddWork] = useState(false);
   const [workData, setWorkData] = useState({
     id: 0,
@@ -72,10 +71,15 @@ function CreateWorkList({ open }) {
     sum: 0,
   });
   const workListData = useSelector((state) => state.worklist.data);
-  const { data: works = [] } = useGetWorksQuery();
   const { data: work = [] } = useGetWorkQuery();
 
   const handleCancel = () => {
+    dispatch(updateModals({ modal: 2 }));
+    dispatch(setDefaulWorkList());
+  };
+
+  const handleOk = () => {
+    dispatch(setCreateOrderValue({ ...formValue, worklist: workListData }));
     dispatch(updateModals({ modal: 2 }));
   };
 
@@ -93,6 +97,7 @@ function CreateWorkList({ open }) {
         },
       ])
     );
+
     setWorkData({ id: 0, price: 0, name: "", count: 0, sum: 0 });
   };
 
@@ -115,8 +120,10 @@ function CreateWorkList({ open }) {
         title="Создание сметы на работы"
         closable={false}
         maskClosable={false}
-        cancelButtonProps={{ type: "ghost" }}
-        onOk={handleCancel}>
+        cancelText="Удалить"
+        okText="Сохранить"
+        onCancel={handleCancel}
+        onOk={handleOk}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}></Header>
           <Content>

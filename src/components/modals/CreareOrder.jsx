@@ -22,9 +22,13 @@ import {
   useGetWorkQuery,
 } from "../../api";
 import { Content, Header } from "antd/es/layout/layout";
+import { setDefaulWorkList } from "../../features/workListSlice";
+import {
+  setCreateOrderValue,
+  setDefaultCreateOrderValue,
+} from "../../features/createOrderSlice";
 
 const { TextArea } = Input;
-const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
   const [form] = Form.useForm();
@@ -35,22 +39,13 @@ function CreareOrder({ open }) {
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
-  const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
   const worklist = useSelector((state) => state.worklist.data);
-  const [formValue, setFormValue] = useState({
-    uid: "",
-    client_id: 0,
-    company_id: 0,
-    comment: "",
-    worklist: [],
-  });
+  const formValue = useSelector((state) => state.createOrder);
   const [typeListClient, setTypeListClient] = useState("company");
-
-  useEffect(() => {
-    setFormValue({ ...formValue, worklist: worklist });
-  }, [worklist]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateOrder = async () => {
+    setIsLoading(true);
     await addOrder({
       uid: uuid(),
       person_id: formValue.person_id || null,
@@ -73,21 +68,19 @@ function CreareOrder({ open }) {
                 );
             })
             .finally(() => {
+              setIsLoading(false);
               dispatch(updateModals({ modal: 1 }));
-              setFormValue({
-                uid: "",
-                client_id: 0,
-                company_id: 0,
-                comment: "",
-                worklist: [],
-              });
+              dispatch(setDefaulWorkList());
+              dispatch(setDefaultCreateOrderValue());
             });
       })
       .catch(console.log("error response"));
   };
 
   const handleCancel = () => {
+    dispatch(setDefaulWorkList());
     dispatch(updateModals({ modal: 1 }));
+    dispatch(setDefaultCreateOrderValue());
   };
 
   const onChangeType = ({ target: { value } }) => {
@@ -105,6 +98,7 @@ function CreareOrder({ open }) {
       maskClosable={false}
       open={open}
       onOk={handleCreateOrder}
+      okButtonProps={{ loading: isLoading }}
       onCancel={handleCancel}>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
@@ -144,18 +138,21 @@ function CreareOrder({ open }) {
                     : isPersonLoading
                 }
                 style={{ width: 300 }}
-                defaultActiveFirstOption={0}
                 value={formValue.client_id}
                 onChange={(value) => {
                   typeListClient === "company"
-                    ? setFormValue({
-                        ...formValue,
-                        company_id: value,
-                      })
-                    : setFormValue({
-                        ...formValue,
-                        person_id: value,
-                      });
+                    ? dispatch(
+                        setCreateOrderValue({
+                          ...formValue,
+                          company_id: value,
+                        })
+                      )
+                    : dispatch(
+                        setCreateOrderValue({
+                          ...formValue,
+                          person_id: value,
+                        })
+                      );
                 }}
                 options={
                   typeListClient === "company"
@@ -196,10 +193,12 @@ function CreareOrder({ open }) {
                 showCount
                 value={formValue.comment}
                 onChange={(e) =>
-                  setFormValue({
-                    ...formValue,
-                    comment: e.target.value,
-                  })
+                  dispatch(
+                    setCreateOrderValue({
+                      ...formValue,
+                      comment: e.target.value,
+                    })
+                  )
                 }
               />
             </Form.Item>
