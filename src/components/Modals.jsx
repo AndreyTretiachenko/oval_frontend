@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import CreareOrder from "./modals/CreareOrder";
+import CreateClient from "./modals/CreateClient";
 import CreateWorkList from "./modals/CreateWorkList";
 
 function Modals() {
@@ -9,6 +10,7 @@ function Modals() {
     <>
       {key.keyModal === 1 && <CreareOrder open={true} />}
       {key.keyModal === 2 && <CreateWorkList open={true} />}
+      {key.keyModal === 3 && <CreateClient open={true} />}
     </>
   );
 }

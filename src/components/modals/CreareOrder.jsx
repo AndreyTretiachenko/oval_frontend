@@ -6,6 +6,7 @@ import {
   Modal,
   Radio,
   Space,
+  message,
   Input,
   Select,
   Collapse,
@@ -43,6 +44,7 @@ function CreareOrder({ open }) {
   const formValue = useSelector((state) => state.createOrder);
   const [typeListClient, setTypeListClient] = useState("company");
   const [isLoading, setIsLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleCreateOrder = async () => {
     setIsLoading(true);
@@ -67,14 +69,33 @@ function CreareOrder({ open }) {
                   }).unwrap()
                 );
             })
-            .finally(() => {
+            .catch((err) => {
+              console.log(err);
+              if (err)
+                messageApi.open({
+                  type: "error",
+                  content: `ошибка создания сметы к заказу`,
+                });
+            })
+            .finally((res) => {
               setIsLoading(false);
               dispatch(updateModals({ modal: 1 }));
               dispatch(setDefaulWorkList());
               dispatch(setDefaultCreateOrderValue());
+              messageApi.open({
+                type: "success",
+                content: `заказ успешно создан`,
+              });
             });
       })
-      .catch(console.log("error response"));
+      .catch((err) => {
+        console.log(err);
+        if (err)
+          messageApi.open({
+            type: "error",
+            content: `ошибка создания заказа`,
+          });
+      });
   };
 
   const handleCancel = () => {
@@ -91,121 +112,124 @@ function CreareOrder({ open }) {
   };
 
   return (
-    <Modal
-      width={"70%"}
-      title="Создание заказа"
-      closable={false}
-      maskClosable={false}
-      open={open}
-      onOk={handleCreateOrder}
-      okButtonProps={{ loading: isLoading }}
-      onCancel={handleCancel}>
-      <Layout>
-        <Header style={{ backgroundColor: "whitesmoke" }}>
-          Для создание заказа неободимо заполнить все поля
-        </Header>
-        <Content>
-          <Form labelCol={{ span: 3 }} form={form}>
-            <Form.Item label="Тип клиента" name="type">
-              <Radio.Group
-                options={[
-                  { label: "юр.лицо", value: "company" },
-                  { label: "физ.лицо", value: "fl" },
-                ]}
-                value={typeListClient}
-                onChange={onChangeType}
-                optionType="button"
-                buttonStyle="solid"
-              />
-            </Form.Item>
-            <Form.Item
-              label="Клиент"
-              name="client"
-              rules={[
-                { required: true, message: "Выберите клинета из списка!" },
-              ]}>
-              <Select
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                loading={
-                  typeListClient === "company"
-                    ? isCompanyLoading
-                    : isPersonLoading
-                }
-                style={{ width: 300 }}
-                value={formValue.client_id}
-                onChange={(value) => {
-                  typeListClient === "company"
-                    ? dispatch(
-                        setCreateOrderValue({
-                          ...formValue,
-                          company_id: value,
+    <>
+      {contextHolder}
+      <Modal
+        width={"70%"}
+        title="Создание заказа"
+        closable={false}
+        maskClosable={false}
+        open={open}
+        onOk={handleCreateOrder}
+        okButtonProps={{ loading: isLoading }}
+        onCancel={handleCancel}>
+        <Layout>
+          <Header style={{ backgroundColor: "whitesmoke" }}>
+            Для создание заказа неободимо заполнить все поля
+          </Header>
+          <Content>
+            <Form labelCol={{ span: 3 }} form={form}>
+              <Form.Item label="Тип клиента" name="type">
+                <Radio.Group
+                  options={[
+                    { label: "юр.лицо", value: "company" },
+                    { label: "физ.лицо", value: "fl" },
+                  ]}
+                  value={typeListClient}
+                  onChange={onChangeType}
+                  optionType="button"
+                  buttonStyle="solid"
+                />
+              </Form.Item>
+              <Form.Item
+                label="Клиент"
+                name="client"
+                rules={[
+                  { required: true, message: "Выберите клинета из списка!" },
+                ]}>
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  loading={
+                    typeListClient === "company"
+                      ? isCompanyLoading
+                      : isPersonLoading
+                  }
+                  style={{ width: 300 }}
+                  value={formValue.client_id}
+                  onChange={(value) => {
+                    typeListClient === "company"
+                      ? dispatch(
+                          setCreateOrderValue({
+                            ...formValue,
+                            company_id: value,
+                          })
+                        )
+                      : dispatch(
+                          setCreateOrderValue({
+                            ...formValue,
+                            person_id: value,
+                          })
+                        );
+                  }}
+                  options={
+                    typeListClient === "company"
+                      ? company?.map((item) => {
+                          return { label: item.name, value: item.id };
                         })
-                      )
-                    : dispatch(
-                        setCreateOrderValue({
-                          ...formValue,
-                          person_id: value,
+                      : person?.map((per) => {
+                          return {
+                            label: per.firstName + " " + per.lastName,
+                            value: per.id,
+                          };
                         })
-                      );
-                }}
-                options={
-                  typeListClient === "company"
-                    ? company?.map((item) => {
-                        return { label: item.name, value: item.id };
+                  }
+                />
+              </Form.Item>
+              <Form.Item label="Список работ" name="works">
+                <Button
+                  onClick={() =>
+                    dispatch(
+                      updateModals({
+                        modal: 2,
                       })
-                    : person?.map((per) => {
-                        return {
-                          label: per.firstName + " " + per.lastName,
-                          value: per.id,
-                        };
+                    )
+                  }>
+                  добавить
+                </Button>
+              </Form.Item>
+              <Form.Item
+                label="Комментарий"
+                name="comment"
+                rules={[
+                  { required: true, message: "Выберите клинета из списка!" },
+                ]}>
+                <TextArea
+                  rows={4}
+                  placeholder="ваш комментарий по заказу"
+                  maxLength={50}
+                  showCount
+                  value={formValue.comment}
+                  onChange={(e) =>
+                    dispatch(
+                      setCreateOrderValue({
+                        ...formValue,
+                        comment: e.target.value,
                       })
-                }
-              />
-            </Form.Item>
-            <Form.Item label="Список работ" name="works">
-              <Button
-                onClick={() =>
-                  dispatch(
-                    updateModals({
-                      modal: 2,
-                    })
-                  )
-                }>
-                добавить
-              </Button>
-            </Form.Item>
-            <Form.Item
-              label="Комментарий"
-              name="comment"
-              rules={[
-                { required: true, message: "Выберите клинета из списка!" },
-              ]}>
-              <TextArea
-                rows={4}
-                placeholder="ваш комментарий по заказу"
-                maxLength={50}
-                showCount
-                value={formValue.comment}
-                onChange={(e) =>
-                  dispatch(
-                    setCreateOrderValue({
-                      ...formValue,
-                      comment: e.target.value,
-                    })
-                  )
-                }
-              />
-            </Form.Item>
-          </Form>
-        </Content>
-      </Layout>
-    </Modal>
+                    )
+                  }
+                />
+              </Form.Item>
+            </Form>
+          </Content>
+        </Layout>
+      </Modal>
+    </>
   );
 }
 
