@@ -14,6 +14,7 @@ import Transport from "./components/Transport";
 import Payments from "./components/Payments";
 import Works from "./components/Works";
 import Materials from "./components/Materials";
+import CreateClient from "./components/modals/CreateClient";
 
 const { Header, Content, Footer } = Layout;
 
@@ -46,6 +47,7 @@ function App() {
       <Layout style={{ height: "", margin: 0 }}>
         <CreareOrder open={modals?.find((item) => item.modal === 1).open} />
         <CreateWorkList open={modals?.find((item) => item.modal === 2).open} />
+        <CreateClient open={modals?.find((item) => item.modal === 3).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header
@@ -73,7 +75,22 @@ function App() {
                       </a>
                     ),
                   },
-                  { key: 2, label: <a href="/#">клиента</a> },
+                  {
+                    key: 2,
+                    label: (
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                      <a
+                        onClick={() =>
+                          dispatch(
+                            updateModals({
+                              modal: 3,
+                            })
+                          )
+                        }>
+                        клиента
+                      </a>
+                    ),
+                  },
                   { key: 3, label: <a href="/#">оплату</a> },
                   {
                     key: 4,

@@ -106,6 +106,9 @@ function CreareOrder({ open }) {
 
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
+    dispatch(
+      setCreateOrderValue({ ...formValue, client_id: 0, company_id: 0 })
+    );
     form.setFieldsValue({
       client: "",
     });
@@ -136,6 +139,7 @@ function CreareOrder({ open }) {
                     { label: "физ.лицо", value: "fl" },
                   ]}
                   value={typeListClient}
+                  defaultValue={0}
                   onChange={onChangeType}
                   optionType="button"
                   buttonStyle="solid"
@@ -190,6 +194,13 @@ function CreareOrder({ open }) {
                         })
                   }
                 />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  style={{ marginLeft: 120 }}
+                  onClick={() => dispatch(updateModals({ modal: 3 }))}>
+                  создать клиента
+                </Button>
               </Form.Item>
               <Form.Item label="Список работ" name="works">
                 <Button
