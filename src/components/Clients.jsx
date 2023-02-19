@@ -20,7 +20,6 @@ function Clients() {
           { label: "физ.лицо", value: "fl" },
         ]}
         value={typeListClient}
-        defaultValue={1}
         onChange={onChangeType}
         optionType="button"
         buttonStyle="solid"

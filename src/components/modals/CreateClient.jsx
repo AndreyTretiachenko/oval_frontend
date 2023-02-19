@@ -22,14 +22,34 @@ function CreateClient({ open }) {
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 3 }));
+    setFormValue({
+      client_type: "company",
+      firstName: "",
+      lastName: "",
+      phoneNumber: 0,
+      email: "",
+      name: "",
+      inn: 0,
+    });
   };
 
   const handleOk = async () => {
     if (formValue.client_type === "company")
       await addCompany({
         name: formValue.name,
-        inn: formValue.inn,
-      }).finally(dispatch(updateModals({ modal: 3 })));
+        inn: Number(formValue.inn),
+      }).finally(() => {
+        dispatch(updateModals({ modal: 3 }));
+        setFormValue({
+          client_type: "company",
+          firstName: "",
+          lastName: "",
+          phoneNumber: 0,
+          email: "",
+          name: "",
+          inn: 0,
+        });
+      });
   };
 
   return (
