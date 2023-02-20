@@ -30,7 +30,7 @@ const reducers = combineReducers({
   modals: modalsSlice,
   company: companySlice,
   worklist: workListSlice,
-  dataCreateOrder: createOrderSlice,
+  createOrder: createOrderSlice,
   [ovalApi.reducerPath]: ovalApi.reducer,
 });
 

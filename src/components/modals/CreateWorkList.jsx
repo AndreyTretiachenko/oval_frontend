@@ -9,12 +9,13 @@ import {
   Input,
   InputNumber,
 } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
-import { setWorklist } from "../../features/workListSlice";
+import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
 import { useGetWorkQuery, useGetWorksQuery } from "../../api";
 import uuid from "react-uuid";
+import { setCreateOrderValue } from "../../features/createOrderSlice";
 
 function CreateWorkList({ open }) {
   const columns = [
@@ -28,29 +29,29 @@ function CreateWorkList({ open }) {
       title: "Количество",
       dataIndex: "count",
       key: "count",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Цена",
       dataIndex: "price",
       key: "price",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Стоимость",
       dataIndex: "sum",
       key: "sum",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Действия",
       dataIndex: "actions",
       key: "actions",
       render: (id) => (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a
           onClick={() =>
-            setWorkListData(
-              [...workListData].filter((item) => item.id_item !== id)
+            dispatch(
+              setWorklist(
+                [...workListData].filter((item) => item.id_item !== id)
+              )
             )
           }>
           удалить
@@ -60,6 +61,7 @@ function CreateWorkList({ open }) {
   ];
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const formValue = useSelector((state) => state.createOrder);
   const [isOpenAddWork, setIsOpenAddWork] = useState(false);
   const [workData, setWorkData] = useState({
     id: 0,
@@ -68,25 +70,34 @@ function CreateWorkList({ open }) {
     count: 1,
     sum: 0,
   });
-  const [workListData, setWorkListData] = useState([]);
-  const { data: works = [] } = useGetWorksQuery();
+  const workListData = useSelector((state) => state.worklist.data);
   const { data: work = [] } = useGetWorkQuery();
+
   const handleCancel = () => {
+    dispatch(updateModals({ modal: 2 }));
+    dispatch(setDefaulWorkList());
+  };
+
+  const handleOk = () => {
+    dispatch(setCreateOrderValue({ ...formValue, worklist: workListData }));
     dispatch(updateModals({ modal: 2 }));
   };
 
   const handleOkCreateWork = () => {
     const id_uuid = uuid();
     setIsOpenAddWork(false);
-    setWorkListData([
-      ...workListData,
-      {
-        ...workData,
-        id_item: id_uuid,
-        sum: workData.count * workData.price,
-        actions: id_uuid,
-      },
-    ]);
+    dispatch(
+      setWorklist([
+        ...workListData,
+        {
+          ...workData,
+          id_item: id_uuid,
+          sum: workData.count * workData.price,
+          actions: id_uuid,
+        },
+      ])
+    );
+
     setWorkData({ id: 0, price: 0, name: "", count: 0, sum: 0 });
   };
 
@@ -109,8 +120,10 @@ function CreateWorkList({ open }) {
         title="Создание сметы на работы"
         closable={false}
         maskClosable={false}
-        onOk={() => {}}
-        onCancel={handleCancel}>
+        cancelText="Удалить"
+        okText="Сохранить"
+        onCancel={handleCancel}
+        onOk={handleOk}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}></Header>
           <Content>
