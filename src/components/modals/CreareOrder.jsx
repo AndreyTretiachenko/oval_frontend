@@ -10,6 +10,7 @@ import {
   message,
   Input,
   Select,
+  Typography,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import uuid from "react-uuid";
@@ -123,6 +124,12 @@ function CreareOrder({ open }) {
     return sum;
   };
 
+  const sumMaterial = () => {
+    let sum = 0;
+    formValue.materiallist.map((item) => (sum = sum + item.count * item.price));
+    return sum;
+  };
+
   return (
     <>
       {contextHolder}
@@ -228,7 +235,7 @@ function CreareOrder({ open }) {
                   открыть
                 </Button>
                 <span style={{ marginLeft: 10 }}>
-                  cмета на сумму: {sumWorks()} рублей
+                  работы на сумму: {sumWorks()} рублей
                 </span>
               </Form.Item>
               <Form.Item label="Список материалов" name="materials">
@@ -236,12 +243,21 @@ function CreareOrder({ open }) {
                   onClick={() =>
                     dispatch(
                       updateModals({
-                        modal: 2,
+                        modal: 4,
                       })
                     )
                   }>
                   открыть
                 </Button>
+                <span style={{ marginLeft: 10 }}>
+                  материалы на сумму: {sumMaterial()} рублей
+                </span>
+              </Form.Item>
+              <Divider />
+              <Form.Item label="Итого сумма" name="resultSumOrder">
+                <Typography type="success">
+                  {sumMaterial() + sumWorks()}
+                </Typography>
               </Form.Item>
               <Form.Item
                 label="Комментарий"

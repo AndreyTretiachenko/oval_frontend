@@ -77,7 +77,7 @@ function CreateMaterialList({ open }) {
   const { data: material = [] } = useGetMaterialQuery();
 
   const handleCancel = () => {
-    dispatch(updateModals({ modal: 2 }));
+    dispatch(updateModals({ modal: 4 }));
     dispatch(setDefaulMaterialList());
     form.resetFields();
   };
@@ -87,7 +87,7 @@ function CreateMaterialList({ open }) {
       setCreateOrderValue({ ...formValue, materiallist: materialListData })
     );
     form.resetFields();
-    dispatch(updateModals({ modal: 2 }));
+    dispatch(updateModals({ modal: 4 }));
   };
 
   const handleOkCreateMaterial = () => {
@@ -125,7 +125,7 @@ function CreateMaterialList({ open }) {
         open={open}
         centered
         width={"50%"}
-        title="Создание сметы на работы"
+        title="Создание сметы на материалы"
         closable={false}
         maskClosable={false}
         cancelText="Удалить"

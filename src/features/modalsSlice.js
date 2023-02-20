@@ -13,6 +13,10 @@ const initialState = [
     modal: 3,
     open: false,
   },
+  {
+    modal: 4,
+    open: false,
+  },
 ];
 
 export const modalsSlice = createSlice({
