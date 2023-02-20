@@ -128,7 +128,7 @@ function CreateMaterialList({ open }) {
         title="Создание сметы на материалы"
         closable={false}
         maskClosable={false}
-        cancelText="Удалить"
+        cancelText="Очистить"
         okText="Сохранить"
         onCancel={handleCancel}
         onOk={handleOk}>
@@ -148,7 +148,7 @@ function CreateMaterialList({ open }) {
       </Modal>
       <Modal
         open={isOpenAddMaterial}
-        title="Создание работы"
+        title="Создание материала"
         closable={false}
         centered
         onOk={handleOkCreateMaterial}
@@ -157,7 +157,7 @@ function CreateMaterialList({ open }) {
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
         <Content>
           <Form labelCol={{ span: 5 }} form={form}>
-            <Form.Item label="Работа" name="work">
+            <Form.Item label="Материал" name="material">
               <Select
                 onChange={(value) => {
                   setMaterialData((prev) => {

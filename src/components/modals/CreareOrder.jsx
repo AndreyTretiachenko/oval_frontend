@@ -30,6 +30,7 @@ import {
   setCreateOrderValue,
   setDefaultCreateOrderValue,
 } from "../../features/createOrderSlice";
+import { setDefaulMaterialList } from "../../features/materialListSlice";
 
 const { TextArea } = Input;
 
@@ -103,6 +104,7 @@ function CreareOrder({ open }) {
 
   const handleCancel = () => {
     dispatch(setDefaulWorkList());
+    dispatch(setDefaulMaterialList());
     dispatch(updateModals({ modal: 1 }));
     dispatch(setDefaultCreateOrderValue());
     form.resetFields();
@@ -139,10 +141,10 @@ function CreareOrder({ open }) {
         closable={false}
         maskClosable={false}
         open={open}
-        okText="создать"
+        okText="Cоздать"
         onOk={handleCreateOrder}
         okButtonProps={{ loading: isLoading }}
-        cancelText="отмена"
+        cancelText="Отмена"
         onCancel={handleCancel}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}>
