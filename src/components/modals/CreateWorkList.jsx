@@ -123,7 +123,7 @@ function CreateWorkList({ open }) {
         title="Создание сметы на работы"
         closable={false}
         maskClosable={false}
-        cancelText="Удалить"
+        cancelText="Очистить"
         okText="Сохранить"
         onCancel={handleCancel}
         onOk={handleOk}>
