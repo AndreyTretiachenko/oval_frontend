@@ -82,6 +82,7 @@ function CreareOrder({ open }) {
               dispatch(updateModals({ modal: 1 }));
               dispatch(setDefaulWorkList());
               dispatch(setDefaultCreateOrderValue());
+              form.resetFields();
               messageApi.open({
                 type: "success",
                 content: `заказ успешно создан`,
@@ -102,6 +103,7 @@ function CreareOrder({ open }) {
     dispatch(setDefaulWorkList());
     dispatch(updateModals({ modal: 1 }));
     dispatch(setDefaultCreateOrderValue());
+    form.resetFields();
   };
 
   const onChangeType = ({ target: { value } }) => {
