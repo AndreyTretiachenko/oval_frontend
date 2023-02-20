@@ -117,6 +117,12 @@ function CreareOrder({ open }) {
     });
   };
 
+  const sumWorks = () => {
+    let sum = 0;
+    formValue.worklist.map((item) => (sum = sum + item.count * item.price));
+    return sum;
+  };
+
   return (
     <>
       {contextHolder}
@@ -221,6 +227,9 @@ function CreareOrder({ open }) {
                   }>
                   открыть
                 </Button>
+                <span style={{ marginLeft: 10 }}>
+                  cмета на сумму: {sumWorks()} рублей
+                </span>
               </Form.Item>
               <Form.Item label="Список материалов" name="materials">
                 <Button
