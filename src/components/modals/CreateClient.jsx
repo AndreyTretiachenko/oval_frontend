@@ -74,7 +74,7 @@ function CreateClient({ open }) {
         </Header>
         <Content>
           <Form labelCol={{ span: 4 }} form={form}>
-            <Form.Item label="тип клиента" name="typeClient">
+            <Form.Item label="Тип клиента" name="typeClient">
               <Radio.Group
                 optionType="button"
                 value={formData.client_type}
@@ -90,7 +90,7 @@ function CreateClient({ open }) {
             </Form.Item>
             {formData.client_type === "company" ? (
               <>
-                <Form.Item label="название" name="nameFl">
+                <Form.Item label="Название" name="nameFl">
                   <Input
                     value={formData.name}
                     onChange={(e) =>
@@ -109,7 +109,7 @@ function CreateClient({ open }) {
               </>
             ) : (
               <>
-                <Form.Item label="имя" name="firstName">
+                <Form.Item label="Имя" name="firstName">
                   <Input
                     value={formData.firstName}
                     onChange={(e) =>
@@ -117,7 +117,7 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="фамилия" name="lastName">
+                <Form.Item label="Фамилия" name="lastName">
                   <Input
                     value={formData.lastName}
                     onChange={(e) =>
@@ -125,7 +125,7 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="телефон" name="phoneNumber">
+                <Form.Item label="Телефон" name="phoneNumber">
                   <Input
                     value={formData.phoneNumber}
                     onChange={(e) =>
@@ -136,7 +136,7 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="email" name="email">
+                <Form.Item label="Email" name="email">
                   <Input
                     value={formData.email}
                     onChange={(e) =>
