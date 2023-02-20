@@ -7,10 +7,11 @@ import { updateModals } from "../../features/modalsSlice";
 const { Header, Content } = Layout;
 
 function CreateClient({ open }) {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [addCompany] = useAddCompanyMutation();
   const [addPerson] = useAddPersonMutation();
-  const [formValue, setFormValue] = useState({
+  const [formData, setFormData] = useState({
     client_type: "company",
     firstName: "",
     lastName: "",
@@ -22,7 +23,9 @@ function CreateClient({ open }) {
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 3 }));
-    setFormValue({
+    form.resetFields();
+    setFormData((prev) => ({
+      ...prev,
       client_type: "company",
       firstName: "",
       lastName: "",
@@ -30,26 +33,28 @@ function CreateClient({ open }) {
       email: "",
       name: "",
       inn: 0,
-    });
+    }));
   };
 
   const handleOk = async () => {
-    if (formValue.client_type === "company")
+    if (formData.client_type === "company") {
       await addCompany({
-        name: formValue.name,
-        inn: Number(formValue.inn),
+        name: formData.name,
+        inn: Number(formData.inn),
       }).finally(() => {
         dispatch(updateModals({ modal: 3 }));
-        setFormValue({
-          client_type: "company",
-          firstName: "",
-          lastName: "",
-          phoneNumber: 0,
-          email: "",
-          name: "",
-          inn: 0,
-        });
       });
+    } else {
+      await addPerson({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+      }).finally(() => {
+        form.resetFields();
+        dispatch(updateModals({ modal: 3 }));
+      });
+    }
   };
 
   return (
@@ -68,14 +73,13 @@ function CreateClient({ open }) {
           Для создание клиента неободимо заполнить все поля
         </Header>
         <Content>
-          <Form labelCol={{ span: 4 }}>
-            <Form.Item label="тип клиента" name="typeClient">
+          <Form labelCol={{ span: 4 }} form={form}>
+            <Form.Item label="Тип клиента" name="typeClient">
               <Radio.Group
                 optionType="button"
-                defaultValue={"company"}
-                value={formValue.client_type}
+                value={formData.client_type}
                 onChange={(e) =>
-                  setFormValue({ ...formValue, client_type: e.target.value })
+                  setFormData({ ...formData, client_type: e.target.value })
                 }
                 buttonStyle="solid"
                 options={[
@@ -84,59 +88,59 @@ function CreateClient({ open }) {
                 ]}
               />
             </Form.Item>
-            {formValue.client_type === "company" ? (
+            {formData.client_type === "company" ? (
               <>
-                <Form.Item label="название" name="nameFl">
+                <Form.Item label="Название" name="nameFl">
                   <Input
-                    value={formValue.name}
+                    value={formData.name}
                     onChange={(e) =>
-                      setFormValue({ ...formValue, name: e.target.value })
+                      setFormData({ ...formData, name: e.target.value })
                     }
                   />
                 </Form.Item>
                 <Form.Item label="ИНН" name="inn">
                   <Input
-                    value={formValue.inn}
+                    value={formData.inn}
                     onChange={(e) =>
-                      setFormValue({ ...formValue, inn: e.target.value })
+                      setFormData({ ...formData, inn: e.target.value })
                     }
                   />
                 </Form.Item>
               </>
             ) : (
               <>
-                <Form.Item label="имя" name="firstName">
+                <Form.Item label="Имя" name="firstName">
                   <Input
-                    value={formValue.firstName}
+                    value={formData.firstName}
                     onChange={(e) =>
-                      setFormValue({ ...formValue, firstName: e.target.value })
+                      setFormData({ ...formData, firstName: e.target.value })
                     }
                   />
                 </Form.Item>
-                <Form.Item label="фамилия" name="lastName">
+                <Form.Item label="Фамилия" name="lastName">
                   <Input
-                    value={formValue.lastName}
+                    value={formData.lastName}
                     onChange={(e) =>
-                      setFormValue({ ...formValue, lastName: e.target.value })
+                      setFormData({ ...formData, lastName: e.target.value })
                     }
                   />
                 </Form.Item>
-                <Form.Item label="телефон" name="phoneNumber">
+                <Form.Item label="Телефон" name="phoneNumber">
                   <Input
-                    value={formValue.phoneNumber}
+                    value={formData.phoneNumber}
                     onChange={(e) =>
-                      setFormValue({
-                        ...formValue,
+                      setFormData({
+                        ...formData,
                         phoneNumber: Number(e.target.value),
                       })
                     }
                   />
                 </Form.Item>
-                <Form.Item label="email" name="email">
+                <Form.Item label="Email" name="email">
                   <Input
-                    value={formValue.email}
+                    value={formData.email}
                     onChange={(e) =>
-                      setFormValue({ ...formValue, email: e.target.value })
+                      setFormData({ ...formData, email: e.target.value })
                     }
                   />
                 </Form.Item>

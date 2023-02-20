@@ -6,11 +6,12 @@ import {
   Modal,
   Radio,
   Space,
+  Divider,
   message,
   Input,
   Select,
-  Collapse,
 } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import uuid from "react-uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
@@ -82,6 +83,7 @@ function CreareOrder({ open }) {
               dispatch(updateModals({ modal: 1 }));
               dispatch(setDefaulWorkList());
               dispatch(setDefaultCreateOrderValue());
+              form.resetFields();
               messageApi.open({
                 type: "success",
                 content: `заказ успешно создан`,
@@ -102,6 +104,7 @@ function CreareOrder({ open }) {
     dispatch(setDefaulWorkList());
     dispatch(updateModals({ modal: 1 }));
     dispatch(setDefaultCreateOrderValue());
+    form.resetFields();
   };
 
   const onChangeType = ({ target: { value } }) => {
@@ -114,6 +117,12 @@ function CreareOrder({ open }) {
     });
   };
 
+  const sumWorks = () => {
+    let sum = 0;
+    formValue.worklist.map((item) => (sum = sum + item.count * item.price));
+    return sum;
+  };
+
   return (
     <>
       {contextHolder}
@@ -123,15 +132,17 @@ function CreareOrder({ open }) {
         closable={false}
         maskClosable={false}
         open={open}
+        okText="создать"
         onOk={handleCreateOrder}
         okButtonProps={{ loading: isLoading }}
+        cancelText="отмена"
         onCancel={handleCancel}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}>
             Для создание заказа неободимо заполнить все поля
           </Header>
           <Content>
-            <Form labelCol={{ span: 3 }} form={form}>
+            <Form labelCol={{ span: 4 }} form={form}>
               <Form.Item label="Тип клиента" name="type">
                 <Radio.Group
                   options={[
@@ -145,63 +156,66 @@ function CreareOrder({ open }) {
                   buttonStyle="solid"
                 />
               </Form.Item>
-              <Form.Item
-                label="Клиент"
-                name="client"
-                rules={[
-                  { required: true, message: "Выберите клинета из списка!" },
-                ]}>
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "")
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  loading={
-                    typeListClient === "company"
-                      ? isCompanyLoading
-                      : isPersonLoading
-                  }
-                  style={{ width: 300 }}
-                  value={formValue.client_id}
-                  onChange={(value) => {
-                    typeListClient === "company"
-                      ? dispatch(
-                          setCreateOrderValue({
-                            ...formValue,
-                            company_id: value,
+              <Form.Item label="Клиент" name="client">
+                <Space>
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    loading={
+                      typeListClient === "company"
+                        ? isCompanyLoading
+                        : isPersonLoading
+                    }
+                    style={{ width: 300 }}
+                    onChange={(value) => {
+                      typeListClient === "company"
+                        ? dispatch(
+                            setCreateOrderValue({
+                              ...formValue,
+                              company_id: value,
+                            })
+                          )
+                        : dispatch(
+                            setCreateOrderValue({
+                              ...formValue,
+                              person_id: value,
+                            })
+                          );
+                    }}
+                    options={
+                      typeListClient === "company"
+                        ? company?.map((item) => {
+                            return { label: item.name, value: item.id };
                           })
-                        )
-                      : dispatch(
-                          setCreateOrderValue({
-                            ...formValue,
-                            person_id: value,
+                        : person?.map((per) => {
+                            return {
+                              label: per.firstName + " " + per.lastName,
+                              value: per.id,
+                            };
                           })
-                        );
-                  }}
-                  options={
-                    typeListClient === "company"
-                      ? company?.map((item) => {
-                          return { label: item.name, value: item.id };
+                    }
+                  />
+                  <Button
+                    type="primary"
+                    size="small"
+                    shape="circle"
+                    icon={<PlusOutlined />}
+                    onClick={() =>
+                      dispatch(
+                        updateModals({
+                          modal: 3,
                         })
-                      : person?.map((per) => {
-                          return {
-                            label: per.firstName + " " + per.lastName,
-                            value: per.id,
-                          };
-                        })
-                  }
-                />
+                      )
+                    }
+                  />
+                </Space>
               </Form.Item>
-              <Form.Item>
-                <Button
-                  style={{ marginLeft: 120 }}
-                  onClick={() => dispatch(updateModals({ modal: 3 }))}>
-                  создать клиента
-                </Button>
-              </Form.Item>
+
               <Form.Item label="Список работ" name="works">
                 <Button
                   onClick={() =>
@@ -211,7 +225,22 @@ function CreareOrder({ open }) {
                       })
                     )
                   }>
-                  добавить
+                  открыть
+                </Button>
+                <span style={{ marginLeft: 10 }}>
+                  cмета на сумму: {sumWorks()} рублей
+                </span>
+              </Form.Item>
+              <Form.Item label="Список материалов" name="materials">
+                <Button
+                  onClick={() =>
+                    dispatch(
+                      updateModals({
+                        modal: 2,
+                      })
+                    )
+                  }>
+                  открыть
                 </Button>
               </Form.Item>
               <Form.Item

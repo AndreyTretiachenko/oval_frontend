@@ -76,10 +76,12 @@ function CreateWorkList({ open }) {
   const handleCancel = () => {
     dispatch(updateModals({ modal: 2 }));
     dispatch(setDefaulWorkList());
+    form.resetFields();
   };
 
   const handleOk = () => {
     dispatch(setCreateOrderValue({ ...formValue, worklist: workListData }));
+    form.resetFields();
     dispatch(updateModals({ modal: 2 }));
   };
 
@@ -97,13 +99,14 @@ function CreateWorkList({ open }) {
         },
       ])
     );
-
-    setWorkData({ id: 0, price: 0, name: "", count: 0, sum: 0 });
+    form.resetFields();
+    setWorkData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
   };
 
   const handleCancelAddWork = () => {
     setIsOpenAddWork(false);
-    setWorkData({ id: 0, price: 0, name: "", count: 0, sum: 0 });
+    setWorkData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
+    form.resetFields();
   };
 
   useEffect(() => {

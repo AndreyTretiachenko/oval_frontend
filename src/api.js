@@ -60,16 +60,14 @@ export const ovalApi = createApi({
       }),
     }),
     getPerson: builder.query({
-      query: () => ({
-        url: "person",
-        providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: "person", id })),
-                { type: "person", id: "LIST" },
-              ]
-            : [{ type: "person", id: "LIST" }],
-      }),
+      query: () => "person",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "person", id })),
+              { type: "person", id: "LIST" },
+            ]
+          : [{ type: "person", id: "LIST" }],
     }),
     addPerson: builder.mutation({
       query: (body) => ({
@@ -85,16 +83,14 @@ export const ovalApi = createApi({
       }),
     }),
     getWorks: builder.query({
-      query: () => ({
-        url: "works",
-        providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: "works", id })),
-                { type: "works", id: "LIST" },
-              ]
-            : [{ type: "works", id: "LIST" }],
-      }),
+      query: () => "works",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "works", id })),
+              { type: "works", id: "LIST" },
+            ]
+          : [{ type: "works", id: "LIST" }],
     }),
     addWorks: builder.mutation({
       query: (body) => ({
@@ -108,16 +104,14 @@ export const ovalApi = createApi({
       ],
     }),
     getWorklist: builder.query({
-      query: () => ({
-        url: "worklist",
-        providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: "worklist", id })),
-                { type: "worklist", id: "LIST" },
-              ]
-            : [{ type: "worklist", id: "LIST" }],
-      }),
+      query: () => "worklist",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "worklist", id })),
+              { type: "worklist", id: "LIST" },
+            ]
+          : [{ type: "worklist", id: "LIST" }],
     }),
     addWorkList: builder.mutation({
       query: (body) => ({
