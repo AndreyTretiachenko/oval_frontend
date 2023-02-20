@@ -17,6 +17,8 @@ import uuid from "react-uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
+  useAddMateriallistMutation,
+  useAddMaterialsMutation,
   useAddOrderMutation,
   useAddWorkListMutation,
   useAddWorksMutation,
@@ -40,14 +42,16 @@ function CreareOrder({ open }) {
   const [addOrder] = useAddOrderMutation();
   const [addWorkList] = useAddWorkListMutation();
   const [addWorks] = useAddWorksMutation();
+  const [addMateriallist] = useAddMateriallistMutation();
+  const [addMaterials] = useAddMaterialsMutation();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
-  const worklist = useSelector((state) => state.worklist.data);
   const formValue = useSelector((state) => state.createOrder);
   const [typeListClient, setTypeListClient] = useState("company");
   const [isLoading, setIsLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { Text } = Typography;
 
   const handleCreateOrder = async () => {
     setIsLoading(true);
@@ -59,7 +63,7 @@ function CreareOrder({ open }) {
     })
       .unwrap()
       .then((res) => {
-        if (res.status === "successful")
+        if (res.status === "successful") {
           addWorkList({ order_id: res.order })
             .unwrap()
             .then((res) => {
@@ -84,6 +88,7 @@ function CreareOrder({ open }) {
               setIsLoading(false);
               dispatch(updateModals({ modal: 1 }));
               dispatch(setDefaulWorkList());
+              dispatch(setDefaulMaterialList());
               dispatch(setDefaultCreateOrderValue());
               form.resetFields();
               messageApi.open({
@@ -91,6 +96,19 @@ function CreareOrder({ open }) {
                 content: `заказ успешно создан`,
               });
             });
+          addMateriallist({ order_id: res.order })
+            .unwrap()
+            .then((res) => {
+              if (res.status === "successful")
+                formValue?.materiallist?.map((material) => {
+                  addMaterials({
+                    count: material.count,
+                    material_id: material.id,
+                    materiallist_id: res.materialList,
+                  }).unwrap();
+                });
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -257,9 +275,9 @@ function CreareOrder({ open }) {
               </Form.Item>
               <Divider />
               <Form.Item label="Итого сумма" name="resultSumOrder">
-                <Typography type="success">
-                  {sumMaterial() + sumWorks()}
-                </Typography>
+                <Text type="success" strong>
+                  {sumMaterial() + sumWorks()} рублей
+                </Text>
               </Form.Item>
               <Form.Item
                 label="Комментарий"

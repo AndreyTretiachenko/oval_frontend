@@ -54,6 +54,35 @@ export const ovalApi = createApi({
         url: "material",
       }),
     }),
+    getMaterials: builder.query({
+      query: () => ({
+        url: "materials",
+      }),
+    }),
+    addMaterials: builder.mutation({
+      query: (body) => ({
+        url: "materials",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [
+        { type: "materials", id: "LIST" },
+        { type: "order", id: "LIST" },
+      ],
+    }),
+    getMateriallist: builder.query({
+      query: () => ({
+        url: "materiallist",
+      }),
+    }),
+    addMateriallist: builder.mutation({
+      query: (body) => ({
+        url: "materiallist",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "materiallist", id: "LIST" }],
+    }),
     getTransport: builder.query({
       query: () => ({
         url: "transport",
@@ -139,4 +168,6 @@ export const {
   useAddWorksMutation,
   useAddCompanyMutation,
   useAddPersonMutation,
+  useAddMateriallistMutation,
+  useAddMaterialsMutation,
 } = ovalApi;
