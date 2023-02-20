@@ -27,16 +27,14 @@ export const ovalApi = createApi({
       invalidatesTags: [{ type: "order", id: "LIST" }],
     }),
     getCompany: builder.query({
-      query: () => ({
-        url: "company",
-        providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: "company", id })),
-                { type: "company", id: "LIST" },
-              ]
-            : [{ type: "company", id: "LIST" }],
-      }),
+      query: () => "company",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "company", id })),
+              { type: "company", id: "LIST" },
+            ]
+          : [{ type: "company", id: "LIST" }],
     }),
     addCompany: builder.mutation({
       query: (body) => ({
