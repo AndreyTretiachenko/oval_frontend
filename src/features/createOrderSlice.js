@@ -6,6 +6,7 @@ const initialState = {
   company_id: 0,
   comment: "",
   worklist: [],
+  materiallist: [],
 };
 
 export const createOrderSlice = createSlice({
