@@ -5,18 +5,10 @@ import OrdersItem from "./OrdersItem";
 import { useGetOrdersQuery } from "../api";
 
 function Orders() {
-  const [messageApi, contextHolder] = message.useMessage();
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "Заказы загружены успешно",
-    });
-  };
-  const { data: orders = [], isLoading, error } = useGetOrdersQuery();
+  const { data = [], isLoading, error } = useGetOrdersQuery();
 
   return (
     <div>
-      {contextHolder}
       <List
         size="small"
         pagination={{
@@ -24,7 +16,7 @@ function Orders() {
         }}
         bordered
         loading={isLoading}
-        dataSource={orders}
+        dataSource={!isLoading ? [...data].reverse() : []}
         renderItem={(item) => (
           <List.Item key={item.id}>
             <OrdersItem item={item} />

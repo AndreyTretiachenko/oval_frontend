@@ -11,7 +11,7 @@ import {
   Collapse,
 } from "antd";
 import uuid from "react-uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
   useAddOrderMutation,
@@ -20,9 +20,12 @@ import {
   useGetWorkQuery,
 } from "../../api";
 import { Content, Header } from "antd/es/layout/layout";
+import {
+  setDataCreateOrder,
+  setDefaultDataCreateOrder,
+} from "../../features/createOrderSlice";
 
 const { TextArea } = Input;
-const { Panel } = Collapse;
 
 function CreareOrder({ open }) {
   const [form] = Form.useForm();
@@ -33,27 +36,17 @@ function CreareOrder({ open }) {
     useGetCompanyQuery();
   const { data: works = [], isLoading: isLoadingWork } = useGetWorkQuery();
 
-  const [formValue, setFormValue] = useState({
-    uid: "",
-    client_id: 0,
-    company_id: 0,
-    comment: "",
-  });
+  const dataCreateOrder = useSelector((state) => state.dataCreateOrder);
   const [typeListClient, setTypeListClient] = useState("company");
 
   const handleCreateOrder = async () => {
     await addOrder({
       uid: uuid(),
-      person_id: formValue.person_id || null,
-      company_id: formValue.company_id || null,
-      comment: formValue.comment || null,
+      person_id: dataCreateOrder.person_id || null,
+      company_id: dataCreateOrder.company_id || null,
+      comment: dataCreateOrder.comment || null,
     }).unwrap();
-    setFormValue({
-      uid: "",
-      client_id: 0,
-      company_id: 0,
-      comment: "",
-    });
+    dispatch(setDefaultDataCreateOrder());
     dispatch(updateModals({ modal: 1 }));
   };
 
@@ -116,17 +109,21 @@ function CreareOrder({ open }) {
                 }
                 style={{ width: 300 }}
                 defaultActiveFirstOption={0}
-                value={formValue.client_id}
+                value={dataCreateOrder.client_id}
                 onChange={(value) => {
                   typeListClient === "company"
-                    ? setFormValue({
-                        ...formValue,
-                        company_id: value,
-                      })
-                    : setFormValue({
-                        ...formValue,
-                        person_id: value,
-                      });
+                    ? dispatch(
+                        setDataCreateOrder({
+                          ...dataCreateOrder,
+                          company_id: value,
+                        })
+                      )
+                    : dispatch(
+                        setDataCreateOrder({
+                          ...dataCreateOrder,
+                          person_id: value,
+                        })
+                      );
                 }}
                 options={
                   typeListClient === "company"
@@ -165,12 +162,14 @@ function CreareOrder({ open }) {
                 placeholder="ваш комментарий по заказу"
                 maxLength={50}
                 showCount
-                value={formValue.comment}
+                value={dataCreateOrder.comment}
                 onChange={(e) =>
-                  setFormValue({
-                    ...formValue,
-                    comment: e.target.value,
-                  })
+                  dispatch(
+                    setDataCreateOrder({
+                      ...dataCreateOrder,
+                      comment: e.target.value,
+                    })
+                  )
                 }
               />
             </Form.Item>
