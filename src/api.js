@@ -6,7 +6,7 @@ export const ovalApi = createApi({
     baseUrl: "http://188.225.73.44:5001/api/v1/",
     headers: { Authorization: "basic dXNlcjp1c2Vy" },
   }),
-  tagTypes: ["order", "worklist"],
+  tagTypes: ["order", "worklist", "works", "company", "person"],
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => "order",
@@ -27,9 +27,22 @@ export const ovalApi = createApi({
       invalidatesTags: [{ type: "order", id: "LIST" }],
     }),
     getCompany: builder.query({
-      query: () => ({
+      query: () => "company",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "company", id })),
+              { type: "company", id: "LIST" },
+            ]
+          : [{ type: "company", id: "LIST" }],
+    }),
+    addCompany: builder.mutation({
+      query: (body) => ({
         url: "company",
+        method: "POST",
+        body,
       }),
+      invalidatesTags: [{ type: "company", id: "LIST" }],
     }),
     getWork: builder.query({
       query: () => ({
@@ -49,7 +62,22 @@ export const ovalApi = createApi({
     getPerson: builder.query({
       query: () => ({
         url: "person",
+        providesTags: (result) =>
+          result
+            ? [
+                ...result.map(({ id }) => ({ type: "person", id })),
+                { type: "person", id: "LIST" },
+              ]
+            : [{ type: "person", id: "LIST" }],
       }),
+    }),
+    addPerson: builder.mutation({
+      query: (body) => ({
+        url: "person",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "person", id: "LIST" }],
     }),
     getPayments: builder.query({
       query: () => ({
@@ -59,7 +87,25 @@ export const ovalApi = createApi({
     getWorks: builder.query({
       query: () => ({
         url: "works",
+        providesTags: (result) =>
+          result
+            ? [
+                ...result.map(({ id }) => ({ type: "works", id })),
+                { type: "works", id: "LIST" },
+              ]
+            : [{ type: "works", id: "LIST" }],
       }),
+    }),
+    addWorks: builder.mutation({
+      query: (body) => ({
+        url: "works",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [
+        { type: "works", id: "LIST" },
+        { type: "order", id: "LIST" },
+      ],
     }),
     getWorklist: builder.query({
       query: () => ({
@@ -96,4 +142,7 @@ export const {
   useGetWorksQuery,
   useGetWorklistQuery,
   useAddWorkListMutation,
+  useAddWorksMutation,
+  useAddCompanyMutation,
+  useAddPersonMutation,
 } = ovalApi;

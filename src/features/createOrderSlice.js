@@ -5,25 +5,24 @@ const initialState = {
   client_id: 0,
   company_id: 0,
   comment: "",
-  workList: [],
-  materialList: [],
+  worklist: [],
 };
 
 export const createOrderSlice = createSlice({
   name: "createOrder",
   initialState,
   reducers: {
-    setDataCreateOrder: (state, action) => {
+    setCreateOrderValue: (state, action) => {
       return (state = action.payload);
     },
-    setDefaultDataCreateOrder: (state, action) => {
+    setDefaultCreateOrderValue: (state, action) => {
       return (state = initialState);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setDataCreateOrder, setDefaultDataCreateOrder } =
+export const { setCreateOrderValue, setDefaultCreateOrderValue } =
   createOrderSlice.actions;
 
 export default createOrderSlice.reducer;
