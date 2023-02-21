@@ -2,19 +2,35 @@ import React from "react";
 import { Modal, Layout, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
+import { useAddTransportMutation } from "../../api";
 
 const { Header, Content } = Layout;
 
 function CreateTransport({ open }) {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const [addTransport] = useAddTransportMutation();
   const formValue = useSelector((state) => state.createOrder);
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 5 }));
   };
 
-  const handleOk = () => {};
+  const handleOk = async () => {
+    await addTransport({
+      vin: form.getFieldValue("vin"),
+      carNumber: form.getFieldValue("carNumber"),
+      brand: form.getFieldValue("brand"),
+      model: form.getFieldValue("model"),
+      person_id: formValue.person_id || 0,
+      company_id: formValue.company_id || 0,
+    })
+      .unwrap()
+      .finally(() => {
+        form.resetFields();
+        dispatch(updateModals({ modal: 5 }));
+      });
+  };
 
   return (
     <Modal

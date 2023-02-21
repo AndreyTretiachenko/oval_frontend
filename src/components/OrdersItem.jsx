@@ -25,7 +25,11 @@ function OrdersItem({ item }) {
         ${item.client.type === "company" ? ", ИНН: " + item.client.inn : ""}
         `}
         key={item.id}>
-        <div></div>
+        <div>
+          Информация о транспорте: {item.transport?.brand}{" "}
+          {item.transport?.model} {item.transport?.vin}{" "}
+          {item.transport?.carNumber}
+        </div>
         <Divider />
         <div>Смета на работы: #{item.workList[0]?.id}</div>
         <Table

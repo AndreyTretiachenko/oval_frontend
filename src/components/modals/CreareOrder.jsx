@@ -60,6 +60,7 @@ function CreareOrder({ open }) {
       person_id: formValue.person_id || null,
       company_id: formValue.company_id || null,
       comment: formValue.comment || null,
+      transport_id: formValue.transport_id || null,
     })
       .unwrap()
       .then((res) => {
@@ -131,7 +132,12 @@ function CreareOrder({ open }) {
   const onChangeType = ({ target: { value } }) => {
     setTypeListClient(value);
     dispatch(
-      setCreateOrderValue({ ...formValue, client_id: 0, company_id: 0 })
+      setCreateOrderValue({
+        ...formValue,
+        client_id: 0,
+        company_id: 0,
+        person_id: 0,
+      })
     );
     form.resetFields(["transport", "client"]);
     form.setFieldsValue({
@@ -247,64 +253,79 @@ function CreareOrder({ open }) {
                   />
                 </Space>
               </Form.Item>
-              <Form.Item name={"transport"} label="Транспорт">
-                <Select
-                  style={{ width: 400 }}
-                  options={
-                    typeListClient === "company"
-                      ? company
-                          .find((item) => item.id === formValue.company_id)
-                          ?.transports?.map((item) => {
-                            return {
-                              label:
-                                "Марка: " +
-                                item.brand +
-                                ", " +
-                                "Модель: " +
-                                item.model +
-                                ", " +
-                                "VIN: " +
-                                item.vin +
-                                ", " +
-                                "Гос номер: " +
-                                item.carNumber,
-                              value: item.id,
-                            };
-                          })
-                      : person
-                          .find((item) => item.id === formValue.person_id)
-                          ?.transports?.map((item) => {
-                            return {
-                              label:
-                                "Марка: " +
-                                item.brand +
-                                ", " +
-                                "Модель: " +
-                                item.model +
-                                ", " +
-                                "VIN: " +
-                                item.vin +
-                                ", " +
-                                "Гос номер: " +
-                                item.carNumber,
-                              value: item.id,
-                            };
-                          })
-                  }
-                />
-                <Button
-                  type="primary"
-                  size="small"
-                  shape="circle"
-                  icon={<PlusOutlined />}
-                  onClick={() =>
-                    dispatch(
-                      updateModals({
-                        modal: 5,
-                      })
-                    )
-                  }
-                />
+              <Form.Item name="transport" label="Транспорт">
+                <Space>
+                  <Select
+                    style={{ width: 400 }}
+                    onChange={(value) => {
+                      dispatch(
+                        setCreateOrderValue({
+                          ...formValue,
+                          transport_id: Number(value),
+                        })
+                      );
+                    }}
+                    options={
+                      typeListClient === "company"
+                        ? company
+                            .find((item) => item.id === formValue.company_id)
+                            ?.transports?.map((item) => {
+                              return {
+                                label:
+                                  "Марка: " +
+                                  item.brand +
+                                  ", " +
+                                  "Модель: " +
+                                  item.model +
+                                  ", " +
+                                  "VIN: " +
+                                  item.vin +
+                                  ", " +
+                                  "Гос номер: " +
+                                  item.carNumber,
+                                value: item.id,
+                              };
+                            })
+                        : person
+                            .find((item) => item.id === formValue.person_id)
+                            ?.transports?.map((item) => {
+                              return {
+                                label:
+                                  "Марка: " +
+                                  item.brand +
+                                  ", " +
+                                  "Модель: " +
+                                  item.model +
+                                  ", " +
+                                  "VIN: " +
+                                  item.vin +
+                                  ", " +
+                                  "Гос номер: " +
+                                  item.carNumber,
+                                value: item.id,
+                              };
+                            })
+                    }
+                  />
+                  <Button
+                    disabled={
+                      formValue.person_id !== 0 || formValue.company_id !== 0
+                        ? false
+                        : true
+                    }
+                    type="primary"
+                    size="small"
+                    shape="circle"
+                    icon={<PlusOutlined />}
+                    onClick={() =>
+                      dispatch(
+                        updateModals({
+                          modal: 5,
+                        })
+                      )
+                    }
+                  />
+                </Space>
               </Form.Item>
               <Form.Item label="Список работ" name="works">
                 <Button

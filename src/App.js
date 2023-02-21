@@ -98,10 +98,6 @@ function App() {
                     ),
                   },
                   { key: 3, label: <a href="/#">оплату</a> },
-                  {
-                    key: 4,
-                    label: <a href="/#">транспорт</a>,
-                  },
                   { key: 7, label: <a href="/#">работу</a> },
                   { key: 8, label: <a href="/#">материал</a> },
                 ],

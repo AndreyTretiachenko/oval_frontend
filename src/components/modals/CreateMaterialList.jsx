@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
 import { useGetMaterialQuery } from "../../api";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   setMateriallist,
   setDefaulMaterialList,
@@ -133,8 +134,7 @@ function CreateMaterialList({ open }) {
         onCancel={handleCancel}
         onOk={handleOk}>
         <Layout>
-          <Header style={{ backgroundColor: "whitesmoke" }}></Header>
-          <Content>
+          <Content style={{ backgroundColor: "white" }}>
             <Table
               columns={columns}
               dataSource={materialListData}
@@ -142,7 +142,11 @@ function CreateMaterialList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button onClick={() => setIsOpenAddMaterial(true)}>Добавить</Button>
+            <Button
+              onClick={() => setIsOpenAddMaterial(true)}
+              icon={<PlusOutlined />}>
+              Добавить
+            </Button>
           </Content>
         </Layout>
       </Modal>
@@ -154,7 +158,6 @@ function CreateMaterialList({ open }) {
         onOk={handleOkCreateMaterial}
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
-        <Header style={{ backgroundColor: "whitesmoke" }}></Header>
         <Content>
           <Form labelCol={{ span: 5 }} form={form}>
             <Form.Item label="Материал" name="material">

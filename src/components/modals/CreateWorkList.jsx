@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
+import { PlusOutlined } from "@ant-design/icons";
 import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
 import { useGetWorkQuery } from "../../api";
 import uuid from "react-uuid";
@@ -128,8 +129,7 @@ function CreateWorkList({ open }) {
         onCancel={handleCancel}
         onOk={handleOk}>
         <Layout>
-          <Header style={{ backgroundColor: "whitesmoke" }}></Header>
-          <Content>
+          <Content style={{ backgroundColor: "white" }}>
             <Table
               columns={columns}
               dataSource={workListData}
@@ -137,7 +137,11 @@ function CreateWorkList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button onClick={() => setIsOpenAddWork(true)}>Добавить</Button>
+            <Button
+              onClick={() => setIsOpenAddWork(true)}
+              icon={<PlusOutlined />}>
+              Добавить
+            </Button>
           </Content>
         </Layout>
       </Modal>
