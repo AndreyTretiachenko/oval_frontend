@@ -133,6 +133,7 @@ function CreareOrder({ open }) {
     dispatch(
       setCreateOrderValue({ ...formValue, client_id: 0, company_id: 0 })
     );
+    form.resetFields(["transport", "client"]);
     form.setFieldsValue({
       client: "",
     });
@@ -169,7 +170,10 @@ function CreareOrder({ open }) {
             Для создание заказа неободимо заполнить все поля
           </Header>
           <Content>
-            <Form labelCol={{ span: 4 }} form={form}>
+            <Form
+              labelCol={{ span: 4 }}
+              form={form}
+              initialValues={{ type: "company" }}>
               <Form.Item label="Тип клиента" name="type">
                 <Radio.Group
                   options={[
@@ -200,6 +204,7 @@ function CreareOrder({ open }) {
                     }
                     style={{ width: 300 }}
                     onChange={(value) => {
+                      form.resetFields(["transport"]);
                       typeListClient === "company"
                         ? dispatch(
                             setCreateOrderValue({
@@ -242,7 +247,65 @@ function CreareOrder({ open }) {
                   />
                 </Space>
               </Form.Item>
-
+              <Form.Item name={"transport"} label="Транспорт">
+                <Select
+                  style={{ width: 400 }}
+                  options={
+                    typeListClient === "company"
+                      ? company
+                          .find((item) => item.id === formValue.company_id)
+                          ?.transports?.map((item) => {
+                            return {
+                              label:
+                                "Марка: " +
+                                item.brand +
+                                ", " +
+                                "Модель: " +
+                                item.model +
+                                ", " +
+                                "VIN: " +
+                                item.vin +
+                                ", " +
+                                "Гос номер: " +
+                                item.carNumber,
+                              value: item.id,
+                            };
+                          })
+                      : person
+                          .find((item) => item.id === formValue.person_id)
+                          ?.transports?.map((item) => {
+                            return {
+                              label:
+                                "Марка: " +
+                                item.brand +
+                                ", " +
+                                "Модель: " +
+                                item.model +
+                                ", " +
+                                "VIN: " +
+                                item.vin +
+                                ", " +
+                                "Гос номер: " +
+                                item.carNumber,
+                              value: item.id,
+                            };
+                          })
+                  }
+                />
+                <Button
+                  type="primary"
+                  size="small"
+                  shape="circle"
+                  icon={<PlusOutlined />}
+                  onClick={() =>
+                    dispatch(
+                      updateModals({
+                        modal: 5,
+                      })
+                    )
+                  }
+                />
+              </Form.Item>
               <Form.Item label="Список работ" name="works">
                 <Button
                   onClick={() =>

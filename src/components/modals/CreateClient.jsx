@@ -73,7 +73,10 @@ function CreateClient({ open }) {
           Для создание клиента неободимо заполнить все поля
         </Header>
         <Content>
-          <Form labelCol={{ span: 4 }} form={form}>
+          <Form
+            labelCol={{ span: 4 }}
+            form={form}
+            initialValues={{ typeClient: "company" }}>
             <Form.Item label="Тип клиента" name="typeClient">
               <Radio.Group
                 optionType="button"

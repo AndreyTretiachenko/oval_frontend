@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Radio, Space } from "antd";
+import { Table, Radio, Space, Divider } from "antd";
 import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 
 function Clients() {
@@ -24,7 +24,7 @@ function Clients() {
         optionType="button"
         buttonStyle="solid"
       />
-      <br />
+      <Divider />
       <Table
         bordered
         loading={
