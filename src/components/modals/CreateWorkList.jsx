@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
 import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
-import { useGetWorkQuery, useGetWorksQuery } from "../../api";
+import { useGetWorkQuery } from "../../api";
 import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
