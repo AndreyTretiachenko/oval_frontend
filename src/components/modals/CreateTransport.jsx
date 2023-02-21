@@ -14,6 +14,7 @@ function CreateTransport({ open }) {
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 5 }));
+    form.resetFields();
   };
 
   const handleOk = async () => {
