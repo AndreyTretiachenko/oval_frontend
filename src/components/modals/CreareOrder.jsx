@@ -37,7 +37,7 @@ import { setDefaulMaterialList } from "../../features/materialListSlice";
 const { TextArea } = Input;
 
 function CreareOrder({ open }) {
-  const [form] = Form.useForm();
+  const [formOrder] = Form.useForm();
   const dispatch = useDispatch();
   const [addOrder] = useAddOrderMutation();
   const [addWorkList] = useAddWorkListMutation();
@@ -91,7 +91,7 @@ function CreareOrder({ open }) {
               dispatch(setDefaulWorkList());
               dispatch(setDefaulMaterialList());
               dispatch(setDefaultCreateOrderValue());
-              form.resetFields();
+              formOrder.resetFields();
               messageApi.open({
                 type: "success",
                 content: `заказ успешно создан`,
@@ -126,7 +126,7 @@ function CreareOrder({ open }) {
     dispatch(setDefaulMaterialList());
     dispatch(updateModals({ modal: 1 }));
     dispatch(setDefaultCreateOrderValue());
-    form.resetFields();
+    formOrder.resetFields();
   };
 
   const onChangeType = ({ target: { value } }) => {
@@ -139,8 +139,8 @@ function CreareOrder({ open }) {
         person_id: 0,
       })
     );
-    form.resetFields(["transport", "client"]);
-    form.setFieldsValue({
+    formOrder.resetFields(["transport", "client"]);
+    formOrder.setFieldsValue({
       client: "",
     });
   };
@@ -167,7 +167,12 @@ function CreareOrder({ open }) {
         maskClosable={false}
         open={open}
         okText="Cоздать"
-        onOk={handleCreateOrder}
+        onOk={() =>
+          formOrder
+            .validateFields(["client", "transport"])
+            .then(() => handleCreateOrder())
+            .catch((info) => console.log(info))
+        }
         okButtonProps={{ loading: isLoading }}
         cancelText="Отмена"
         onCancel={handleCancel}>
@@ -178,7 +183,7 @@ function CreareOrder({ open }) {
           <Content>
             <Form
               labelCol={{ span: 4 }}
-              form={form}
+              form={formOrder}
               initialValues={{ type: "company" }}>
               <Form.Item label="Тип клиента" name="type">
                 <Radio.Group
@@ -193,7 +198,12 @@ function CreareOrder({ open }) {
                   buttonStyle="solid"
                 />
               </Form.Item>
-              <Form.Item label="Клиент" name="client">
+              <Form.Item
+                label="Клиент"
+                name="client"
+                rules={[
+                  { required: true, message: "необходимо выбрать клиента" },
+                ]}>
                 <Space>
                   <Select
                     showSearch
@@ -210,7 +220,8 @@ function CreareOrder({ open }) {
                     }
                     style={{ width: 300 }}
                     onChange={(value) => {
-                      form.resetFields(["transport"]);
+                      formOrder.setFieldValue("client", value);
+                      formOrder.resetFields(["transport"]);
                       typeListClient === "company"
                         ? dispatch(
                             setCreateOrderValue({
@@ -253,11 +264,20 @@ function CreareOrder({ open }) {
                   />
                 </Space>
               </Form.Item>
-              <Form.Item name="transport" label="Транспорт">
+              <Form.Item
+                name="transport"
+                label="Транспорт"
+                rules={[
+                  {
+                    required: true,
+                    message: "необходимо выбрать транспорт",
+                  },
+                ]}>
                 <Space>
                   <Select
                     style={{ width: 400 }}
                     onChange={(value) => {
+                      formOrder.setFieldValue("transport", value);
                       dispatch(
                         setCreateOrderValue({
                           ...formValue,
@@ -363,12 +383,7 @@ function CreareOrder({ open }) {
                   {sumMaterial() + sumWorks()} рублей
                 </Text>
               </Form.Item>
-              <Form.Item
-                label="Комментарий"
-                name="comment"
-                rules={[
-                  { required: true, message: "Выберите клинета из списка!" },
-                ]}>
+              <Form.Item label="Комментарий" name="comment">
                 <TextArea
                   rows={4}
                   placeholder="ваш комментарий по заказу"
