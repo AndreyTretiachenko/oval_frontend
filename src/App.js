@@ -16,6 +16,7 @@ import Works from "./components/Works";
 import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
+import CreateTransport from "./components/modals/CreateTransport";
 
 const { Header, Content, Footer } = Layout;
 
@@ -52,6 +53,7 @@ function App() {
         <CreateMaterialList
           open={modals?.find((item) => item.modal === 4).open}
         />
+        <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header
