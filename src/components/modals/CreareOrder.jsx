@@ -10,12 +10,15 @@ import {
   message,
   Input,
   Select,
+  Typography,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import uuid from "react-uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import {
+  useAddMateriallistMutation,
+  useAddMaterialsMutation,
   useAddOrderMutation,
   useAddWorkListMutation,
   useAddWorksMutation,
@@ -29,6 +32,7 @@ import {
   setCreateOrderValue,
   setDefaultCreateOrderValue,
 } from "../../features/createOrderSlice";
+import { setDefaulMaterialList } from "../../features/materialListSlice";
 
 const { TextArea } = Input;
 
@@ -38,14 +42,16 @@ function CreareOrder({ open }) {
   const [addOrder] = useAddOrderMutation();
   const [addWorkList] = useAddWorkListMutation();
   const [addWorks] = useAddWorksMutation();
+  const [addMateriallist] = useAddMateriallistMutation();
+  const [addMaterials] = useAddMaterialsMutation();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
   const { data: company = [], isLoading: isCompanyLoading } =
     useGetCompanyQuery();
-  const worklist = useSelector((state) => state.worklist.data);
   const formValue = useSelector((state) => state.createOrder);
   const [typeListClient, setTypeListClient] = useState("company");
   const [isLoading, setIsLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { Text } = Typography;
 
   const handleCreateOrder = async () => {
     setIsLoading(true);
@@ -57,7 +63,7 @@ function CreareOrder({ open }) {
     })
       .unwrap()
       .then((res) => {
-        if (res.status === "successful")
+        if (res.status === "successful") {
           addWorkList({ order_id: res.order })
             .unwrap()
             .then((res) => {
@@ -82,6 +88,7 @@ function CreareOrder({ open }) {
               setIsLoading(false);
               dispatch(updateModals({ modal: 1 }));
               dispatch(setDefaulWorkList());
+              dispatch(setDefaulMaterialList());
               dispatch(setDefaultCreateOrderValue());
               form.resetFields();
               messageApi.open({
@@ -89,6 +96,19 @@ function CreareOrder({ open }) {
                 content: `заказ успешно создан`,
               });
             });
+          addMateriallist({ order_id: res.order })
+            .unwrap()
+            .then((res) => {
+              if (res.status === "successful")
+                formValue?.materiallist?.map((material) => {
+                  addMaterials({
+                    count: material.count,
+                    material_id: material.id,
+                    materiallist_id: res.materialList,
+                  }).unwrap();
+                });
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -102,6 +122,7 @@ function CreareOrder({ open }) {
 
   const handleCancel = () => {
     dispatch(setDefaulWorkList());
+    dispatch(setDefaulMaterialList());
     dispatch(updateModals({ modal: 1 }));
     dispatch(setDefaultCreateOrderValue());
     form.resetFields();
@@ -123,6 +144,12 @@ function CreareOrder({ open }) {
     return sum;
   };
 
+  const sumMaterial = () => {
+    let sum = 0;
+    formValue.materiallist.map((item) => (sum = sum + item.count * item.price));
+    return sum;
+  };
+
   return (
     <>
       {contextHolder}
@@ -132,10 +159,10 @@ function CreareOrder({ open }) {
         closable={false}
         maskClosable={false}
         open={open}
-        okText="создать"
+        okText="Cоздать"
         onOk={handleCreateOrder}
         okButtonProps={{ loading: isLoading }}
-        cancelText="отмена"
+        cancelText="Отмена"
         onCancel={handleCancel}>
         <Layout>
           <Header style={{ backgroundColor: "whitesmoke" }}>
@@ -228,7 +255,7 @@ function CreareOrder({ open }) {
                   открыть
                 </Button>
                 <span style={{ marginLeft: 10 }}>
-                  cмета на сумму: {sumWorks()} рублей
+                  работы на сумму: {sumWorks()} рублей
                 </span>
               </Form.Item>
               <Form.Item label="Список материалов" name="materials">
@@ -236,12 +263,21 @@ function CreareOrder({ open }) {
                   onClick={() =>
                     dispatch(
                       updateModals({
-                        modal: 2,
+                        modal: 4,
                       })
                     )
                   }>
                   открыть
                 </Button>
+                <span style={{ marginLeft: 10 }}>
+                  материалы на сумму: {sumMaterial()} рублей
+                </span>
+              </Form.Item>
+              <Divider />
+              <Form.Item label="Итого сумма" name="resultSumOrder">
+                <Text type="success" strong>
+                  {sumMaterial() + sumWorks()} рублей
+                </Text>
               </Form.Item>
               <Form.Item
                 label="Комментарий"

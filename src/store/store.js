@@ -22,6 +22,7 @@ import { ovalApi } from "../api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import workListSlice from "../features/workListSlice";
 import createOrderSlice from "../features/createOrderSlice";
+import materialListSlice from "../features/materialListSlice";
 
 const reducers = combineReducers({
   navigate: navigateSlice,
@@ -31,6 +32,7 @@ const reducers = combineReducers({
   company: companySlice,
   worklist: workListSlice,
   createOrder: createOrderSlice,
+  materiallist: materialListSlice,
   [ovalApi.reducerPath]: ovalApi.reducer,
 });
 

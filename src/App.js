@@ -15,6 +15,7 @@ import Payments from "./components/Payments";
 import Works from "./components/Works";
 import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
+import CreateMaterialList from "./components/modals/CreateMaterialList";
 
 const { Header, Content, Footer } = Layout;
 
@@ -48,6 +49,9 @@ function App() {
         <CreareOrder open={modals?.find((item) => item.modal === 1).open} />
         <CreateWorkList open={modals?.find((item) => item.modal === 2).open} />
         <CreateClient open={modals?.find((item) => item.modal === 3).open} />
+        <CreateMaterialList
+          open={modals?.find((item) => item.modal === 4).open}
+        />
         <Navigate />
         <Layout className="site-layout">
           <Header

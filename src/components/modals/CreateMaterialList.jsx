@@ -12,12 +12,15 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
-import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
-import { useGetWorkQuery, useGetWorksQuery } from "../../api";
+import { useGetMaterialQuery } from "../../api";
+import {
+  setMateriallist,
+  setDefaulMaterialList,
+} from "../../features/materialListSlice";
 import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
-function CreateWorkList({ open }) {
+function CreateMaterialList({ open }) {
   const columns = [
     {
       title: "Наименование",
@@ -49,8 +52,8 @@ function CreateWorkList({ open }) {
         <a
           onClick={() =>
             dispatch(
-              setWorklist(
-                [...workListData].filter((item) => item.id_item !== id)
+              setMateriallist(
+                [...materialListData].filter((item) => item.id_item !== id)
               )
             )
           }>
@@ -62,65 +65,67 @@ function CreateWorkList({ open }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const formValue = useSelector((state) => state.createOrder);
-  const [isOpenAddWork, setIsOpenAddWork] = useState(false);
-  const [workData, setWorkData] = useState({
+  const [isOpenAddMaterial, setIsOpenAddMaterial] = useState(false);
+  const [materialData, setMaterialData] = useState({
     id: 0,
     price: 0,
     name: "",
     count: 1,
     sum: 0,
   });
-  const workListData = useSelector((state) => state.worklist.data);
-  const { data: work = [] } = useGetWorkQuery();
+  const materialListData = useSelector((state) => state.materiallist.data);
+  const { data: material = [] } = useGetMaterialQuery();
 
   const handleCancel = () => {
-    dispatch(updateModals({ modal: 2 }));
-    dispatch(setDefaulWorkList());
+    dispatch(updateModals({ modal: 4 }));
+    dispatch(setDefaulMaterialList());
     form.resetFields();
   };
 
   const handleOk = () => {
-    dispatch(setCreateOrderValue({ ...formValue, worklist: workListData }));
+    dispatch(
+      setCreateOrderValue({ ...formValue, materiallist: materialListData })
+    );
     form.resetFields();
-    dispatch(updateModals({ modal: 2 }));
+    dispatch(updateModals({ modal: 4 }));
   };
 
-  const handleOkCreateWork = () => {
+  const handleOkCreateMaterial = () => {
     const id_uuid = uuid();
-    setIsOpenAddWork(false);
+    setIsOpenAddMaterial(false);
     dispatch(
-      setWorklist([
-        ...workListData,
+      setMateriallist([
+        ...materialListData,
         {
-          ...workData,
+          ...materialData,
           id_item: id_uuid,
-          sum: workData.count * workData.price,
+          sum: materialData.count * materialData.price,
           actions: id_uuid,
         },
       ])
     );
     form.resetFields();
-    setWorkData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
+    setMaterialData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
   };
 
-  const handleCancelAddWork = () => {
-    setIsOpenAddWork(false);
-    setWorkData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
+  const handleCancelAddMaterial = () => {
+    setIsOpenAddMaterial(false);
+    setMaterialData({ id: 0, price: 0, name: "", count: 1, sum: 0 });
     form.resetFields();
   };
 
   useEffect(() => {
     form.setFieldsValue({
-      price: workData?.price,
+      price: materialData?.price,
     });
-  }, [workData]);
+  }, [materialData]);
   return (
     <>
       <Modal
         open={open}
         centered
         width={"50%"}
-        title="Создание сметы на работы"
+        title="Создание сметы на материалы"
         closable={false}
         maskClosable={false}
         cancelText="Очистить"
@@ -132,39 +137,39 @@ function CreateWorkList({ open }) {
           <Content>
             <Table
               columns={columns}
-              dataSource={workListData}
+              dataSource={materialListData}
               pagination={{
                 pageSize: 5,
               }}
             />
-            <Button onClick={() => setIsOpenAddWork(true)}>Добавить</Button>
+            <Button onClick={() => setIsOpenAddMaterial(true)}>Добавить</Button>
           </Content>
         </Layout>
       </Modal>
       <Modal
-        open={isOpenAddWork}
-        title="Создание работы"
+        open={isOpenAddMaterial}
+        title="Создание материала"
         closable={false}
         centered
-        onOk={handleOkCreateWork}
-        onCancel={handleCancelAddWork}
+        onOk={handleOkCreateMaterial}
+        onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
         <Content>
           <Form labelCol={{ span: 5 }} form={form}>
-            <Form.Item label="Работа" name="work">
+            <Form.Item label="Материал" name="material">
               <Select
                 onChange={(value) => {
-                  setWorkData((prev) => {
+                  setMaterialData((prev) => {
                     return {
                       ...prev,
-                      id: work.find((item) => value === item.id).id,
-                      price: work.find((item) => value === item.id).price,
-                      name: work.find((item) => value === item.id).name,
+                      id: material.find((item) => value === item.id).id,
+                      price: material.find((item) => value === item.id).price,
+                      name: material.find((item) => value === item.id).name,
                     };
                   });
                 }}
-                options={work.map((item) => {
+                options={material.map((item) => {
                   return {
                     value: item.id,
                     label: item.name,
@@ -178,8 +183,8 @@ function CreateWorkList({ open }) {
                 max={1000}
                 defaultValue={1}
                 onChange={(value) =>
-                  setWorkData({
-                    ...workData,
+                  setMaterialData({
+                    ...materialData,
                     count: value,
                   })
                 }
@@ -188,7 +193,7 @@ function CreateWorkList({ open }) {
             <Form.Item label="Цена" name="price">
               <Input
                 onChange={(e) =>
-                  setWorkData({ ...workData, price: e.target.value })
+                  setMaterialData({ ...materialData, price: e.target.value })
                 }
               />
             </Form.Item>
@@ -199,4 +204,4 @@ function CreateWorkList({ open }) {
   );
 }
 
-export default CreateWorkList;
+export default CreateMaterialList;
