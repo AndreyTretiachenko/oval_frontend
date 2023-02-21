@@ -42,23 +42,51 @@ function CreateTransport({ open }) {
       okText="создать"
       cancelText="отмена"
       onCancel={handleCancel}
-      onOk={handleOk}>
+      onOk={() =>
+        form
+          .validateFields(["brand", "model", "vin", "carNumber"])
+          .then(() => handleOk())
+      }>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
           Для создание транспорта неободимо заполнить все поля
         </Header>
         <Content>
           <Form labelCol={{ span: 4 }} form={form}>
-            <Form.Item label="Марка" name="brand">
+            <Form.Item
+              label="Марка"
+              name="brand"
+              rules={[{ required: true, message: "необходимо указать марку" }]}>
               <Input />
             </Form.Item>
-            <Form.Item label="Модель" name="model">
+            <Form.Item
+              label="Модель"
+              name="model"
+              rules={[
+                { required: true, message: "необходимо указать модель" },
+              ]}>
               <Input />
             </Form.Item>
-            <Form.Item label="VIN" name="vin">
+            <Form.Item
+              label="VIN"
+              name="vin"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать VIN автомобиля",
+                },
+              ]}>
               <Input />
             </Form.Item>
-            <Form.Item label="Гос номер" name="carNumber">
+            <Form.Item
+              label="Гос номер"
+              name="carNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать гос номер автомобиля",
+                },
+              ]}>
               <Input />
             </Form.Item>
           </Form>
