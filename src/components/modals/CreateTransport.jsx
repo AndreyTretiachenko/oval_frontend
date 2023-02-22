@@ -53,7 +53,7 @@ function CreateTransport({ open }) {
           Для создание транспорта неободимо заполнить все поля
         </Header>
         <Content>
-          <Form labelCol={{ span: 4 }} form={form}>
+          <Form labelCol={{ span: 4 }} form={form} autoComplete="off">
             <Form.Item
               label="Марка"
               name="brand"

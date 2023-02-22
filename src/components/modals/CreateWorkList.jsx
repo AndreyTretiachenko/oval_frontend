@@ -155,7 +155,7 @@ function CreateWorkList({ open }) {
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
         <Content>
-          <Form labelCol={{ span: 5 }} form={form}>
+          <Form labelCol={{ span: 5 }} form={form} autoComplete="off">
             <Form.Item label="Работа" name="work">
               <Select
                 onChange={(value) => {

@@ -67,7 +67,14 @@ function CreateClient({ open }) {
       okText="создать"
       cancelText="отмена"
       onCancel={handleCancel}
-      onOk={handleOk}>
+      onOk={() => {
+        if (formData.client_type === "company")
+          form.validateFields(["nameFl", "inn"]).then(() => handleOk());
+        else
+          form
+            .validateFields(["firstName", "phoneNumber"])
+            .then(() => handleOk());
+      }}>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
           Для создание клиента неободимо заполнить все поля
@@ -75,6 +82,7 @@ function CreateClient({ open }) {
         <Content>
           <Form
             labelCol={{ span: 4 }}
+            autoComplete="off"
             form={form}
             initialValues={{ typeClient: "company" }}>
             <Form.Item label="Тип клиента" name="typeClient">
@@ -93,7 +101,15 @@ function CreateClient({ open }) {
             </Form.Item>
             {formData.client_type === "company" ? (
               <>
-                <Form.Item label="Название" name="nameFl">
+                <Form.Item
+                  label="Название"
+                  name="nameFl"
+                  rules={[
+                    {
+                      required: true,
+                      message: "необходимо заполнить название организации",
+                    },
+                  ]}>
                   <Input
                     value={formData.name}
                     onChange={(e) =>
@@ -101,7 +117,13 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="ИНН" name="inn">
+                <Form.Item
+                  label="ИНН"
+                  name="inn"
+                  rules={[
+                    { required: true, message: "необходимо ввести инн" },
+                    { max: 10, message: "ИНН содержит 10 символов" },
+                  ]}>
                   <Input
                     value={formData.inn}
                     onChange={(e) =>

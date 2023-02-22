@@ -160,7 +160,7 @@ function CreateMaterialList({ open }) {
         maskClosable={false}>
         <Content>
           <Form labelCol={{ span: 5 }} form={form}>
-            <Form.Item label="Материал" name="material">
+            <Form.Item label="Материал" name="material" autoComplete="off">
               <Select
                 onChange={(value) => {
                   setMaterialData((prev) => {
