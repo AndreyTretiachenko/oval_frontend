@@ -42,6 +42,7 @@ function CreateClient({ open }) {
         name: formData.name,
         inn: Number(formData.inn),
       }).finally(() => {
+        form.resetFields();
         dispatch(updateModals({ modal: 3 }));
       });
     } else {
@@ -122,10 +123,15 @@ function CreateClient({ open }) {
                   name="inn"
                   rules={[
                     { required: true, message: "необходимо ввести инн" },
-                    { max: 10, message: "ИНН содержит 10 символов" },
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
                   ]}>
                   <Input
                     value={formData.inn}
+                    showCount
+                    maxLength={10}
                     onChange={(e) =>
                       setFormData({ ...formData, inn: e.target.value })
                     }
@@ -134,7 +140,15 @@ function CreateClient({ open }) {
               </>
             ) : (
               <>
-                <Form.Item label="Имя" name="firstName">
+                <Form.Item
+                  label="Имя"
+                  name="firstName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "необходимо ввести имя клиента",
+                    },
+                  ]}>
                   <Input
                     value={formData.firstName}
                     onChange={(e) =>
@@ -150,8 +164,18 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="Телефон" name="phoneNumber">
+                <Form.Item
+                  label="Телефон"
+                  name="phoneNumber"
+                  rules={[
+                    { required: true, message: "необходимо ввести телефон" },
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
+                  ]}>
                   <Input
+                    addonBefore=" +7 "
                     value={formData.phoneNumber}
                     onChange={(e) =>
                       setFormData({
@@ -161,7 +185,12 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="Email" name="email">
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    { type: "email", message: "допускает ввод только цифр" },
+                  ]}>
                   <Input
                     value={formData.email}
                     onChange={(e) =>
