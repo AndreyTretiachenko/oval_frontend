@@ -207,6 +207,7 @@ function CreareOrder({ open }) {
                 <Space>
                   <Select
                     showSearch
+                    clearIcon
                     optionFilterProp="children"
                     filterOption={(input, option) =>
                       (option?.label ?? "")
@@ -275,6 +276,14 @@ function CreareOrder({ open }) {
                 ]}>
                 <Space>
                   <Select
+                    showSearch
+                    clearIcon
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
                     style={{ width: 400 }}
                     onChange={(value) => {
                       formOrder.setFieldValue("transport", value);
