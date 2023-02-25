@@ -28,7 +28,7 @@ function OrdersItem({ item }) {
         <div>
           Информация о транспорте: {item.transport?.brand}{" "}
           {item.transport?.model} {item.transport?.vin}{" "}
-          {item.transport?.carNumber}
+          {item.transport?.carNumber} {item.transport?.year}
         </div>
         <Divider />
         <div>Смета на работы: #{item.workList[0]?.id}</div>

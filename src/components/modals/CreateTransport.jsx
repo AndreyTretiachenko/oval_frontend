@@ -27,7 +27,7 @@ function CreateTransport({ open }) {
       vin: form.getFieldValue("vin"),
       carNumber: form.getFieldValue("carNumber"),
       brand: form.getFieldValue("brand"),
-      model: form.getFieldValue("model"),
+      model: form.getFieldValue("model").split(",")[0].trim(),
       person_id: formValue.person_id || 0,
       company_id: formValue.company_id || 0,
       year: Number(carYear),
@@ -98,7 +98,7 @@ function CreateTransport({ open }) {
                     .includes(input.toLowerCase())
                 }
                 onChange={(value) => {
-                  setCarYear(value.split(" ").at(-1));
+                  setCarYear(value.split(",").at(-1).trim());
                 }}
                 options={
                   (brandSelect !== "") &
@@ -110,7 +110,7 @@ function CreateTransport({ open }) {
                         .map((model) => {
                           return {
                             label: model.model + ", " + model.years,
-                            value: model.model + " " + model.years,
+                            value: model.model + ", " + model.years,
                           };
                         })
                     : []
