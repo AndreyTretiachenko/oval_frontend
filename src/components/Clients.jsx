@@ -31,7 +31,7 @@ function Clients() {
           typeListClient === "company" ? isLoadingCompany : isLoadingPerson
         }
         pagination={{
-          pageSize: 10,
+          pageSize: 9,
         }}
         columns={
           typeListClient === "company"

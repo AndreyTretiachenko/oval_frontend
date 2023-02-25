@@ -12,7 +12,7 @@ function Orders() {
       <List
         size="small"
         pagination={{
-          pageSize: 6,
+          pageSize: 9,
         }}
         bordered
         loading={isLoading}

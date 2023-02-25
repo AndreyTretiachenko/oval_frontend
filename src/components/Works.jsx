@@ -28,7 +28,7 @@ function Works() {
         loading={isLoadingWorks}
         columns={columns}
         dataSource={works}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 9 }}
       />
     </>
   );

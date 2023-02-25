@@ -34,7 +34,7 @@ function Payments() {
         loading={isLoadingPayments}
         columns={columns}
         dataSource={payments}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 9 }}
       />
     </>
   );
