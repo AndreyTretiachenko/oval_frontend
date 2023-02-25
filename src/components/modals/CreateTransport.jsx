@@ -14,12 +14,10 @@ function CreateTransport({ open }) {
   const [addTransport] = useAddTransportMutation();
   const formValue = useSelector((state) => state.createOrder);
   const [brandSelect, setBrandSelect] = useState();
-  const [carYear, setCarYear] = useState();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 5 }));
     form.resetFields();
-    setCarYear("");
   };
 
   const handleOk = async () => {
@@ -30,11 +28,10 @@ function CreateTransport({ open }) {
       model: form.getFieldValue("model").split(",")[0].trim(),
       person_id: formValue.person_id || 0,
       company_id: formValue.company_id || 0,
-      year: Number(carYear),
+      year: Number(form.getFieldValue("year")),
     })
       .unwrap()
       .finally(() => {
-        setCarYear("");
         form.resetFields();
         dispatch(updateModals({ modal: 5 }));
       });
@@ -77,7 +74,6 @@ function CreateTransport({ open }) {
                   return { label: brand.brand, value: brand.brand };
                 })}
                 onChange={(value) => {
-                  setCarYear("");
                   setBrandSelect(value);
                   form.setFieldValue("model");
                 }}
@@ -97,25 +93,44 @@ function CreateTransport({ open }) {
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
-                onChange={(value) => {
-                  setCarYear(value.split(",").at(-1).trim());
-                }}
                 options={
                   (brandSelect !== "") &
                   (cars.find((item) => item.brand === brandSelect) !==
                     undefined)
                     ? cars
                         .find((item) => item.brand === brandSelect)
-                        .modelList?.sort((a, b) => (a.years < b.years ? 1 : -1))
+                        .modelList?.sort((a, b) => (a.model < b.model ? 1 : -1))
                         .map((model) => {
                           return {
-                            label: model.model + ", " + model.years,
-                            value: model.model + ", " + model.years,
+                            label: model.model,
+                            value: model.model,
                           };
                         })
                     : []
                 }
               />
+            </Form.Item>
+            <Form.Item
+              label="Модификация"
+              name="modification"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать модификацию автомобиля",
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Год выпуска"
+              name="year"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать год выпуска автомобиля",
+                },
+              ]}>
+              <Input />
             </Form.Item>
             <Form.Item
               label="VIN"
@@ -126,7 +141,7 @@ function CreateTransport({ open }) {
                   message: "необходимо указать VIN автомобиля",
                 },
               ]}>
-              <Input />
+              <Input maxLength={17} />
             </Form.Item>
             <Form.Item
               label="Гос номер"
