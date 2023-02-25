@@ -93,7 +93,9 @@ function CreateTransport({ open }) {
                     .includes(input.toLowerCase())
                 }
                 options={
-                  brandSelect !== ""
+                  (brandSelect !== "") &
+                  (cars.find((item) => item.brand === brandSelect) !==
+                    undefined)
                     ? cars
                         .find((item) => item.brand === brandSelect)
                         .modelList?.sort((a, b) => (a.years < b.years ? 1 : -1))
