@@ -14,10 +14,12 @@ function CreateTransport({ open }) {
   const [addTransport] = useAddTransportMutation();
   const formValue = useSelector((state) => state.createOrder);
   const [brandSelect, setBrandSelect] = useState();
+  const [carYear, setCarYear] = useState();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 5 }));
     form.resetFields();
+    setCarYear("");
   };
 
   const handleOk = async () => {
@@ -28,9 +30,11 @@ function CreateTransport({ open }) {
       model: form.getFieldValue("model"),
       person_id: formValue.person_id || 0,
       company_id: formValue.company_id || 0,
+      year: Number(carYear),
     })
       .unwrap()
       .finally(() => {
+        setCarYear("");
         form.resetFields();
         dispatch(updateModals({ modal: 5 }));
       });
@@ -73,6 +77,7 @@ function CreateTransport({ open }) {
                   return { label: brand.brand, value: brand.brand };
                 })}
                 onChange={(value) => {
+                  setCarYear("");
                   setBrandSelect(value);
                   form.setFieldValue("model");
                 }}
@@ -92,6 +97,9 @@ function CreateTransport({ open }) {
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
+                onChange={(value) => {
+                  setCarYear(value.split(" ").at(-1));
+                }}
                 options={
                   (brandSelect !== "") &
                   (cars.find((item) => item.brand === brandSelect) !==
