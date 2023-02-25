@@ -1,8 +1,10 @@
 import React from "react";
-import { Modal, Layout, Form, Input } from "antd";
+import { Modal, Layout, Form, Input, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { useAddTransportMutation } from "../../api";
+import { cars } from "../../dbcars/cars";
+import { useState } from "react";
 
 const { Header, Content } = Layout;
 
@@ -11,6 +13,7 @@ function CreateTransport({ open }) {
   const [form] = Form.useForm();
   const [addTransport] = useAddTransportMutation();
   const formValue = useSelector((state) => state.createOrder);
+  const [brandSelect, setBrandSelect] = useState();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 5 }));
@@ -58,7 +61,22 @@ function CreateTransport({ open }) {
               label="Марка"
               name="brand"
               rules={[{ required: true, message: "необходимо указать марку" }]}>
-              <Input />
+              <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={cars.map((brand) => {
+                  return { label: brand.brand, value: brand.brand };
+                })}
+                onChange={(value) => {
+                  setBrandSelect(value);
+                  form.setFieldValue("model");
+                }}
+              />
             </Form.Item>
             <Form.Item
               label="Модель"
@@ -66,7 +84,21 @@ function CreateTransport({ open }) {
               rules={[
                 { required: true, message: "необходимо указать модель" },
               ]}>
-              <Input />
+              <Select
+                options={
+                  brandSelect !== ""
+                    ? cars
+                        .find((item) => item.brand === brandSelect)
+                        .modelList?.sort((a, b) => (a.years < b.years ? 1 : -1))
+                        .map((model) => {
+                          return {
+                            label: model.model + ", " + model.years,
+                            value: model.model + " " + model.years,
+                          };
+                        })
+                    : []
+                }
+              />
             </Form.Item>
             <Form.Item
               label="VIN"
