@@ -20,7 +20,6 @@ function OrderPrint() {
       <col class="col8" />
       <col class="col9" />
       <col class="col10" />
-      <col class="col11" />
       <tbody>
         <tr class="row0">
           <td class="column0 style1 s">[%template%]</td>
@@ -30,10 +29,11 @@ function OrderPrint() {
           <td class="column8 style162 s style164" colspan="3">
             Исполнитель
           </td>
-          <td class="column11 style2 null"></td>
         </tr>
         <tr class="row1">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style168 s style170" colspan="7">
             Заказчик:
           </td>
@@ -42,45 +42,50 @@ function OrderPrint() {
             <br />
             290132866600
           </td>
-          <td class="column11 style6 null"></td>
         </tr>
         <tr class="row2">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style110 s style112" colspan="7">
             ООО &quot;Маламут Транс&quot;, ИНН 7743154437, КПП 290101001
           </td>
-          <td class="column11 style6 null"></td>
         </tr>
         <tr class="row3">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style113 s style115" colspan="7">
             163000, г. Архангельск, пр. Чумбарова-Лучинского, д. 29, ПОМ/ЭТ
             43-Н/2
           </td>
-          <td class="column11 style6 null"></td>
         </tr>
         <tr class="row4">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style156 s style158" colspan="4">
             Автомобиль(марка, модель)
           </td>
           <td class="column5 style166 s style167" colspan="3">
             VIN номер
           </td>
-          <td class="column11 style6 null"></td>
         </tr>
         <tr class="row5">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style122 s style123" colspan="4">
             МАН TGS 33.480 6X6 BBS-W
           </td>
           <td class="column5 style133 s style123" colspan="3">
             WMA56WZZ0HP084349
           </td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row6">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style165 s style140" colspan="4">
             Гос. Номер
           </td>
@@ -92,15 +97,18 @@ function OrderPrint() {
           </td>
         </tr>
         <tr class="row7">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style122 s style123" colspan="4">
             А053ЕЕ797
           </td>
           <td class="column5 style133 null style123" colspan="3"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row8">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style159 s style161" colspan="4">
             Год выпуска
           </td>
@@ -112,7 +120,9 @@ function OrderPrint() {
           </td>
         </tr>
         <tr class="row9">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style174 s style175" colspan="4">
             2016
           </td>
@@ -122,10 +132,11 @@ function OrderPrint() {
           <td class="column8 style153 s style155" colspan="3">
             САЙТ: АВТОЭЛЕКТРИК29.РФ
           </td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row10">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style10 null"></td>
           <td class="column2 style10 null"></td>
           <td class="column3 style10 null"></td>
@@ -136,10 +147,11 @@ function OrderPrint() {
           <td class="column8 style7 null"></td>
           <td class="column9 style7 null"></td>
           <td class="column10 style7 null"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row11">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style67 s style75" colspan="4" rowspan="3">
             1. ВЫПОЛНЕННЫЕ РАБОТЫ И УСЛУГИ
           </td>
@@ -151,28 +163,31 @@ function OrderPrint() {
             оформления
           </td>
           <td class="column9 style53 null style54" colspan="2"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row12">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column5 style10 null"></td>
           <td class="column7 style63 s style64" colspan="2">
             исполнения
           </td>
           <td class="column9 style53 null style54" colspan="2"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row13">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column5 style10 null"></td>
           <td class="column7 style65 s style66" colspan="2">
             выдачи автомобиля
           </td>
           <td class="column9 style53 null style54" colspan="2"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row14">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style11 null"></td>
           <td class="column2 style11 null"></td>
           <td class="column3 style11 null"></td>
@@ -183,10 +198,11 @@ function OrderPrint() {
           <td class="column8 style11 null"></td>
           <td class="column9 style11 null"></td>
           <td class="column10 style7 null"></td>
-          <td class="column11 style7 null"></td>
         </tr>
         <tr class="row15">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style58 s style60" colspan="4">
             Наименование работ, услуг
           </td>
@@ -196,10 +212,11 @@ function OrderPrint() {
           <td class="column8 style55 s style57" colspan="3">
             Примечания\Пояснения
           </td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row16">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Компьютерная диагностика MAN TGS
           </td>
@@ -207,10 +224,11 @@ function OrderPrint() {
           <td class="column6 style14 n">2,000.00р.</td>
           <td class="column7 style14 f">2,000.00р.</td>
           <td class="column8 style47 null style49" colspan="3"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row17">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Диагностика топливной системы
           </td>
@@ -218,10 +236,11 @@ function OrderPrint() {
           <td class="column6 style14 n">5,000.00р.</td>
           <td class="column7 style14 f">5,000.00р.</td>
           <td class="column8 style47 null style49" colspan="3"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row18">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Ремонт автономного отопителя
           </td>
@@ -231,10 +250,11 @@ function OrderPrint() {
           <td class="column8 style32 null"></td>
           <td class="column9 style33 null"></td>
           <td class="column10 style34 null"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row19">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Демонтаж/монтаж автономного отопителя
           </td>
@@ -244,10 +264,11 @@ function OrderPrint() {
           <td class="column8 style32 null"></td>
           <td class="column9 style33 null"></td>
           <td class="column10 style34 null"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row20">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Ремонт освещения
           </td>
@@ -257,10 +278,11 @@ function OrderPrint() {
           <td class="column8 style32 null"></td>
           <td class="column9 style33 null"></td>
           <td class="column10 style34 null"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row21">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style50 s style52" colspan="4">
             Диагностика/Замена карданного вала
           </td>
@@ -270,58 +292,121 @@ function OrderPrint() {
           <td class="column8 style32 null"></td>
           <td class="column9 style33 null"></td>
           <td class="column10 style34 null"></td>
-          <td class="column11 style13 null"></td>
         </tr>
         <tr class="row22">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column1" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column5 style16 null"></td>
           <td class="column6 style17 s">Итого:</td>
           <td class="column7 style18 f">29,450.00р.</td>
           <td class="column8 style16 null"></td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row23">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column1" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row24">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style126 s style128" colspan="7">
             2. ЗАПАСНЫЕ ЧАСТИ И МАТЕРИАЛЫ, ОПЛАЧИВАЕМЫЕ ЗАКАЗЧИКОМ
           </td>
           <td class="column8 style11 null"></td>
           <td class="column9 style11 null"></td>
-          <td class="column10">&nbsp;</td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row25">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column1" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row26">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style83 s style85" colspan="6">
             Материальные ценности
           </td>
@@ -337,7 +422,6 @@ function OrderPrint() {
           <td class="column10 style130 s style131" rowspan="2">
             Сумма
           </td>
-          <td class="column11 style19 null"></td>
         </tr>
         <tr class="row27">
           <td class="column0">&nbsp;</td>
@@ -347,7 +431,6 @@ function OrderPrint() {
           <td class="column5 style79 s style80" colspan="2">
             Артикул
           </td>
-          <td class="column11 style19 null"></td>
         </tr>
         <tr class="row28">
           <td class="column0">&nbsp;</td>
@@ -416,29 +499,56 @@ function OrderPrint() {
           <td class="column10 style46 null"></td>
         </tr>
         <tr class="row33">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style132 s style132" colspan="9">
             &nbsp;3. ОТМЕТКА О ПРИНЯТЫХ ОТ ЗАКАЗЧИКА ЗАПАСНЫХ ЧАСТЯХ И
             МАТЕРИАЛАХ
           </td>
-          <td class="column10">&nbsp;</td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row34">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
-          <td class="column11 style20 null"></td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column1" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row35">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style92 s style93" colspan="4">
             Наименование
           </td>
@@ -449,7 +559,6 @@ function OrderPrint() {
           <td class="column8 style94 s style95" colspan="3">
             Принял в производство
           </td>
-          <td class="column11 style19 null"></td>
         </tr>
         <tr class="row36">
           <td class="column0 style1 null"></td>
@@ -457,20 +566,37 @@ function OrderPrint() {
           <td class="column5 style15 null"></td>
           <td class="column6 style86 null style87" colspan="2"></td>
           <td class="column8 style107 null style109" colspan="3"></td>
-          <td class="column11 style21 null"></td>
         </tr>
         <tr class="row37">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column1" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column4 style17 s">Итого:</td>
           <td class="column5 style22 f">0.00</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row38">
           <td class="column0">&nbsp;</td>
@@ -484,7 +610,6 @@ function OrderPrint() {
           <td class="column8 style23 null"></td>
           <td class="column9 style23 null"></td>
           <td class="column10 style23 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row39">
           <td class="column0">&nbsp;</td>
@@ -497,7 +622,6 @@ function OrderPrint() {
           <td class="column8 style24 s">руб.</td>
           <td class="column9 style27 null"></td>
           <td class="column10 style35 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row40">
           <td class="column0">&nbsp;</td>
@@ -505,7 +629,6 @@ function OrderPrint() {
             согласен, с Правилами пользования услугами предприятия ознакомлен.
           </td>
           <td class="column8 style97 null style97" colspan="3"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row41">
           <td class="column0">&nbsp;</td>
@@ -519,7 +642,6 @@ function OrderPrint() {
           <td class="column8 style129 s style129" colspan="3">
             (подпись)
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row42">
           <td class="column0">&nbsp;</td>
@@ -529,7 +651,6 @@ function OrderPrint() {
           <td class="column8 style30 null"></td>
           <td class="column9 style30 null"></td>
           <td class="column10 style30 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row43">
           <td class="column0">&nbsp;</td>
@@ -537,7 +658,6 @@ function OrderPrint() {
           <td class="column2 style89 s style89" colspan="9">
             На сборочно-разборочные работы 2(две) недели или 500 км пробега
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row44">
           <td class="column0">&nbsp;</td>
@@ -546,7 +666,6 @@ function OrderPrint() {
             На регулировочные и диагностические работы - 1 (одна) неделя или 100
             (сто) километров пробега
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row45">
           <td class="column0">&nbsp;</td>
@@ -554,7 +673,6 @@ function OrderPrint() {
           <td class="column2 style89 s style89" colspan="9">
             На кузовные и окрасочные работы 6 (шесть) месяцев
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row46">
           <td class="column0">&nbsp;</td>
@@ -563,7 +681,6 @@ function OrderPrint() {
             На запасные части, согласно гарантии завода изготовителя, при
             установке их в сертифицированном сервисе.
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row47">
           <td class="column0">&nbsp;</td>
@@ -577,10 +694,11 @@ function OrderPrint() {
           <td class="column8 style31 null"></td>
           <td class="column9 style31 null"></td>
           <td class="column10 style31 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row48">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style88 s style88" colspan="10" rowspan="3">
             Все претензии, касающиеся состояния, комплектности или подмены
             отдельных составных частей автомототранспортного средства, заказчик
@@ -591,18 +709,21 @@ function OrderPrint() {
             завершения работ. Претензии по внешнему виду и сохранности имущества
             принимаются только при совместном осмотре.
           </td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row49">
-          <td class="column0">&nbsp;</td>
-          <td class="column11 style23 null"></td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row50">
-          <td class="column0">&nbsp;</td>
-          <td class="column11 style23 null"></td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row51">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style23 null"></td>
           <td class="column2 style23 null"></td>
           <td class="column3 style23 null"></td>
@@ -613,42 +734,49 @@ function OrderPrint() {
           <td class="column8 style23 null"></td>
           <td class="column9 style23 null"></td>
           <td class="column10 style23 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row52">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style125 s style125" colspan="7">
             Рекомендации
           </td>
           <td class="column8 style26 null"></td>
           <td class="column9 style26 null"></td>
           <td class="column10 style26 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row53">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style88 s style88" colspan="9">
             С рекомендациями по эксплуатации автомобиля после выполненных работ
             ознакомлен
           </td>
           <td class="column10 style28 null"></td>
-          <td class="column11 style23 null"></td>
         </tr>
         <tr class="row54">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style25 null"></td>
           <td class="column2 style25 null"></td>
           <td class="column3 style25 null"></td>
           <td class="column4 style25 null"></td>
           <td class="column5 style25 null"></td>
           <td class="column6 style25 null"></td>
-          <td class="column7">&nbsp;</td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column8 style25 null"></td>
           <td class="column9 style25 null"></td>
           <td class="column10 style25 null"></td>
         </tr>
         <tr class="row55">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style29 s">
             С объемом и стоимостью выполненных работ согласен, комплектность и
             внешний вид автомобиля проверил,
@@ -658,71 +786,114 @@ function OrderPrint() {
           <td class="column4 style25 null"></td>
           <td class="column5 style25 null"></td>
           <td class="column6 style25 null"></td>
-          <td class="column7">&nbsp;</td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column8 style25 null"></td>
           <td class="column9 style25 null"></td>
           <td class="column10 style25 null"></td>
         </tr>
         <tr class="row56">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style29 s">
             автомобиль из ремонта получил. Претензий не имею.
           </td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row57">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style29 null"></td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column2" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column3" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column4" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column7" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column8" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column9" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
         <tr class="row58">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style96 null style97" colspan="4"></td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column7 style96 null style97" colspan="4"></td>
         </tr>
         <tr class="row59">
-          <td class="column0">&nbsp;</td>
+          <td class="column0" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column1 style124 s style124" colspan="3">
             (подпись и печать исполнителя)
           </td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
+          <td style={{ border: 0, background: "white" }}>&nbsp;</td>
+          <td class="column5" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
+          <td class="column6" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
           <td class="column7 style124 s style124" colspan="3">
             (подпись заказчика)
           </td>
-          <td class="column10">&nbsp;</td>
-        </tr>
-        <tr class="row60">
-          <td class="column0">&nbsp;</td>
-          <td class="column1">&nbsp;</td>
-          <td class="column2">&nbsp;</td>
-          <td class="column3">&nbsp;</td>
-          <td class="column4">&nbsp;</td>
-          <td class="column5">&nbsp;</td>
-          <td class="column6">&nbsp;</td>
-          <td class="column7">&nbsp;</td>
-          <td class="column8">&nbsp;</td>
-          <td class="column9">&nbsp;</td>
-          <td class="column10">&nbsp;</td>
+          <td class="column10" style={{ border: 0, background: "white" }}>
+            &nbsp;
+          </td>
         </tr>
       </tbody>
     </table>
