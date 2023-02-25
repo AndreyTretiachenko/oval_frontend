@@ -29,6 +29,7 @@ function CreateTransport({ open }) {
       person_id: formValue.person_id || 0,
       company_id: formValue.company_id || 0,
       year: Number(form.getFieldValue("year")),
+      modification: form.getFieldValue("modification"),
     })
       .unwrap()
       .finally(() => {
@@ -141,7 +142,7 @@ function CreateTransport({ open }) {
                   message: "необходимо указать VIN автомобиля",
                 },
               ]}>
-              <Input maxLength={17} />
+              <Input maxLength={17} showCount />
             </Form.Item>
             <Form.Item
               label="Гос номер"
