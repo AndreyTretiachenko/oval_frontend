@@ -31,7 +31,7 @@ function Clients() {
           typeListClient === "company" ? isLoadingCompany : isLoadingPerson
         }
         pagination={{
-          pageSize: 9,
+          pageSize: 7,
         }}
         columns={
           typeListClient === "company"
@@ -84,13 +84,18 @@ function Clients() {
         }
         dataSource={
           typeListClient === "company"
-            ? company?.map((item) => {
-                return item;
-              })
-            : person?.map((per) => {
-                return per;
-              })
-        }></Table>
+            ? company
+                ?.map((item) => {
+                  return item;
+                })
+                .reverse()
+            : person
+                ?.map((per) => {
+                  return per;
+                })
+                .reverse()
+        }
+      />
     </div>
   );
 }
