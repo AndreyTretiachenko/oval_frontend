@@ -17,7 +17,6 @@ import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
-import ApiCalendar from "react-google-calendar-api";
 
 const config = {
   clientId:
@@ -54,34 +53,6 @@ function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
   const modals = useSelector((state) => state.modals);
-  const apiCalendar = new ApiCalendar(config);
-
-  console.log(apiCalendar);
-
-  const authCalendar = () => {
-    apiCalendar.handleAuthClick();
-  };
-
-  const singoutCalendar = () => {
-    apiCalendar.handleSignoutClick();
-  };
-
-  const getEventCalendar = async () => {
-    await apiCalendar
-      .listEvents({
-        timeMin: new Date().toISOString(),
-        timeMax: new Date(Date.now() + 3600 * 1000 * 24).toISOString(),
-      })
-      .then(({ result }) => console.log(result.items));
-  };
-
-  const createEventCalendar = async () => {
-    await apiCalendar.createEventFromNow({
-      time: 120,
-      summary: "Первое событие",
-      description: "описание события",
-    });
-  };
 
   return (
     <>
@@ -101,10 +72,7 @@ function App() {
               background: "white",
             }}>
             {header}
-            <Button onClick={authCalendar}>авторизация</Button>
-            <Button onClick={singoutCalendar}>выйти</Button>
-            <Button onClick={createEventCalendar}>создать</Button>
-            <Button onClick={getEventCalendar}>список событий</Button>
+
             <Dropdown
               menu={{
                 items: [
