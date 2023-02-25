@@ -85,6 +85,13 @@ function CreateTransport({ open }) {
                 { required: true, message: "необходимо указать модель" },
               ]}>
               <Select
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
                 options={
                   brandSelect !== ""
                     ? cars
