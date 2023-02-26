@@ -11,6 +11,10 @@ body {
   margin-bottom: 0.78740157480315in;
 } */
 
+.print {
+  display: none;
+}
+
 html {
   font-family: Calibri, Arial, Helvetica, sans-serif;
   font-size: 11pt;

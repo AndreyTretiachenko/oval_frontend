@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Table } from "antd";
 import { Collapse } from "antd";
 import { Divider } from "antd";
 import { useGetCompanyQuery, useGetPersonQuery } from "../api";
+import ReactToPrint from "react-to-print";
+import { OrderPrint } from "./OrderPrint";
 
 const { Panel } = Collapse;
 
 function OrdersItem({ item }) {
+  const printOrder = useRef();
   return (
     <Collapse ghost key={item.id}>
       <Panel
@@ -25,6 +28,11 @@ function OrdersItem({ item }) {
         ${item.client.type === "company" ? ", ИНН: " + item.client.inn : ""}
         `}
         key={item.id}>
+        <ReactToPrint
+          trigger={() => <button>Print this out!</button>}
+          content={() => printOrder.current}
+        />
+        <OrderPrint r={printOrder} data={item} />
         <div>
           Информация о транспорте: {item.transport?.brand}{" "}
           {item.transport?.model} {item.transport?.vin}{" "}

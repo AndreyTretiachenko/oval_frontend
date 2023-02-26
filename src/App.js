@@ -17,7 +17,6 @@ import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
-import OrderPrint from "./components/OrderPrint";
 
 const config = {
   clientId:
@@ -145,7 +144,6 @@ function App() {
               textAlign: "center",
             }}>
             ©2023 Created by Andrey Tretiachenko
-            <OrderPrint />
           </Footer>
         </Layout>
       </Layout>
