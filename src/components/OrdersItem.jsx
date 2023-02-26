@@ -1,11 +1,18 @@
 import React, { useRef } from "react";
-import { Table, Button, Collapse, Divider } from "antd";
-import { useGetCompanyQuery, useGetPersonQuery } from "../api";
+import {
+  Table,
+  Button,
+  Collapse,
+  Divider,
+  Descriptions,
+  Typography,
+} from "antd";
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 
 const { Panel } = Collapse;
+const { Title } = Typography;
 
 function OrdersItem({ item }) {
   const printOrder = useRef();
@@ -29,7 +36,7 @@ function OrdersItem({ item }) {
   return (
     <Collapse ghost key={item.id}>
       <Panel
-        header={`Заказ клиента №${item.id} от ${
+        header={`Заказ-наряд №${item.id} от ${
           item.date_created &&
           new Date(Date.parse(item.date_created)).toLocaleDateString("ru-RU") +
             " " +
@@ -41,31 +48,73 @@ function OrdersItem({ item }) {
         key={item.id}>
         <ReactToPrint
           trigger={() => (
-            <Button icon={<PrinterOutlined />}>заказ-наряд</Button>
+            <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
+              заказ-наряд
+            </Button>
           )}
           content={() => printOrder.current}
         />
         <OrderPrint r={printOrder} data={item} />
-        <div>
-          <span>Информация о заказчике:</span>
-          <br />{" "}
-          {item.client.type === "company"
-            ? item.client.name
-            : item.client.firstName + " " + item.client.lastName}
-          {item.client.type === "company" ? ", юр лицо" : ", физ лицо"}
-          {item.client.type === "company"
-            ? ", ИНН: " + item.client.inn + ""
-            : ""}
-          {item.client.kpp ? ", КПП: " + item.client.kpp : ""}
-        </div>
-        <div>
-          Информация о транспорте:
-          <br /> {item.transport?.brand} {item.transport?.model}{" "}
-          {item.transport?.vin} {item.transport?.carNumber}{" "}
-          {item.transport?.year}
-        </div>
+        <Descriptions title="Информация о заказчике" size="small">
+          <Descriptions.Item
+            label={item.client.type === "company" ? "Название" : "Имя Фамилия"}>
+            {item.client.type === "company"
+              ? item.client.name
+              : item.client.firstName + " " + item.client.lastName}
+          </Descriptions.Item>
+          <Descriptions.Item label="Вид клиента">
+            {item.client.type === "company" ? "юр лицо" : "физ лицо"}
+          </Descriptions.Item>
+
+          {item.client.type === "company" ? (
+            <>
+              <Descriptions.Item label="ИНН">
+                {item.client.inn}
+              </Descriptions.Item>
+              <Descriptions.Item label="КПП">
+                {item.client.kpp}
+              </Descriptions.Item>
+              <Descriptions.Item label="Адрес">
+                {item.client.adress}
+              </Descriptions.Item>
+            </>
+          ) : (
+            <>
+              <Descriptions.Item label="Телефон">
+                {item.client.phoneNumber}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email">
+                {item.client.email}
+              </Descriptions.Item>
+            </>
+          )}
+        </Descriptions>
         <Divider />
-        <div>Смета на работы: #{item.workList[0]?.id}</div>
+        <Descriptions title="Информация о транспорте" size="small">
+          <Descriptions.Item label="Марка">
+            {item.transport?.brand}
+          </Descriptions.Item>
+          <Descriptions.Item label="Модель">
+            {item.transport?.model}
+          </Descriptions.Item>
+          <Descriptions.Item label="Модификация">
+            {item.transport?.modification}
+          </Descriptions.Item>
+          <Descriptions.Item label="Год выпуска">
+            {item.transport?.year}
+          </Descriptions.Item>
+          <Descriptions.Item label="VIN">
+            {item.transport?.vin}
+          </Descriptions.Item>
+          <Descriptions.Item label="Номер двигателя">
+            {item.transport?.engineNumber}
+          </Descriptions.Item>
+          <Descriptions.Item label="Гос номер">
+            {item.transport?.carNumber}
+          </Descriptions.Item>
+        </Descriptions>
+        <Divider />
+        <Title level={5}>Работы</Title>
         <Table
           bordered={true}
           size="small"
@@ -75,7 +124,6 @@ function OrdersItem({ item }) {
           tableLayout="auto"
           scroll={{ y: "calc(100vh - 4em)" }}
           columns={[
-            { title: "id", dataIndex: "id", key: "id" },
             { title: "название", dataIndex: "name", key: "name", width: "30%" },
             { title: "количество", dataIndex: "count", key: "count" },
             { title: "цена", dataIndex: "price", key: "price" },
@@ -89,8 +137,7 @@ function OrdersItem({ item }) {
             sum: work.count * work.work.price,
           }))}
         />
-        <Divider />
-        <div>Смета на материалы: #{item.materialList[0]?.id}</div>
+        <Title level={5}>Материалы</Title>
         <Table
           bordered={true}
           pagination={{
@@ -100,7 +147,6 @@ function OrdersItem({ item }) {
           tableLayout="auto"
           scroll={{ y: "calc(100vh - 4em)" }}
           columns={[
-            { title: "id", dataIndex: "id", key: "id" },
             { title: "название", dataIndex: "name", key: "name", width: "30%" },
             { title: "количество", dataIndex: "count", key: "count" },
             { title: "цена", dataIndex: "price", key: "price" },
