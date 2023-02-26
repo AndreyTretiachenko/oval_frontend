@@ -39,6 +39,8 @@ function Clients() {
                 {
                   title: "Номер",
                   dataIndex: "id",
+                  width: "5%",
+                  align: "center",
                 },
                 {
                   title: "Наименование",
@@ -50,11 +52,19 @@ function Clients() {
                   title: "ИНН",
                   dataIndex: "inn",
                   key: "inn",
+                  width: "15%",
                 },
                 {
                   title: "КПП",
                   dataIndex: "kpp",
                   key: "kpp",
+                  width: "15%",
+                },
+                {
+                  title: "адрес",
+                  dataIndex: "adress",
+                  key: "adress",
+                  width: "20%",
                 },
               ]
             : [
@@ -62,6 +72,7 @@ function Clients() {
                   title: "Номер",
                   dataIndex: "id",
                   key: "id",
+                  width: "5%",
                 },
                 {
                   title: "Имя",
@@ -78,6 +89,7 @@ function Clients() {
                   title: "Номер телефона",
                   dataIndex: "phoneNumber",
                   key: "phoneNumber",
+                  width: "15%",
                 },
                 {
                   title: "Email",

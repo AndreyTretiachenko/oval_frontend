@@ -30,6 +30,7 @@ function CreateTransport({ open }) {
       company_id: formValue.company_id || 0,
       year: Number(form.getFieldValue("year")),
       modification: form.getFieldValue("modification"),
+      engineNumber: form.getFieldValue("engineNumber"),
     })
       .unwrap()
       .finally(() => {
@@ -154,6 +155,9 @@ function CreateTransport({ open }) {
                 },
               ]}>
               <Input />
+            </Form.Item>
+            <Form.Item label="Номер двигателя" name="engineNumber">
+              <Input showCount />
             </Form.Item>
           </Form>
         </Content>

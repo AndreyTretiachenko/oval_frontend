@@ -20,6 +20,7 @@ function CreateClient({ open }) {
     name: "",
     inn: 0,
     kpp: 0,
+    adress: "",
   });
 
   const handleCancel = () => {
@@ -35,6 +36,7 @@ function CreateClient({ open }) {
       name: "",
       inn: 0,
       kpp: 0,
+      adress: "",
     }));
   };
 
@@ -44,6 +46,7 @@ function CreateClient({ open }) {
         name: formData.name,
         inn: Number(formData.inn),
         kpp: formData.kpp,
+        adress: formData.adress,
       }).finally(() => {
         form.resetFields();
         dispatch(updateModals({ modal: 3 }));
@@ -156,6 +159,19 @@ function CreateClient({ open }) {
                     maxLength={9}
                     onChange={(e) =>
                       setFormData({ ...formData, kpp: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="адрес"
+                  name="adress"
+                  rules={[
+                    { required: true, message: "необходимо ввести адресс" },
+                  ]}>
+                  <Input
+                    value={formData.kpp}
+                    onChange={(e) =>
+                      setFormData({ ...formData, adress: e.target.value })
                     }
                   />
                 </Form.Item>

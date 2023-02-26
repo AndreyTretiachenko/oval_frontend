@@ -9,6 +9,23 @@ const { Panel } = Collapse;
 
 function OrdersItem({ item }) {
   const printOrder = useRef();
+
+  const sumOrderMaterial = () => {
+    let sum = 0;
+    item.materialList[0].materials.map((material) => {
+      sum = sum + material.count * material.material.price;
+    });
+    return sum;
+  };
+
+  const sumOrderWork = () => {
+    let sum = 0;
+    item.workList[0]?.work?.map((work) => {
+      sum = sum + work.count * work.work.price;
+    });
+    return sum;
+  };
+
   return (
     <Collapse ghost key={item.id}>
       <Panel
@@ -18,16 +35,9 @@ function OrdersItem({ item }) {
             " " +
             new Date(Date.parse(item.date_created)).toLocaleTimeString("ru-RU")
         },
-        заказчик: ${
-          item.client.type === "company"
-            ? item.client.name
-            : item.client.firstName + " " + item.client.lastName
-        }
-        ${item.client.type === "company" ? ", юр лицо" : ", физ лицо"}
-        ${
-          item.client.type === "company" ? ", ИНН: " + item.client.inn + "" : ""
-        }
-         ${item.client.kpp ? ", КПП: " + item.client.kpp : ""}`}
+        сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
+          sumOrderMaterial() + sumOrderWork()
+        }`}
         key={item.id}>
         <ReactToPrint
           trigger={() => (
@@ -37,9 +47,22 @@ function OrdersItem({ item }) {
         />
         <OrderPrint r={printOrder} data={item} />
         <div>
-          Информация о транспорте: {item.transport?.brand}{" "}
-          {item.transport?.model} {item.transport?.vin}{" "}
-          {item.transport?.carNumber} {item.transport?.year}
+          <span>Информация о заказчике:</span>
+          <br />{" "}
+          {item.client.type === "company"
+            ? item.client.name
+            : item.client.firstName + " " + item.client.lastName}
+          {item.client.type === "company" ? ", юр лицо" : ", физ лицо"}
+          {item.client.type === "company"
+            ? ", ИНН: " + item.client.inn + ""
+            : ""}
+          {item.client.kpp ? ", КПП: " + item.client.kpp : ""}
+        </div>
+        <div>
+          Информация о транспорте:
+          <br /> {item.transport?.brand} {item.transport?.model}{" "}
+          {item.transport?.vin} {item.transport?.carNumber}{" "}
+          {item.transport?.year}
         </div>
         <Divider />
         <div>Смета на работы: #{item.workList[0]?.id}</div>

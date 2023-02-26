@@ -1,3 +1,4 @@
+import Item from "antd/es/list/Item";
 import React from "react";
 import "../css/orderPrint.css";
 
@@ -27,9 +28,9 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column0 style1 s">[%template%]</td>
               <td class="column1 style141 s style143" colspan="7">
                 Заказ-наряд: 465/1 от{" "}
-                {new Date(Date.parse(data.date_created)).toLocaleTimeString(
+                {new Date(Date.parse(data.date_created)).toLocaleDateString(
                   "ru-RU"
-                )}
+                )}{" "}
                 (Акт выполненных работ)
               </td>
               <td class="column8 style162 s style164" colspan="3">
@@ -55,7 +56,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style110 s style112" colspan="7">
-                ООО &quot;Маламут Транс&quot;, ИНН 7743154437, КПП 290101001
+                {data.client.name} ИНН {data.client.inn}, КПП {data.client.kpp}
               </td>
             </tr>
             <tr class="row3">
@@ -63,8 +64,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style113 s style115" colspan="7">
-                163000, г. Архангельск, пр. Чумбарова-Лучинского, д. 29, ПОМ/ЭТ
-                43-Н/2
+                {data.client.adress}
               </td>
             </tr>
             <tr class="row4">
@@ -111,7 +111,9 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column1 style122 s style123" colspan="4">
                 {data.transport.carNumber}
               </td>
-              <td class="column5 style133 null style123" colspan="3"></td>
+              <td class="column5 style133 null style123" colspan="3">
+                {data.transport.engineNumber}
+              </td>
             </tr>
             <tr class="row8">
               <td class="column0" style={{ border: 0, background: "white" }}>

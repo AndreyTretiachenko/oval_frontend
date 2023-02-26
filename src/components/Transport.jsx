@@ -29,6 +29,14 @@ const columns = [
   },
 ];
 
+const reverseArray = (array) => {
+  let a = [];
+  for (let i = 0; i < array.length; i++) {
+    a[i] = array[array.length - 1 - i];
+  }
+  return a;
+};
+
 function Transport() {
   const { data: transports = [], isLoading: isLoadingTransport } =
     useGetTransportQuery();
@@ -37,7 +45,7 @@ function Transport() {
       <Table
         bordered
         columns={columns}
-        dataSource={transports}
+        dataSource={reverseArray(transports)}
         pagination={{ pageSize: 9 }}
       />
     </>
