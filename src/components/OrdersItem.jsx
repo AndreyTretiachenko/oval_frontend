@@ -6,6 +6,7 @@ import {
   Divider,
   Descriptions,
   Typography,
+  Tabs,
 } from "antd";
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined } from "@ant-design/icons";
@@ -49,7 +50,7 @@ function OrdersItem({ item }) {
         <ReactToPrint
           trigger={() => (
             <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
-              заказ-наряд
+              распечатать
             </Button>
           )}
           content={() => printOrder.current}
@@ -114,51 +115,78 @@ function OrdersItem({ item }) {
           </Descriptions.Item>
         </Descriptions>
         <Divider />
-        <Title level={5}>Работы</Title>
-        <Table
-          bordered={true}
-          size="small"
-          pagination={{
-            pageSize: 5,
-          }}
-          tableLayout="auto"
-          scroll={{ y: "calc(100vh - 4em)" }}
-          columns={[
-            { title: "название", dataIndex: "name", key: "name", width: "30%" },
-            { title: "количество", dataIndex: "count", key: "count" },
-            { title: "цена", dataIndex: "price", key: "price" },
-            { title: "стоимость", dataIndex: "sum", key: "sum" },
+        <Tabs
+          defaultActiveKey="1"
+          items={[
+            {
+              key: 1,
+              label: "Работы",
+              children: (
+                <Table
+                  bordered={true}
+                  size="small"
+                  pagination={{
+                    pageSize: 5,
+                  }}
+                  tableLayout="auto"
+                  scroll={{ y: "calc(100vh - 4em)" }}
+                  columns={[
+                    {
+                      title: "название",
+                      dataIndex: "name",
+                      key: "name",
+                      width: "30%",
+                    },
+                    { title: "количество", dataIndex: "count", key: "count" },
+                    { title: "цена", dataIndex: "price", key: "price" },
+                    { title: "стоимость", dataIndex: "sum", key: "sum" },
+                  ]}
+                  dataSource={item.workList[0]?.work?.map((work) => ({
+                    name: work.work.name,
+                    count: work.count,
+                    price: work.work.price,
+                    id: work.id,
+                    sum: work.count * work.work.price,
+                  }))}
+                />
+              ),
+            },
+            {
+              key: 2,
+              label: "Материалы",
+              children: (
+                <Table
+                  bordered={true}
+                  pagination={{
+                    pageSize: 5,
+                  }}
+                  size="small"
+                  tableLayout="auto"
+                  scroll={{ y: "calc(100vh - 4em)" }}
+                  columns={[
+                    {
+                      title: "название",
+                      dataIndex: "name",
+                      key: "name",
+                      width: "30%",
+                    },
+                    { title: "количество", dataIndex: "count", key: "count" },
+                    { title: "цена", dataIndex: "price", key: "price" },
+                    { title: "стоимость", dataIndex: "sum", key: "sum" },
+                  ]}
+                  dataSource={item?.materialList[0]?.materials?.map(
+                    (material) => ({
+                      name: material.material.name,
+                      count: material.count,
+                      price: material.material.price,
+                      id: material.id,
+                      sum: material.count * material.material.price,
+                    })
+                  )}
+                />
+              ),
+            },
           ]}
-          dataSource={item.workList[0]?.work?.map((work) => ({
-            name: work.work.name,
-            count: work.count,
-            price: work.work.price,
-            id: work.id,
-            sum: work.count * work.work.price,
-          }))}
-        />
-        <Title level={5}>Материалы</Title>
-        <Table
-          bordered={true}
-          pagination={{
-            pageSize: 5,
-          }}
-          size="small"
-          tableLayout="auto"
-          scroll={{ y: "calc(100vh - 4em)" }}
-          columns={[
-            { title: "название", dataIndex: "name", key: "name", width: "30%" },
-            { title: "количество", dataIndex: "count", key: "count" },
-            { title: "цена", dataIndex: "price", key: "price" },
-            { title: "стоимость", dataIndex: "sum", key: "sum" },
-          ]}
-          dataSource={item?.materialList[0]?.materials?.map((material) => ({
-            name: material.material.name,
-            count: material.count,
-            price: material.material.price,
-            id: material.id,
-            sum: material.count * material.material.price,
-          }))}
         />
       </Panel>
     </Collapse>
