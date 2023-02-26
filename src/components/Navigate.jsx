@@ -7,7 +7,7 @@ const { Sider } = Layout;
 function Navigate() {
   const dispatch = useDispatch();
   const menuItems = [
-    { key: "1", label: "Заказы" },
+    { key: "1", label: "Заказ-няряды" },
     { key: "3", label: "Оплаты" },
 
     {

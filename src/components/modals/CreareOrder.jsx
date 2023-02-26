@@ -162,7 +162,7 @@ function CreareOrder({ open }) {
       {contextHolder}
       <Modal
         width={"70%"}
-        title="Создание заказа"
+        title="Создание заказ-наряда"
         closable={false}
         maskClosable={false}
         open={open}
