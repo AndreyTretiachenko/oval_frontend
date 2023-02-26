@@ -19,6 +19,7 @@ function CreateClient({ open }) {
     email: "",
     name: "",
     inn: 0,
+    kpp: 0,
   });
 
   const handleCancel = () => {
@@ -33,6 +34,7 @@ function CreateClient({ open }) {
       email: "",
       name: "",
       inn: 0,
+      kpp: 0,
     }));
   };
 
@@ -41,6 +43,7 @@ function CreateClient({ open }) {
       await addCompany({
         name: formData.name,
         inn: Number(formData.inn),
+        kpp: formData.kpp,
       }).finally(() => {
         form.resetFields();
         dispatch(updateModals({ modal: 3 }));
@@ -131,9 +134,28 @@ function CreateClient({ open }) {
                   <Input
                     value={formData.inn}
                     showCount
-                    maxLength={10}
+                    maxLength={12}
                     onChange={(e) =>
                       setFormData({ ...formData, inn: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="КПП"
+                  name="kpp"
+                  rules={[
+                    { required: true, message: "необходимо ввести КПП" },
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
+                  ]}>
+                  <Input
+                    value={formData.kpp}
+                    showCount
+                    maxLength={9}
+                    onChange={(e) =>
+                      setFormData({ ...formData, kpp: e.target.value })
                     }
                   />
                 </Form.Item>

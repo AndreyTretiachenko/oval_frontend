@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Table, Button, Collapse, Divider } from "antd";
 import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 import ReactToPrint from "react-to-print";
+import { PrinterOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 
 const { Panel } = Collapse;
@@ -23,11 +24,15 @@ function OrdersItem({ item }) {
             : item.client.firstName + " " + item.client.lastName
         }
         ${item.client.type === "company" ? ", юр лицо" : ", физ лицо"}
-        ${item.client.type === "company" ? ", ИНН: " + item.client.inn : ""}
-        `}
+        ${
+          item.client.type === "company" ? ", ИНН: " + item.client.inn + "" : ""
+        }
+         ${item.client.kpp ? ", КПП: " + item.client.kpp : ""}`}
         key={item.id}>
         <ReactToPrint
-          trigger={() => <Button>Print this out!</Button>}
+          trigger={() => (
+            <Button icon={<PrinterOutlined />}>заказ-наряд</Button>
+          )}
           content={() => printOrder.current}
         />
         <OrderPrint r={printOrder} data={item} />

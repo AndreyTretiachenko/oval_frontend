@@ -51,6 +51,11 @@ function Clients() {
                   dataIndex: "inn",
                   key: "inn",
                 },
+                {
+                  title: "КПП",
+                  dataIndex: "kpp",
+                  key: "kpp",
+                },
               ]
             : [
                 {

@@ -83,10 +83,11 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style122 s style123" colspan="4">
-                МАН TGS 33.480 6X6 BBS-W
+                {data.transport.brand} {data.transport.model}{" "}
+                {data.transport.modification}
               </td>
               <td class="column5 style133 s style123" colspan="3">
-                WMA56WZZ0HP084349
+                {data.transport.vin}
               </td>
             </tr>
             <tr class="row6">
@@ -108,7 +109,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style122 s style123" colspan="4">
-                А053ЕЕ797
+                {data.transport.carNumber}
               </td>
               <td class="column5 style133 null style123" colspan="3"></td>
             </tr>
@@ -131,7 +132,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style174 s style175" colspan="4">
-                2016
+                {data.transport.year}
               </td>
               <td class="column5 style134 s style135" colspan="3">
                 89210745398
