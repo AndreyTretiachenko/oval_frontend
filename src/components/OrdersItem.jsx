@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-import { Table } from "antd";
-import { Collapse } from "antd";
-import { Divider } from "antd";
+import { Table, Button, Collapse, Divider } from "antd";
 import { useGetCompanyQuery, useGetPersonQuery } from "../api";
 import ReactToPrint from "react-to-print";
 import { OrderPrint } from "./OrderPrint";
@@ -29,7 +27,7 @@ function OrdersItem({ item }) {
         `}
         key={item.id}>
         <ReactToPrint
-          trigger={() => <button>Print this out!</button>}
+          trigger={() => <Button>Print this out!</Button>}
           content={() => printOrder.current}
         />
         <OrderPrint r={printOrder} data={item} />
