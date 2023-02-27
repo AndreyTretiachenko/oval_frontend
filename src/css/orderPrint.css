@@ -1011,7 +1011,7 @@ th.style36 {
   background-color: white;
 }
 td.style37 {
-  vertical-align: middle;
+  vertical-align: bottom;
   text-align: center;
   border-bottom: 1px solid #000000 !important;
   border-top: 1px solid #000000 !important;
@@ -4874,10 +4874,10 @@ table.sheet0 tr.row27 {
   height: 15pt;
 }
 table.sheet0 tr.row28 {
-  height: 23.4pt;
+  height: 13.8pt;
 }
 table.sheet0 tr.row30 {
-  height: 25.2pt;
+  height: 13.8pt;
 }
 table.sheet0 tr.row31 {
   height: 13.8pt;

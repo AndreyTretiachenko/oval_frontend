@@ -223,86 +223,23 @@ export const OrderPrint = ({ r, data }) => {
                 Примечания\Пояснения
               </td>
             </tr>
-            <tr class="row16">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Компьютерная диагностика MAN TGS
-              </td>
-              <td class="column5 style36 n">1.0</td>
-              <td class="column6 style14 n">2,000.00р.</td>
-              <td class="column7 style14 f">2,000.00р.</td>
-              <td class="column8 style47 null style49" colspan="3"></td>
-            </tr>
-            <tr class="row17">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Диагностика топливной системы
-              </td>
-              <td class="column5 style36 n">1.0</td>
-              <td class="column6 style14 n">5,000.00р.</td>
-              <td class="column7 style14 f">5,000.00р.</td>
-              <td class="column8 style47 null style49" colspan="3"></td>
-            </tr>
-            <tr class="row18">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Ремонт автономного отопителя
-              </td>
-              <td class="column5 style36 n">1.0</td>
-              <td class="column6 style14 n">4,000.00р.</td>
-              <td class="column7 style14 f">4,000.00р.</td>
-              <td class="column8 style32 null"></td>
-              <td class="column9 style33 null"></td>
-              <td class="column10 style34 null"></td>
-            </tr>
-            <tr class="row19">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Демонтаж/монтаж автономного отопителя
-              </td>
-              <td class="column5 style36 n">1.0</td>
-              <td class="column6 style14 n">4,000.00р.</td>
-              <td class="column7 style14 f">4,000.00р.</td>
-              <td class="column8 style32 null"></td>
-              <td class="column9 style33 null"></td>
-              <td class="column10 style34 null"></td>
-            </tr>
-            <tr class="row20">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Ремонт освещения
-              </td>
-              <td class="column5 style36 n">3.0</td>
-              <td class="column6 style14 n">2,150.00р.</td>
-              <td class="column7 style14 f">6,450.00р.</td>
-              <td class="column8 style32 null"></td>
-              <td class="column9 style33 null"></td>
-              <td class="column10 style34 null"></td>
-            </tr>
-            <tr class="row21">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style50 s style52" colspan="4">
-                Диагностика/Замена карданного вала
-              </td>
-              <td class="column5 style36 n">1.0</td>
-              <td class="column6 style14 n">8,000.00р.</td>
-              <td class="column7 style14 f">8,000.00р.</td>
-              <td class="column8 style32 null"></td>
-              <td class="column9 style33 null"></td>
-              <td class="column10 style34 null"></td>
-            </tr>
+            {data.workList[0].work.map((work) => (
+              <tr class="row16">
+                <td class="column0" style={{ border: 0, background: "white" }}>
+                  &nbsp;
+                </td>
+                <td class="column1 style50 s style52" colspan="4">
+                  {work.work.name}
+                </td>
+                <td class="column5 style36 n">{work.count}</td>
+                <td class="column6 style14 n">{work.work.price}р.</td>
+                <td class="column7 style14 f">
+                  {work.count * work.work.price}р.
+                </td>
+                <td class="column8 style47 null style49" colspan="3"></td>
+              </tr>
+            ))}
+
             <tr class="row22">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -321,7 +258,13 @@ export const OrderPrint = ({ r, data }) => {
               </td>
               <td class="column5 style16 null"></td>
               <td class="column6 style17 s">Итого:</td>
-              <td class="column7 style18 f">29,450.00р.</td>
+              <td class="column7 style18 f">
+                {data.workList[0].work.reduce(
+                  (acc, cur) => acc + cur.count * cur.work.price,
+                  0
+                )}
+                р.
+              </td>
               <td class="column8 style16 null"></td>
               <td class="column9" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -442,46 +385,25 @@ export const OrderPrint = ({ r, data }) => {
                 Артикул
               </td>
             </tr>
-            <tr class="row28">
-              <td class="column0">&nbsp;</td>
-              <td class="column1 style171 s style173" colspan="4">
-                Нагнетатель для Эберспехер D4 24V - 4kW (маленькая крыльчатка)
-              </td>
-              <td class="column5 style178 s style179" colspan="2">
-                252114992000
-              </td>
-              <td class="column7 style37 s">шт</td>
-              <td class="column8 style38 n">1</td>
-              <td class="column9 style39 n">&nbsp;&nbsp;5,500.00р.</td>
-              <td class="column10 style40 f">&nbsp;&nbsp;5,500.00р.</td>
-            </tr>
-            <tr class="row29">
-              <td class="column0">&nbsp;</td>
-              <td class="column1 style171 s style173" colspan="4">
-                Горелка отопителя Airtronic D4 D4S
-              </td>
-              <td class="column5 style178 s style179" colspan="2">
-                25.2113.10.0100
-              </td>
-              <td class="column7 style37 s">шт</td>
-              <td class="column8 style38 n">1</td>
-              <td class="column9 style39 n">&nbsp;&nbsp;4,000.00р.</td>
-              <td class="column10 style40 f">&nbsp;&nbsp;4,000.00р.</td>
-            </tr>
-            <tr class="row30">
-              <td class="column0">&nbsp;</td>
-              <td class="column1 style171 s style173" colspan="4">
-                гофра разрезн. за 0,5м! для автономного отопителя d=90mm
-                \EBERSPACHER
-              </td>
-              <td class="column5 style178 s style179" colspan="2">
-                25.2123.16.0201
-              </td>
-              <td class="column7 style37 s">шт</td>
-              <td class="column8 style38 n">1</td>
-              <td class="column9 style41 n">1,600.00р.</td>
-              <td class="column10 style40 f">&nbsp;&nbsp;1,600.00р.</td>
-            </tr>
+            {data.materialList[0].materials.map((material) => (
+              <tr class="row28">
+                <td class="column0">&nbsp;</td>
+                <td class="column1 style171 s style173" colspan="4">
+                  {material.material.name}
+                </td>
+                <td class="column5 style178 s style179" colspan="2">
+                  добавить артикул
+                </td>
+                <td class="column7 style37 s">сделать</td>
+                <td class="column8 style38 n">{material.count}</td>
+                <td class="column9 style39 n">
+                  &nbsp;&nbsp;{material.material.price}р.
+                </td>
+                <td class="column10 style40 f">
+                  &nbsp;&nbsp;{material.material.price * material.count}р.
+                </td>
+              </tr>
+            ))}
             <tr class="row31">
               <td class="column0">&nbsp;</td>
               <td class="column1 style42 null"></td>
@@ -493,9 +415,15 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column7 style43 null"></td>
               <td class="column8 style44 null"></td>
               <td class="column9 style43 s">Итого:</td>
-              <td class="column10 style45 f">11,100.00р.</td>
+              <td class="column10 style45 f">
+                {data.materialList[0].materials.reduce(
+                  (acc, cur) => acc + cur.count * cur.material.price,
+                  0
+                )}
+                р.
+              </td>
             </tr>
-            <tr class="row32">
+            {/* <tr class="row32">
               <td class="column0">&nbsp;</td>
               <td class="column1 style42 null"></td>
               <td class="column2 style42 null"></td>
@@ -507,7 +435,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style44 null"></td>
               <td class="column9 style43 null"></td>
               <td class="column10 style46 null"></td>
-            </tr>
+            </tr> */}
             <tr class="row33">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -520,7 +448,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
             </tr>
-            <tr class="row34">
+            {/* <tr class="row34">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
@@ -554,7 +482,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column10" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
-            </tr>
+            </tr> */}
             <tr class="row35">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -591,7 +519,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column4 style17 s">Итого:</td>
-              <td class="column5 style22 f">0.00</td>
+              <td class="column5 style22 f">0.00p.</td>
               <td class="column6" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
@@ -608,7 +536,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
             </tr>
-            <tr class="row38">
+            {/* <tr class="row38">
               <td class="column0">&nbsp;</td>
               <td class="column1 style23 null"></td>
               <td class="column2 style23 null"></td>
@@ -620,16 +548,23 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style23 null"></td>
               <td class="column9 style23 null"></td>
               <td class="column10 style23 null"></td>
-            </tr>
+            </tr> */}
             <tr class="row39">
               <td class="column0">&nbsp;</td>
               <td class="column1 style100 s style100" colspan="5">
                 С объемом работ и стоимостью заказа
               </td>
               <td class="column6 style101 f style102" colspan="2">
-                40,550.00
+                {data.workList[0].work.reduce(
+                  (acc, cur) => acc + cur.count * cur.work.price,
+                  0
+                ) +
+                  data.materialList[0].materials.reduce(
+                    (acc, cur) => acc + cur.count * cur.material.price,
+                    0
+                  )}
               </td>
-              <td class="column8 style24 s">руб.</td>
+              <td class="column8 style24 s">&nbsp;руб.</td>
               <td class="column9 style27 null"></td>
               <td class="column10 style35 null"></td>
             </tr>
@@ -693,7 +628,7 @@ export const OrderPrint = ({ r, data }) => {
                 установке их в сертифицированном сервисе.
               </td>
             </tr>
-            <tr class="row47">
+            {/* <tr class="row47">
               <td class="column0">&nbsp;</td>
               <td class="column1 style31 null"></td>
               <td class="column2 style31 null"></td>
@@ -705,7 +640,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style31 null"></td>
               <td class="column9 style31 null"></td>
               <td class="column10 style31 null"></td>
-            </tr>
+            </tr> */}
             <tr class="row48">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -732,7 +667,7 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
             </tr>
-            <tr class="row51">
+            {/* <tr class="row51">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
@@ -746,7 +681,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style23 null"></td>
               <td class="column9 style23 null"></td>
               <td class="column10 style23 null"></td>
-            </tr>
+            </tr> */}
             <tr class="row52">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
@@ -768,7 +703,7 @@ export const OrderPrint = ({ r, data }) => {
               </td>
               <td class="column10 style28 null"></td>
             </tr>
-            <tr class="row54">
+            {/* <tr class="row54">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
@@ -784,14 +719,15 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style25 null"></td>
               <td class="column9 style25 null"></td>
               <td class="column10 style25 null"></td>
-            </tr>
+            </tr> */}
             <tr class="row55">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
               </td>
-              <td class="column1 style29 s">
+              <td class="column1 style29 s" colSpan={10}>
                 С объемом и стоимостью выполненных работ согласен, комплектность
-                и внешний вид автомобиля проверил,
+                и внешний вид автомобиля проверил, автомобиль из ремонта
+                получил. Претензий не имею.
               </td>
               <td class="column2 style25 null"></td>
               <td class="column3 style25 null"></td>
@@ -805,41 +741,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column9 style25 null"></td>
               <td class="column10 style25 null"></td>
             </tr>
-            <tr class="row56">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style29 s">
-                автомобиль из ремонта получил. Претензий не имею.
-              </td>
-              <td class="column2" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column3" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column4" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column5" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column6" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column7" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column8" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column9" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column10" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-            </tr>
+
             <tr class="row57">
               <td class="column0" style={{ border: 0, background: "white" }}>
                 &nbsp;
