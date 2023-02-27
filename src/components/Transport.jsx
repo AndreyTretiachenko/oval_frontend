@@ -4,10 +4,6 @@ import { Table } from "antd";
 
 const columns = [
   {
-    title: "Номер",
-    dataIndex: "id",
-  },
-  {
     title: "Бренд",
     dataIndex: "brand",
     key: "brand",
@@ -18,6 +14,16 @@ const columns = [
     key: "model",
   },
   {
+    title: "Модификация",
+    dataIndex: "modification",
+    key: "modification",
+  },
+  {
+    title: "Год выпуска",
+    dataIndex: "year",
+    key: "year",
+  },
+  {
     title: "VIN",
     dataIndex: "vin",
     key: "vin",
@@ -26,6 +32,11 @@ const columns = [
     title: "Номер автомобиля",
     dataIndex: "carNumber",
     key: "carNumber",
+  },
+  {
+    title: "Номер двигателя",
+    dataIndex: "engineNumber",
+    key: "engineNumber",
   },
 ];
 
