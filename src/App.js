@@ -65,7 +65,7 @@ function App() {
           open={modals?.find((item) => item.modal === 4).open}
         />
         <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
-        <UpdateWorksList open={modals?.find((item) => item.modal === 6).open} />
+
         <Navigate />
         <Layout className="site-layout">
           <Header
