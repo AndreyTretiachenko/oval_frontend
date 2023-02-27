@@ -17,6 +17,7 @@ import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
+import UpdateWorksList from "./components/modals/UpdateWorksList";
 
 const config = {
   clientId:
@@ -64,6 +65,7 @@ function App() {
           open={modals?.find((item) => item.modal === 4).open}
         />
         <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
+        <UpdateWorksList open={modals?.find((item) => item.modal === 6).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header

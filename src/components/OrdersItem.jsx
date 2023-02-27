@@ -11,13 +11,15 @@ import {
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
+import { useDispatch } from "react-redux";
+import { updateModals } from "../features/modalsSlice";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
 
 function OrdersItem({ item }) {
   const printOrder = useRef();
-
+  const dispacth = useDispatch();
   const sumOrderMaterial = () => {
     let sum = 0;
     item.materialList[0].materials.map((material) => {
@@ -122,33 +124,40 @@ function OrdersItem({ item }) {
               key: 1,
               label: "Работы",
               children: (
-                <Table
-                  bordered={true}
-                  size="small"
-                  pagination={{
-                    pageSize: 5,
-                  }}
-                  tableLayout="auto"
-                  scroll={{ y: "calc(100vh - 4em)" }}
-                  columns={[
-                    {
-                      title: "название",
-                      dataIndex: "name",
-                      key: "name",
-                      width: "30%",
-                    },
-                    { title: "количество", dataIndex: "count", key: "count" },
-                    { title: "цена", dataIndex: "price", key: "price" },
-                    { title: "стоимость", dataIndex: "sum", key: "sum" },
-                  ]}
-                  dataSource={item.workList[0]?.work?.map((work) => ({
-                    name: work.work.name,
-                    count: work.count,
-                    price: work.work.price,
-                    id: work.id,
-                    sum: work.count * work.work.price,
-                  }))}
-                />
+                <>
+                  <Button
+                    style={{ float: "right", marginBottom: 10 }}
+                    onClick={() => dispacth(updateModals({ modal: 6 }))}>
+                    Редактировать список работ
+                  </Button>
+                  <Table
+                    bordered={true}
+                    size="small"
+                    pagination={{
+                      pageSize: 5,
+                    }}
+                    tableLayout="auto"
+                    scroll={{ y: "calc(100vh - 4em)" }}
+                    columns={[
+                      {
+                        title: "название",
+                        dataIndex: "name",
+                        key: "name",
+                        width: "30%",
+                      },
+                      { title: "количество", dataIndex: "count", key: "count" },
+                      { title: "цена", dataIndex: "price", key: "price" },
+                      { title: "стоимость", dataIndex: "sum", key: "sum" },
+                    ]}
+                    dataSource={item.workList[0]?.work?.map((work) => ({
+                      name: work.work.name,
+                      count: work.count,
+                      price: work.work.price,
+                      id: work.id,
+                      sum: work.count * work.work.price,
+                    }))}
+                  />
+                </>
               ),
             },
             {
