@@ -172,7 +172,11 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column7 style61 s style62" colspan="2">
                 оформления
               </td>
-              <td class="column9 style53 null style54" colspan="2"></td>
+              <td class="column9 style53 null style54" colspan="2">
+                {new Date(Date.parse(data.date_created)).toLocaleDateString(
+                  "ru-RU"
+                )}
+              </td>
             </tr>
             <tr class="row12">
               <td class="column0" style={{ border: 0, background: "white" }}>
@@ -182,7 +186,13 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column7 style63 s style64" colspan="2">
                 исполнения
               </td>
-              <td class="column9 style53 null style54" colspan="2"></td>
+              <td class="column9 style53 null style54" colspan="2">
+                {data.date_finish
+                  ? new Date(Date.parse(data.date_finish)).toLocaleDateString(
+                      "ru-RU"
+                    )
+                  : ""}
+              </td>
             </tr>
             <tr class="row13">
               <td class="column0" style={{ border: 0, background: "white" }}>
@@ -192,7 +202,13 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column7 style65 s style66" colspan="2">
                 выдачи автомобиля
               </td>
-              <td class="column9 style53 null style54" colspan="2"></td>
+              <td class="column9 style53 null style54" colspan="2">
+                {data.date_carOut
+                  ? new Date(Date.parse(data.date_carOut)).toLocaleDateString(
+                      "ru-RU"
+                    )
+                  : ""}
+              </td>
             </tr>
             <tr class="row14">
               <td class="column0" style={{ border: 0, background: "white" }}>
@@ -423,132 +439,7 @@ export const OrderPrint = ({ r, data }) => {
                 р.
               </td>
             </tr>
-            {/* <tr class="row32">
-              <td class="column0">&nbsp;</td>
-              <td class="column1 style42 null"></td>
-              <td class="column2 style42 null"></td>
-              <td class="column3 style42 null"></td>
-              <td class="column4 style42 null"></td>
-              <td class="column5 style42 null"></td>
-              <td class="column6 style42 null"></td>
-              <td class="column7 style43 null"></td>
-              <td class="column8 style44 null"></td>
-              <td class="column9 style43 null"></td>
-              <td class="column10 style46 null"></td>
-            </tr> */}
-            <tr class="row33">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style132 s style132" colspan="9">
-                &nbsp;3. ОТМЕТКА О ПРИНЯТЫХ ОТ ЗАКАЗЧИКА ЗАПАСНЫХ ЧАСТЯХ И
-                МАТЕРИАЛАХ
-              </td>
-              <td class="column10" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-            </tr>
-            {/* <tr class="row34">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column2" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column3" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column4" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column5" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column6" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column7" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column8" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column9" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column10" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-            </tr> */}
-            <tr class="row35">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1 style92 s style93" colspan="4">
-                Наименование
-              </td>
-              <td class="column5 style12 s">Кол-во</td>
-              <td class="column6 style98 s style99" colspan="2">
-                Комментарий
-              </td>
-              <td class="column8 style94 s style95" colspan="3">
-                Принял в производство
-              </td>
-            </tr>
-            <tr class="row36">
-              <td class="column0 style1 null"></td>
-              <td class="column1 style104 null style106" colspan="4"></td>
-              <td class="column5 style15 null"></td>
-              <td class="column6 style86 null style87" colspan="2"></td>
-              <td class="column8 style107 null style109" colspan="3"></td>
-            </tr>
-            <tr class="row37">
-              <td class="column0" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column1" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column2" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column3" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column4 style17 s">Итого:</td>
-              <td class="column5 style22 f">0.00p.</td>
-              <td class="column6" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column7" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column8" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column9" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-              <td class="column10" style={{ border: 0, background: "white" }}>
-                &nbsp;
-              </td>
-            </tr>
-            {/* <tr class="row38">
-              <td class="column0">&nbsp;</td>
-              <td class="column1 style23 null"></td>
-              <td class="column2 style23 null"></td>
-              <td class="column3 style23 null"></td>
-              <td class="column4 style23 null"></td>
-              <td class="column5 style23 null"></td>
-              <td class="column6 style23 null"></td>
-              <td class="column7 style23 null"></td>
-              <td class="column8 style23 null"></td>
-              <td class="column9 style23 null"></td>
-              <td class="column10 style23 null"></td>
-            </tr> */}
+
             <tr class="row39">
               <td class="column0">&nbsp;</td>
               <td class="column1 style100 s style100" colspan="5">
