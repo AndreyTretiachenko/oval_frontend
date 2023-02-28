@@ -9,14 +9,14 @@ import {
   Tabs,
 } from "antd";
 import ReactToPrint from "react-to-print";
-import { PrinterOutlined } from "@ant-design/icons";
+import { PrinterOutlined, EditOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
 import UpdateWorksList from "./modals/UpdateWorksList";
 
 const { Panel } = Collapse;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 function OrdersItem({ item }) {
   const printOrder = useRef();
@@ -135,14 +135,18 @@ function OrdersItem({ item }) {
             items={[
               {
                 key: 1,
-                label: "Работы",
+                label: (
+                  <>
+                    <Text style={{ marginRight: 10 }}>Работа</Text>
+                    <Button
+                      icon={<EditOutlined />}
+                      type="text"
+                      onClick={() => dispacth(updateModals({ modal: 6 }))}
+                    />
+                  </>
+                ),
                 children: (
                   <>
-                    <Button
-                      style={{ float: "right", marginBottom: 10 }}
-                      onClick={() => dispacth(updateModals({ modal: 6 }))}>
-                      Редактировать список работ
-                    </Button>
                     <Table
                       bordered={true}
                       size="small"
@@ -185,7 +189,16 @@ function OrdersItem({ item }) {
               },
               {
                 key: 2,
-                label: "Материалы",
+                label: (
+                  <>
+                    <Text style={{ marginRight: 10 }}>Материалы</Text>
+                    <Button
+                      icon={<EditOutlined />}
+                      type="text"
+                      onClick={() => dispacth(updateModals({ modal: 7 }))}
+                    />
+                  </>
+                ),
                 children: (
                   <Table
                     bordered={true}

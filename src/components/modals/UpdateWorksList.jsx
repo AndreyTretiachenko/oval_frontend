@@ -123,8 +123,12 @@ function UpdateWorksList({ open, data }) {
             unit_id: Number(form.getFieldValue("unit")),
           });
           setIsOpenAddWork(false);
+          form.resetFields();
         }}
-        onCancel={() => setIsOpenAddWork(false)}
+        onCancel={() => {
+          setIsOpenAddWork(false);
+          form.resetFields();
+        }}
         maskClosable={false}>
         <Content>
           <Form labelCol={{ span: 6 }} form={form}>
@@ -136,6 +140,13 @@ function UpdateWorksList({ open, data }) {
                     label: item.name,
                   };
                 })}
+                onChange={(value) => {
+                  work.map((item) => {
+                    if (item.id === value)
+                      form.setFieldValue("price", item.price);
+                  });
+                  form.setFieldValue("count", 1);
+                }}
               />
             </Form.Item>
             <Form.Item label="Ед измерения" name="unit">
