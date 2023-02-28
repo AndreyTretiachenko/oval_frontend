@@ -17,17 +17,6 @@ import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
-import UpdateWorksList from "./components/modals/UpdateWorksList";
-
-const config = {
-  clientId:
-    "173888463984-opsvm8mrcm4mgp9fa8s2g4k579o4vm5l.apps.googleusercontent.com",
-  apiKey: "AIzaSyBArQhA1RZQ_Q1wsjt_lLoV7UJ-FzRZYss",
-  scope: "https://www.googleapis.com/auth/calendar",
-  discoveryDocs: [
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-  ],
-};
 
 const { Header, Content, Footer } = Layout;
 
@@ -53,6 +42,7 @@ const renderSwitch = (keyAction) => {
 function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
+  const selectOrder = useSelector((state) => state.selectOrder);
   const modals = useSelector((state) => state.modals);
 
   return (

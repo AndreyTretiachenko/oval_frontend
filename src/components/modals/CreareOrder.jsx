@@ -74,6 +74,7 @@ function CreareOrder({ open }) {
                     count: work.count,
                     id_worklist: res.workList,
                     id_work: work.id,
+                    unit_id: work.unit,
                   }).unwrap()
                 );
             })
@@ -106,6 +107,7 @@ function CreareOrder({ open }) {
                     count: material.count,
                     material_id: material.id,
                     materiallist_id: res.materialList,
+                    unit_id: material.unit,
                   }).unwrap();
                 });
             });
