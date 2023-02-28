@@ -153,17 +153,22 @@ function OrdersItem({ item }) {
                       scroll={{ y: "calc(100vh - 4em)" }}
                       columns={[
                         {
-                          title: "название",
+                          title: "Название",
                           dataIndex: "name",
                           key: "name",
                           width: "30%",
                         },
                         {
-                          title: "количество",
+                          title: "Ед измерения",
+                          dataIndex: "unit",
+                          key: "unit",
+                        },
+                        {
+                          title: "Количество",
                           dataIndex: "count",
                           key: "count",
                         },
-                        { title: "цена", dataIndex: "price", key: "price" },
+                        { title: "Цена", dataIndex: "price", key: "price" },
                         { title: "стоимость", dataIndex: "sum", key: "sum" },
                       ]}
                       dataSource={item.workList[0]?.work?.map((work) => ({
@@ -171,6 +176,7 @@ function OrdersItem({ item }) {
                         count: work.count,
                         price: work.work.price,
                         id: work.id,
+                        unit: work.unit.name,
                         sum: work.count * work.work.price,
                       }))}
                     />
@@ -196,6 +202,7 @@ function OrdersItem({ item }) {
                         key: "name",
                         width: "30%",
                       },
+                      { title: "Ед измерения", dataIndex: "unit", key: "unit" },
                       { title: "количество", dataIndex: "count", key: "count" },
                       { title: "цена", dataIndex: "price", key: "price" },
                       { title: "стоимость", dataIndex: "sum", key: "sum" },
@@ -206,6 +213,7 @@ function OrdersItem({ item }) {
                         count: material.count,
                         price: material.material.price,
                         id: material.id,
+                        unit: material.unit.name,
                         sum: material.count * material.material.price,
                       })
                     )}

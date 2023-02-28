@@ -245,12 +245,12 @@ export const OrderPrint = ({ r, data }) => {
                   &nbsp;
                 </td>
                 <td class="column1 style50 s style52" colspan="4">
-                  {work.work.name}
+                  &nbsp;{work.work.name}
                 </td>
-                <td class="column5 style36 n">{work.count}</td>
-                <td class="column6 style14 n">{work.work.price}р.</td>
+                <td class="column5 style36 n">{work.count} &nbsp;</td>
+                <td class="column6 style14 n">{work.work.price}р.&nbsp;</td>
                 <td class="column7 style14 f">
-                  {work.count * work.work.price}р.
+                  {work.count * work.work.price}р.&nbsp;
                 </td>
                 <td class="column8 style47 null style49" colspan="3"></td>
               </tr>
@@ -405,12 +405,12 @@ export const OrderPrint = ({ r, data }) => {
               <tr class="row28">
                 <td class="column0">&nbsp;</td>
                 <td class="column1 style171 s style173" colspan="4">
-                  {material.material.name}
+                  &nbsp;{material.material.name}
                 </td>
                 <td class="column5 style178 s style179" colspan="2">
                   добавить артикул
                 </td>
-                <td class="column7 style37 s">сделать</td>
+                <td class="column7 style37 s">{material.unit.name}</td>
                 <td class="column8 style38 n">{material.count}</td>
                 <td class="column9 style39 n">
                   &nbsp;&nbsp;{material.material.price}р.

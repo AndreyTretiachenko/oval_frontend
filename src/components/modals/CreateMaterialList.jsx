@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
-import { useGetMaterialQuery } from "../../api";
+import { useGetMaterialQuery, useGetUnitQuery } from "../../api";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   setMateriallist,
@@ -31,6 +31,11 @@ function CreateMaterialList({ open }) {
     },
     {
       title: "Количество",
+      dataIndex: "count",
+      key: "count",
+    },
+    {
+      title: "Ед измерения",
       dataIndex: "count",
       key: "count",
     },
@@ -76,6 +81,7 @@ function CreateMaterialList({ open }) {
   });
   const materialListData = useSelector((state) => state.materiallist.data);
   const { data: material = [] } = useGetMaterialQuery();
+  const { data: unit = [] } = useGetUnitQuery();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 4 }));
@@ -159,7 +165,7 @@ function CreateMaterialList({ open }) {
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Content>
-          <Form labelCol={{ span: 5 }} form={form}>
+          <Form labelCol={{ span: 6 }} form={form}>
             <Form.Item label="Материал" name="material" autoComplete="off">
               <Select
                 onChange={(value) => {
@@ -180,6 +186,22 @@ function CreateMaterialList({ open }) {
                 })}
               />
             </Form.Item>
+            <Form.Item label="Ед измерения" name="unit">
+              <Select
+                onChange={(value) =>
+                  setMaterialData({
+                    ...materialData,
+                    unit: value,
+                  })
+                }
+                options={unit.map((item) => {
+                  return {
+                    label: item.name,
+                    value: item.id,
+                  };
+                })}
+              />
+            </Form.Item>
             <Form.Item label="Количество" name="count">
               <InputNumber
                 min={1}
@@ -194,7 +216,8 @@ function CreateMaterialList({ open }) {
               />
             </Form.Item>
             <Form.Item label="Цена" name="price">
-              <Input
+              <InputNumber
+                step={0.01}
                 onChange={(e) =>
                   setMaterialData({ ...materialData, price: e.target.value })
                 }

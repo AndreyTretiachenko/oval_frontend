@@ -167,6 +167,11 @@ export const ovalApi = createApi({
       }),
       invalidatesTags: [{ type: "worklist", id: "LIST" }],
     }),
+    getUnit: builder.query({
+      query: () => ({
+        url: "unit",
+      }),
+    }),
   }),
 });
 
@@ -188,4 +193,5 @@ export const {
   useAddMateriallistMutation,
   useAddMaterialsMutation,
   useAddTransportMutation,
+  useGetUnitQuery,
 } = ovalApi;
