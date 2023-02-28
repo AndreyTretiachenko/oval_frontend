@@ -14,7 +14,7 @@ import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
 import { PlusOutlined } from "@ant-design/icons";
 import { setDefaulWorkList, setWorklist } from "../../features/workListSlice";
-import { useGetWorkQuery } from "../../api";
+import { useGetUnitQuery, useGetWorkQuery } from "../../api";
 import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
@@ -26,10 +26,16 @@ function CreateWorkList({ open }) {
       key: "name",
       render: (text) => <a>{text}</a>,
     },
+
     {
       title: "Количество",
       dataIndex: "count",
       key: "count",
+    },
+    {
+      title: "Ед измерения",
+      dataIndex: "unit",
+      key: "unit",
     },
     {
       title: "Цена",
@@ -73,6 +79,7 @@ function CreateWorkList({ open }) {
   });
   const workListData = useSelector((state) => state.worklist.data);
   const { data: work = [] } = useGetWorkQuery();
+  const { data: unit = [] } = useGetUnitQuery();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 2 }));
@@ -172,6 +179,22 @@ function CreateWorkList({ open }) {
                   return {
                     value: item.id,
                     label: item.name,
+                  };
+                })}
+              />
+            </Form.Item>
+            <Form.Item label="Ед измерения" name="unit">
+              <Select
+                onChange={(value) =>
+                  setWorkData({
+                    ...workData,
+                    unit: value,
+                  })
+                }
+                options={unit.map((item) => {
+                  return {
+                    label: item.name,
+                    value: item.id,
                   };
                 })}
               />
