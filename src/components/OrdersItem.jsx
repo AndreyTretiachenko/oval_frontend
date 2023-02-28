@@ -14,6 +14,7 @@ import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
 import UpdateWorksList from "./modals/UpdateWorksList";
+import UpdateMaterialList from "./modals/UpdateMaterialList";
 
 const { Panel } = Collapse;
 const { Title, Text } = Typography;
@@ -58,6 +59,10 @@ function OrdersItem({ item }) {
           key={item.id}>
           <UpdateWorksList
             open={modals?.find((item) => item.modal === 6).open}
+            data={item}
+          />
+          <UpdateMaterialList
+            open={modals?.find((item) => item.modal === 7).open}
             data={item}
           />
           <ReactToPrint

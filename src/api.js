@@ -70,6 +70,17 @@ export const ovalApi = createApi({
         { type: "order", id: "LIST" },
       ],
     }),
+    deleteMaterials: builder.mutation({
+      query: (body) => ({
+        url: "materials",
+        method: "DELETE",
+        body,
+      }),
+      invalidatesTags: [
+        { type: "works", id: "LIST" },
+        { type: "order", id: "LIST" },
+      ],
+    }),
     getMateriallist: builder.query({
       query: () => ({
         url: "materiallist",
@@ -206,4 +217,5 @@ export const {
   useAddTransportMutation,
   useGetUnitQuery,
   useDeleteWorksMutation,
+  useDeleteMaterialsMutation,
 } = ovalApi;
