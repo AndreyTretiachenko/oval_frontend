@@ -54,6 +54,7 @@ function Transport() {
   return (
     <>
       <Table
+        size="small"
         bordered
         columns={columns}
         dataSource={reverseArray(transports)}

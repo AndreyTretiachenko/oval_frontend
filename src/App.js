@@ -17,6 +17,7 @@ import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
+import CreateWork from "./components/modals/CreateWork";
 
 const { Header, Content, Footer } = Layout;
 
@@ -55,7 +56,7 @@ function App() {
           open={modals?.find((item) => item.modal === 4).open}
         />
         <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
-
+        <CreateWork open={modals?.find((item) => item.modal === 6).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header
@@ -101,7 +102,22 @@ function App() {
                     ),
                   },
                   { key: 3, label: <a href="/#">оплату</a> },
-                  { key: 7, label: <a href="/#">работу</a> },
+                  {
+                    key: 7,
+                    label: (
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                      <a
+                        onClick={() =>
+                          dispatch(
+                            updateModals({
+                              modal: 6,
+                            })
+                          )
+                        }>
+                        работу
+                      </a>
+                    ),
+                  },
                   { key: 8, label: <a href="/#">материал</a> },
                 ],
               }}

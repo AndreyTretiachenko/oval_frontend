@@ -6,7 +6,15 @@ export const ovalApi = createApi({
     baseUrl: "http://188.225.73.44:5001/api/v1/",
     headers: { Authorization: "basic dXNlcjp1c2Vy" },
   }),
-  tagTypes: ["order", "worklist", "works", "company", "person", "transport"],
+  tagTypes: [
+    "order",
+    "worklist",
+    "works",
+    "company",
+    "person",
+    "transport",
+    "work",
+  ],
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => "order",
@@ -45,9 +53,22 @@ export const ovalApi = createApi({
       invalidatesTags: [{ type: "company", id: "LIST" }],
     }),
     getWork: builder.query({
-      query: () => ({
+      query: () => "work",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "work", id })),
+              { type: "work", id: "LIST" },
+            ]
+          : [{ type: "work", id: "LIST" }],
+    }),
+    addWork: builder.mutation({
+      query: (body) => ({
         url: "work",
+        method: "POST",
+        body,
       }),
+      invalidatesTags: [{ type: "work", id: "LIST" }],
     }),
     getMaterial: builder.query({
       query: () => ({
@@ -218,4 +239,5 @@ export const {
   useGetUnitQuery,
   useDeleteWorksMutation,
   useDeleteMaterialsMutation,
+  useAddWorkMutation,
 } = ovalApi;

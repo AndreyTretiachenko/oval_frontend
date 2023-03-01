@@ -25,6 +25,7 @@ function Works() {
     <>
       <Table
         bordered
+        size="small"
         loading={isLoadingWorks}
         columns={columns}
         dataSource={works}

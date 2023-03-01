@@ -26,6 +26,7 @@ function Clients() {
       />
       <Divider />
       <Table
+        size="small"
         bordered
         loading={
           typeListClient === "company" ? isLoadingCompany : isLoadingPerson
