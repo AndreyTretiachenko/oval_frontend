@@ -12,16 +12,19 @@ import {
   Select,
   Layout,
   Modal,
+  message,
 } from "antd";
 import ReactToPrint from "react-to-print";
-import { PrinterOutlined, EditOutlined } from "@ant-design/icons";
+import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
 import {
+  useAddMaterialsMutation,
   useAddWorksMutation,
+  useDeleteMaterialsMutation,
+  useDeleteWorksMutation,
   useGetMaterialQuery,
-  useGetOrdersQuery,
   useGetUnitQuery,
   useGetWorkQuery,
 } from "../api";
@@ -32,14 +35,21 @@ const { Content } = Layout;
 
 function OrdersItem({ item }) {
   const [addWork] = useAddWorksMutation();
-  const [form] = Form.useForm();
+  const [deleteWork] = useDeleteWorksMutation();
+  const [deleteMaterial] = useDeleteMaterialsMutation();
+  const [addMaterial] = useAddMaterialsMutation();
+  const [formWork] = Form.useForm();
+  const [formMaterial] = Form.useForm();
   const { data: work = [] } = useGetWorkQuery();
   const { data: unit = [] } = useGetUnitQuery();
+  const { data: material = [] } = useGetMaterialQuery();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenAddWork, setIsOpenAddWork] = useState();
+  const [isOpenAddMaterial, setIsOpenAddMaterial] = useState();
   const printOrder = useRef();
   const dispacth = useDispatch();
-  const modals = useSelector((state) => state.modals);
+  const [messageApi, contextHolder] = message.useMessage();
+
   const sumOrderMaterial = () => {
     let sum = 0;
     item.materialList[0].materials.map((material) => {
@@ -58,6 +68,7 @@ function OrdersItem({ item }) {
 
   return (
     <>
+      {contextHolder}
       <div>
         <Collapse ghost key={item.id}>
           <Panel
@@ -154,9 +165,9 @@ function OrdersItem({ item }) {
                     <>
                       <Text style={{ marginRight: 10 }}>Работа</Text>
                       <Button
-                        icon={<EditOutlined />}
-                        type="text"
-                        onClick={() => dispacth(updateModals({ modal: 6 }))}
+                        icon={<PlusCircleOutlined />}
+                        type="link"
+                        onClick={() => setIsOpenAddWork(true)}
                       />
                     </>
                   ),
@@ -179,17 +190,42 @@ function OrdersItem({ item }) {
                             width: "30%",
                           },
                           {
-                            title: "Ед измерения",
+                            title: "ед измерения",
                             dataIndex: "unit",
                             key: "unit",
+                            width: "13%",
                           },
                           {
                             title: "Количество",
                             dataIndex: "count",
                             key: "count",
+                            width: "10%",
                           },
                           { title: "Цена", dataIndex: "price", key: "price" },
                           { title: "стоимость", dataIndex: "sum", key: "sum" },
+                          {
+                            title: "действия",
+                            dataIndex: "actions",
+                            key: "actions",
+                            width: "10%",
+                            render: (id) => (
+                              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                              <a
+                                onClick={async () => {
+                                  await deleteWork({
+                                    id: id,
+                                  }).finally(() => {
+                                    messageApi.open({
+                                      type: "success",
+                                      content: `элемент удален`,
+                                      duration: 1.5,
+                                    });
+                                  });
+                                }}>
+                                удалить
+                              </a>
+                            ),
+                          },
                         ]}
                         dataSource={item.workList[0]?.work?.map((work) => ({
                           name: work.work.name,
@@ -198,48 +234,75 @@ function OrdersItem({ item }) {
                           id: work.id,
                           unit: work.unit.name,
                           sum: work.count * work.work.price,
+                          actions: work.id,
                         }))}
                       />
-                      <Button onClick={() => setIsOpenAddWork(true)}>
-                        добавить работу
-                      </Button>
                       <Modal
                         open={isOpenAddWork}
                         title="Добавить работу в список"
                         closable={false}
                         centered
-                        onOk={async () => {
-                          setIsLoading(true);
-                          await addWork({
-                            count: form.getFieldValue("count"),
-                            id_worklist: item.workList[0].id,
-                            id_work: form.getFieldValue("work"),
-                            unit_id: form.getFieldValue("unit"),
-                          })
-                            .unwrap()
-                            .then(() => setIsOpenAddWork(false))
-                            .finally(() => {
-                              form.resetFields();
-                              setIsLoading(false);
+                        okText="Добавить"
+                        cancelText="Отменить"
+                        onOk={() => {
+                          formWork
+                            .validateFields(["work", "count", "price", "unit"])
+                            .then(async () => {
+                              await addWork({
+                                count: formWork.getFieldValue("count"),
+                                id_worklist: item.workList[0].id,
+                                id_work: formWork.getFieldValue("work"),
+                                unit_id: formWork.getFieldValue("unit"),
+                              })
+                                .unwrap()
+                                .then((res) => {
+                                  if (res.status === "successful") {
+                                    setIsOpenAddWork(false);
+                                    messageApi.open({
+                                      type: "success",
+                                      content: `работа добавлена`,
+                                      duration: 1.5,
+                                    });
+                                  } else {
+                                    messageApi.open({
+                                      type: "error",
+                                      content: `ошибка добавления работы`,
+                                      duration: 1.5,
+                                    });
+                                  }
+                                })
+                                .finally(() => {
+                                  formWork.resetFields();
+                                  setIsLoading(false);
+                                });
                             });
                         }}
                         onCancel={() => {
                           setIsOpenAddWork(false);
-                          form.resetFields();
+                          formWork.resetFields();
                         }}
                         maskClosable={false}>
                         <Content>
-                          <Form labelCol={{ span: 6 }} form={form}>
+                          <Form labelCol={{ span: 6 }} form={formWork}>
                             <Form.Item
                               label="Работа"
                               name="work"
-                              autoComplete="off">
+                              autoComplete="off"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо выбрать работу",
+                                },
+                              ]}>
                               <Select
                                 onChange={(value) => {
-                                  form.setFieldValue("count", 1);
+                                  formWork.setFieldValue("count", 1);
                                   work.map((item) => {
                                     if (item.id === value)
-                                      form.setFieldValue("price", item.price);
+                                      formWork.setFieldValue(
+                                        "price",
+                                        item.price
+                                      );
                                   });
                                 }}
                                 options={work.map((item) => {
@@ -250,7 +313,15 @@ function OrdersItem({ item }) {
                                 })}
                               />
                             </Form.Item>
-                            <Form.Item label="Ед измерения" name="unit">
+                            <Form.Item
+                              label="Ед измерения"
+                              name="unit"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо выбрать работу",
+                                },
+                              ]}>
                               <Select
                                 options={unit.map((item) => {
                                   return {
@@ -260,14 +331,30 @@ function OrdersItem({ item }) {
                                 })}
                               />
                             </Form.Item>
-                            <Form.Item label="Количество" name="count">
+                            <Form.Item
+                              label="Количество"
+                              name="count"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо указать количество",
+                                },
+                              ]}>
                               <InputNumber
                                 min={1}
                                 max={1000}
                                 defaultValue={1}
                               />
                             </Form.Item>
-                            <Form.Item label="Цена" name="price">
+                            <Form.Item
+                              label="Цена"
+                              name="price"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо указать цену",
+                                },
+                              ]}>
                               <InputNumber step={0.01} />
                             </Form.Item>
                           </Form>
@@ -282,52 +369,210 @@ function OrdersItem({ item }) {
                     <>
                       <Text style={{ marginRight: 10 }}>Материалы</Text>
                       <Button
-                        icon={<EditOutlined />}
-                        type="text"
-                        onClick={() => dispacth(updateModals({ modal: 7 }))}
+                        icon={<PlusCircleOutlined />}
+                        type="link"
+                        onClick={() => {
+                          setIsOpenAddMaterial(true);
+                        }}
                       />
                     </>
                   ),
                   children: (
-                    <Table
-                      bordered={true}
-                      pagination={{
-                        pageSize: 5,
-                      }}
-                      size="small"
-                      tableLayout="auto"
-                      scroll={{ y: "calc(100vh - 4em)" }}
-                      columns={[
-                        {
-                          title: "название",
-                          dataIndex: "name",
-                          key: "name",
-                          width: "30%",
-                        },
-                        {
-                          title: "Ед измерения",
-                          dataIndex: "unit",
-                          key: "unit",
-                        },
-                        {
-                          title: "количество",
-                          dataIndex: "count",
-                          key: "count",
-                        },
-                        { title: "цена", dataIndex: "price", key: "price" },
-                        { title: "стоимость", dataIndex: "sum", key: "sum" },
-                      ]}
-                      dataSource={item?.materialList[0]?.materials?.map(
-                        (material) => ({
-                          name: material.material.name,
-                          count: material.count,
-                          price: material.material.price,
-                          id: material.id,
-                          unit: material.unit.name,
-                          sum: material.count * material.material.price,
-                        })
-                      )}
-                    />
+                    <>
+                      <Table
+                        bordered={true}
+                        pagination={{
+                          pageSize: 5,
+                        }}
+                        size="small"
+                        tableLayout="auto"
+                        scroll={{ y: "calc(100vh - 4em)" }}
+                        columns={[
+                          {
+                            title: "название",
+                            dataIndex: "name",
+                            key: "name",
+                            width: "30%",
+                          },
+                          {
+                            title: "eд измерения",
+                            dataIndex: "unit",
+                            key: "unit",
+                            width: "13%",
+                          },
+                          {
+                            title: "количество",
+                            dataIndex: "count",
+                            key: "count",
+                            width: "10%",
+                          },
+                          { title: "цена", dataIndex: "price", key: "price" },
+                          { title: "стоимость", dataIndex: "sum", key: "sum" },
+                          {
+                            title: "действия",
+                            dataIndex: "actions",
+                            key: "actions",
+                            width: "10%",
+                            render: (id) => (
+                              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                              <a
+                                onClick={async () => {
+                                  await deleteMaterial({
+                                    id: id,
+                                  }).finally(() => {
+                                    messageApi.open({
+                                      type: "success",
+                                      content: `элемент удален`,
+                                      duration: 1.5,
+                                    });
+                                  });
+                                }}>
+                                удалить
+                              </a>
+                            ),
+                          },
+                        ]}
+                        dataSource={item?.materialList[0]?.materials?.map(
+                          (material) => ({
+                            name: material.material.name,
+                            count: material.count,
+                            price: material.material.price,
+                            id: material.id,
+                            unit: material.unit.name,
+                            sum: material.count * material.material.price,
+                            actions: material.id,
+                          })
+                        )}
+                      />
+                      <Modal
+                        open={isOpenAddMaterial}
+                        title="Добавить материал в список"
+                        closable={false}
+                        centered
+                        okText="Добавить"
+                        cancelText="Отменить"
+                        onOk={() => {
+                          formMaterial
+                            .validateFields([
+                              "material",
+                              "count",
+                              "unit",
+                              "price",
+                            ])
+                            .then(async (values) => {
+                              await addMaterial({
+                                count: formMaterial.getFieldValue("count"),
+                                materiallist_id: item.materialList[0].id,
+                                material_id:
+                                  formMaterial.getFieldValue("material"),
+                                unit_id: formMaterial.getFieldValue("unit"),
+                              })
+                                .unwrap()
+                                .then((res) => {
+                                  if (res.status === "successful")
+                                    messageApi.open({
+                                      type: "success",
+                                      content: `материал добавлен`,
+                                      duration: 1.5,
+                                    });
+                                  else
+                                    messageApi.open({
+                                      type: "error",
+                                      content: `ошибка добавления материала`,
+                                      duration: 1.5,
+                                    });
+                                })
+                                .then(() => setIsOpenAddMaterial(false))
+                                .finally(() => {
+                                  formMaterial.resetFields();
+                                });
+                            });
+                        }}
+                        onCancel={() => {
+                          setIsOpenAddMaterial(false);
+                          formMaterial.resetFields();
+                        }}
+                        maskClosable={false}>
+                        <Content>
+                          <Form labelCol={{ span: 6 }} form={formMaterial}>
+                            <Form.Item
+                              label="Материал"
+                              name="material"
+                              autoComplete="off"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо выбрать материал",
+                                },
+                              ]}>
+                              <Select
+                                onChange={(value) => {
+                                  formMaterial.setFieldValue("count", 1);
+                                  material.map((item) => {
+                                    if (item.id === value)
+                                      formMaterial.setFieldValue(
+                                        "price",
+                                        item.price
+                                      );
+                                  });
+                                }}
+                                options={material.map((item) => {
+                                  return {
+                                    value: item.id,
+                                    label: item.name,
+                                  };
+                                })}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              label="Ед измерения"
+                              name="unit"
+                              rules={[
+                                {
+                                  required: true,
+                                  message:
+                                    "необходимо выбрать единицы измерения",
+                                },
+                              ]}>
+                              <Select
+                                options={unit.map((item) => {
+                                  return {
+                                    label: item.name,
+                                    value: item.id,
+                                  };
+                                })}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              label="Количество"
+                              name="count"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо указать количество",
+                                },
+                              ]}>
+                              <InputNumber
+                                min={1}
+                                max={1000}
+                                defaultValue={1}
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              label="Цена"
+                              name="price"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "необходимо укащать цену",
+                                },
+                              ]}>
+                              <InputNumber step={0.01} />
+                            </Form.Item>
+                          </Form>
+                        </Content>
+                      </Modal>
+                    </>
                   ),
                 },
               ]}
