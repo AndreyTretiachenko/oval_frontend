@@ -21,6 +21,16 @@ import CreateWork from "./components/modals/CreateWork";
 
 const { Header, Content, Footer } = Layout;
 
+const gapi = window.gapi;
+
+const CLIENT_ID =
+  "173888463984-opsvm8mrcm4mgp9fa8s2g4k579o4vm5l.apps.googleusercontent.com";
+const API_KEY = "AIzaSyBArQhA1RZQ_Q1wsjt_lLoV7UJ-FzRZYss";
+const DISCOVERY_DOCS = [
+  "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+];
+const SCOPES = "https://www.googleapis.com/auth/calendar";
+
 const renderSwitch = (keyAction) => {
   switch (keyAction) {
     default:
@@ -65,7 +75,30 @@ function App() {
               background: "white",
             }}>
             {header}
+            <Button
+              onClick={() => {
+                gapi.load("client:auth2", () => {
+                  console.log("loaded client");
 
+                  gapi.client.init({
+                    apiKey: API_KEY,
+                    clientId: CLIENT_ID,
+                    discoveryDocs: DISCOVERY_DOCS,
+                    scope: SCOPES,
+                  });
+                  gapi.client.load("calendar", "v3", () => console.log("bam!"));
+
+                  gapi.auth2.getAuthInstance().signIn();
+                });
+                console.log(
+                  gapi.client.calendar.events.insert({
+                    calendarId: "primary",
+                    resource: "event",
+                  })
+                );
+              }}>
+              Login
+            </Button>
             <Dropdown
               menu={{
                 items: [
