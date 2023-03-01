@@ -25,6 +25,7 @@ function Materials() {
   return (
     <>
       <Table
+        size="small"
         bordered
         loading={isLoadingMaterials}
         columns={columns}
