@@ -155,9 +155,12 @@ export const ovalApi = createApi({
       }),
       invalidatesTags: [{ type: "person", id: "LIST" }],
     }),
-    getPayments: builder.query({
-      query: () => ({
-        url: "payment",
+    getGoogleCalendar: builder.query({
+      query: (token) => ({
+        baseUrl: "",
+        url:
+          "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=" +
+          token,
       }),
     }),
     getWorks: builder.query({
@@ -225,7 +228,6 @@ export const {
   useGetWorkQuery,
   useGetTransportQuery,
   useGetPersonQuery,
-  useGetPaymentsQuery,
   useGetMaterialQuery,
   useGetWorksQuery,
   useGetWorklistQuery,
@@ -240,4 +242,5 @@ export const {
   useDeleteWorksMutation,
   useDeleteMaterialsMutation,
   useAddWorkMutation,
+  useLazyGetGoogleCalendarQuery,
 } = ovalApi;
