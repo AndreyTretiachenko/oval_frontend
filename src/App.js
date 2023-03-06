@@ -20,14 +20,7 @@ import CreateTransport from "./components/modals/CreateTransport";
 import CreateWork from "./components/modals/CreateWork";
 
 import GoogleButton from "./components/GoogleButton";
-import {
-  useGetGoogleOauthTokenMutation,
-  useLazyGetGoogleCalendarQuery,
-  useLazyGetGoogleTokenInfoQuery,
-} from "./api";
-import { useGoogleLogin } from "@react-oauth/google";
-import { Routes, Route, useParams } from "react-router-dom";
-import GoogleCode from "./components/GoogleCode";
+import { useGetGoogleOauthTokenMutation } from "./api";
 
 const { Header, Content, Footer } = Layout;
 
@@ -58,9 +51,7 @@ function App() {
     JSON.parse(localStorage.getItem("refresh_token"))
   );
   const modals = useSelector((state) => state.modals);
-  const [getCalendar] = useLazyGetGoogleCalendarQuery(token);
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
-  const [getGoogleTokenInfo] = useLazyGetGoogleTokenInfoQuery();
 
   const getToken = async () => {
     await getGoogleOauthToken(
@@ -74,23 +65,18 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const GoogleCalendarList = async () => {
-    await getToken().then(async () => {
-      setToken(JSON.parse(localStorage.getItem("token")));
-      await getCalendar(token.access_token).unwrap();
-    });
-  };
-
   const GoogleSetToken = async () => {
     await getToken();
   };
 
   useEffect(() => {
-    setRefreshToken(JSON.parse(localStorage.getItem("refresh_token")));
     if (
       localStorage.getItem("token") &&
-      localStorage.getItem("token") !== null
+      localStorage.getItem("token") !== null &&
+      localStorage.getItem("refresh_token") &&
+      localStorage.getItem("refresh_token") !== null
     ) {
+      setRefreshToken(JSON.parse(localStorage.getItem("refresh_token")));
       setToken(JSON.parse(localStorage.getItem("token")));
     } else {
       GoogleSetToken();
@@ -117,7 +103,6 @@ function App() {
             }}>
             {header}
             <GoogleButton />
-            <Button onClick={() => GoogleCalendarList()}>Calendar</Button>
             <Dropdown
               menu={{
                 items: [

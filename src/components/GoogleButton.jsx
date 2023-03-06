@@ -41,9 +41,11 @@ function GoogleButton({ token }) {
   return (
     <Button
       style={
-        JSON.parse(localStorage.getItem("token")) ? { display: "none" } : {}
+        JSON.parse(localStorage.getItem("refresh_token"))
+          ? { display: "none" }
+          : {}
       }
-      href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&prompt=consent&access_type=offline&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=${process.env.REACT_APP_GOOGLE_SCOPE}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}`}>
+      href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&prompt=consent&access_type=offline&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=${process.env.REACT_APP_GOOGLE_SCOPE}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI_DEV}`}>
       Login
     </Button>
   );
