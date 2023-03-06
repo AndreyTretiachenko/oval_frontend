@@ -20,8 +20,14 @@ import CreateTransport from "./components/modals/CreateTransport";
 import CreateWork from "./components/modals/CreateWork";
 
 import GoogleButton from "./components/GoogleButton";
-import { useLazyGetGoogleCalendarQuery } from "./api";
+import {
+  useGetGoogleOauthTokenMutation,
+  useLazyGetGoogleCalendarQuery,
+  useLazyGetGoogleTokenInfoQuery,
+} from "./api";
 import { useGoogleLogin } from "@react-oauth/google";
+import { Routes, Route, useParams } from "react-router-dom";
+import GoogleCode from "./components/GoogleCode";
 
 const { Header, Content, Footer } = Layout;
 
@@ -48,41 +54,47 @@ function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
   const [token, setToken] = useState();
+  const [refreshToken, setRefreshToken] = useState(
+    JSON.parse(localStorage.getItem("refresh_token"))
+  );
   const modals = useSelector((state) => state.modals);
   const [getCalendar] = useLazyGetGoogleCalendarQuery(token);
+  const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
+  const [getGoogleTokenInfo] = useLazyGetGoogleTokenInfoQuery();
 
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log(tokenResponse);
-      localStorage.setItem("google_token", JSON.stringify(tokenResponse));
-    },
-  });
-
-  const writeLogin = () => {
-    login();
-    setToken(JSON.parse(localStorage.getItem("google_token")));
+  const getToken = async () => {
+    await getGoogleOauthToken(
+      `refresh_token=${refreshToken}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&client_secret=${process.env.REACT_APP_GOOGLE_SECRET_KEY}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&grant_type=refresh_token`
+    )
+      .unwrap()
+      .then((response) => {
+        localStorage.setItem("token", JSON.stringify(response));
+        setToken(JSON.parse(localStorage.getItem("token")));
+      })
+      .catch((err) => console.log(err));
   };
 
   const GoogleCalendarList = async () => {
-    await getCalendar(token.access_token)
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        if (err?.status === 401) {
-          writeLogin();
-        }
-      });
+    await getToken().then(async () => {
+      setToken(JSON.parse(localStorage.getItem("token")));
+      await getCalendar(token.access_token).unwrap();
+    });
+  };
+
+  const GoogleSetToken = async () => {
+    await getToken();
   };
 
   useEffect(() => {
+    setRefreshToken(JSON.parse(localStorage.getItem("refresh_token")));
     if (
-      localStorage.getItem("google_token") &&
-      localStorage.getItem("google_token") !== null
-    )
-      setToken(JSON.parse(localStorage.getItem("google_token")));
-    else writeLogin();
+      localStorage.getItem("token") &&
+      localStorage.getItem("token") !== null
+    ) {
+      setToken(JSON.parse(localStorage.getItem("token")));
+    } else {
+      GoogleSetToken();
+    }
   }, []);
 
   return (
