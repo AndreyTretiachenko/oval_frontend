@@ -48,7 +48,6 @@ function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
   const [token, setToken] = useState();
-  const selectOrder = useSelector((state) => state.selectOrder);
   const modals = useSelector((state) => state.modals);
   const [getCalendar] = useLazyGetGoogleCalendarQuery(token);
 
@@ -59,20 +58,31 @@ function App() {
     },
   });
 
-  const GoogleCalendarList = async () => {
-    if (!getCalendar(token.access_token).isError)
-      await getCalendar(token.access_token)
-        .unwrap()
-        .then((res) => console.log(res));
-    else login();
+  const writeLogin = () => {
+    login();
     setToken(JSON.parse(localStorage.getItem("google_token")));
+  };
+
+  const GoogleCalendarList = async () => {
     await getCalendar(token.access_token)
       .unwrap()
-      .then((res) => console.log(res));
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        if (err?.status === 401) {
+          writeLogin();
+        }
+      });
   };
 
   useEffect(() => {
-    setToken(JSON.parse(localStorage.getItem("google_token")));
+    if (
+      localStorage.getItem("google_token") &&
+      localStorage.getItem("google_token") !== null
+    )
+      setToken(JSON.parse(localStorage.getItem("google_token")));
+    else writeLogin();
   }, []);
 
   return (

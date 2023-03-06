@@ -163,6 +163,13 @@ export const ovalApi = createApi({
           token,
       }),
     }),
+    getGoogleOauthToken: builder.mutation({
+      query: (body) => ({
+        method: "POST",
+        url: "https://oauth2.googleapis.com/token",
+        body,
+      }),
+    }),
     getWorks: builder.query({
       query: () => "works",
       providesTags: (result) =>
@@ -243,4 +250,5 @@ export const {
   useDeleteMaterialsMutation,
   useAddWorkMutation,
   useLazyGetGoogleCalendarQuery,
+  useGetGoogleOauthTokenMutation,
 } = ovalApi;
