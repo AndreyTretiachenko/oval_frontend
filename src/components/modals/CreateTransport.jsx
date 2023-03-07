@@ -59,7 +59,7 @@ function CreateTransport({ open }) {
           Для создание транспорта неободимо заполнить все поля
         </Header>
         <Content>
-          <Form labelCol={{ span: 4 }} form={form} autoComplete="off">
+          <Form labelCol={{ span: 5 }} form={form} autoComplete="off">
             <Form.Item
               label="Марка"
               name="brand"
@@ -145,15 +145,7 @@ function CreateTransport({ open }) {
               ]}>
               <Input maxLength={17} showCount />
             </Form.Item>
-            <Form.Item
-              label="Гос номер"
-              name="carNumber"
-              rules={[
-                {
-                  required: true,
-                  message: "необходимо указать гос номер автомобиля",
-                },
-              ]}>
+            <Form.Item label="Гос номер" name="carNumber">
               <Input />
             </Form.Item>
             <Form.Item label="Номер двигателя" name="engineNumber">

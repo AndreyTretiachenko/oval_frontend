@@ -14,6 +14,7 @@ export const ovalApi = createApi({
     "person",
     "transport",
     "work",
+    "material",
   ],
   endpoints: (builder) => ({
     getOrders: builder.query({
@@ -71,9 +72,22 @@ export const ovalApi = createApi({
       invalidatesTags: [{ type: "work", id: "LIST" }],
     }),
     getMaterial: builder.query({
-      query: () => ({
+      query: () => "material",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "material", id })),
+              { type: "material", id: "LIST" },
+            ]
+          : [{ type: "material", id: "LIST" }],
+    }),
+    addMaterial: builder.mutation({
+      query: (body) => ({
         url: "material",
+        method: "POST",
+        body,
       }),
+      invalidatesTags: [{ type: "material", id: "LIST" }],
     }),
     getMaterials: builder.query({
       query: () => ({
@@ -177,6 +191,16 @@ export const ovalApi = createApi({
         body,
       }),
     }),
+    addGoogleEvent: builder.mutation({
+      query: (body) => ({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        url:
+          "https://www.googleapis.com/calendar/v3/calendars/primary/events?access_token=" +
+          JSON.parse(localStorage.getItem("token")).access_token,
+        body,
+      }),
+    }),
     getWorks: builder.query({
       query: () => "works",
       providesTags: (result) =>
@@ -232,6 +256,19 @@ export const ovalApi = createApi({
         url: "unit",
       }),
     }),
+    apiDaDataFindByInn: builder.mutation({
+      query: (body) => ({
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Token " + process.env.REACT_APP_API_DADATA_API_TOKEN,
+        },
+        url: "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -242,7 +279,6 @@ export const {
   useGetWorkQuery,
   useGetTransportQuery,
   useGetPersonQuery,
-  useGetMaterialQuery,
   useGetWorksQuery,
   useGetWorklistQuery,
   useAddWorkListMutation,
@@ -259,4 +295,8 @@ export const {
   useLazyGetGoogleCalendarQuery,
   useGetGoogleOauthTokenMutation,
   useLazyGetGoogleTokenInfoQuery,
+  useGetMaterialQuery,
+  useAddMaterialMutation,
+  useApiDaDataFindByInnMutation,
+  useAddGoogleEventMutation,
 } = ovalApi;

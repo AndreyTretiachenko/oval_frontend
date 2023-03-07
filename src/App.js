@@ -20,6 +20,7 @@ import CreateWork from "./components/modals/CreateWork";
 
 import GoogleButton from "./components/GoogleButton";
 import { useGetGoogleOauthTokenMutation } from "./api";
+import CreateMaterial from "./components/modals/CreateMaterial";
 
 const { Header, Content, Footer } = Layout;
 
@@ -92,6 +93,7 @@ function App() {
         />
         <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
         <CreateWork open={modals?.find((item) => item.modal === 6).open} />
+        <CreateMaterial open={modals?.find((item) => item.modal === 7).open} />
         <Navigate />
         <Layout className="site-layout">
           <Header
@@ -136,7 +138,6 @@ function App() {
                       </a>
                     ),
                   },
-                  { key: 3, label: <a href="/#">оплату</a> },
                   {
                     key: 7,
                     label: (
@@ -153,7 +154,23 @@ function App() {
                       </a>
                     ),
                   },
-                  { key: 8, label: <a href="/#">материал</a> },
+                  {
+                    key: 8,
+
+                    label: (
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                      <a
+                        onClick={() =>
+                          dispatch(
+                            updateModals({
+                              modal: 7,
+                            })
+                          )
+                        }>
+                        материал
+                      </a>
+                    ),
+                  },
                 ],
               }}
               placement="bottomRight"

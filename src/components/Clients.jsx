@@ -53,19 +53,19 @@ function Clients() {
                   title: "ИНН",
                   dataIndex: "inn",
                   key: "inn",
-                  width: "15%",
+                  width: "12%",
                 },
                 {
                   title: "КПП",
                   dataIndex: "kpp",
                   key: "kpp",
-                  width: "15%",
+                  width: "10%",
                 },
                 {
                   title: "адрес",
                   dataIndex: "adress",
                   key: "adress",
-                  width: "20%",
+                  width: "38%",
                 },
               ]
             : [

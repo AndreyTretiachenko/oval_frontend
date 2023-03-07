@@ -56,6 +56,7 @@ function Transport() {
       <Table
         size="small"
         bordered
+        loading={isLoadingTransport}
         columns={columns}
         dataSource={reverseArray(transports)}
         pagination={{ pageSize: 11 }}

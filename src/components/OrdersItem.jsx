@@ -13,6 +13,7 @@ import {
   Layout,
   Modal,
   message,
+  DatePicker,
 } from "antd";
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -20,6 +21,8 @@ import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
 import {
+  useAddGoogleEventMutation,
+  useGetGoogleOauthTokenMutation,
   useAddMaterialsMutation,
   useAddWorksMutation,
   useDeleteMaterialsMutation,
@@ -32,12 +35,14 @@ import {
 const { Panel } = Collapse;
 const { Title, Text } = Typography;
 const { Content } = Layout;
+const { RangePicker } = DatePicker;
 
 function OrdersItem({ item }) {
   const [addWork] = useAddWorksMutation();
   const [deleteWork] = useDeleteWorksMutation();
   const [deleteMaterial] = useDeleteMaterialsMutation();
   const [addMaterial] = useAddMaterialsMutation();
+  const [addGoogleEvent] = useAddGoogleEventMutation();
   const [formWork] = Form.useForm();
   const [formMaterial] = Form.useForm();
   const { data: work = [] } = useGetWorkQuery();
@@ -49,6 +54,24 @@ function OrdersItem({ item }) {
   const printOrder = useRef();
   const dispacth = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
+  const [token, setToken] = useState();
+  const [refreshToken, setRefreshToken] = useState(
+    JSON.parse(localStorage.getItem("refresh_token"))
+  );
+  const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
+
+  //control access_token Google API for valid and change refresh_token on new access_token if necessary
+  const getToken = async () => {
+    await getGoogleOauthToken(
+      `refresh_token=${refreshToken}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&client_secret=${process.env.REACT_APP_GOOGLE_SECRET_KEY}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&grant_type=refresh_token`
+    )
+      .unwrap()
+      .then((response) => {
+        localStorage.setItem("token", JSON.stringify(response));
+        setToken(JSON.parse(localStorage.getItem("token")));
+      })
+      .catch((err) => console.log(err));
+  };
 
   const sumOrderMaterial = () => {
     let sum = 0;
@@ -86,6 +109,44 @@ function OrdersItem({ item }) {
         сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
               sumOrderMaterial() + sumOrderWork()
             }`}>
+            <Descriptions title="подробнее о заказе" size="small">
+              <Descriptions.Item label="планируемая дата выполнения">
+                <RangePicker
+                  format="YYYY-MM-DD HH:mm"
+                  showTime={{
+                    format: "HH:mm",
+                  }}
+                  onOk={async (value) => {
+                    await getToken();
+                    await addGoogleEvent(
+                      {
+                        summary:
+                          item.client.type === "company"
+                            ? item.client.name + " " + item.transport?.brand
+                            : item.client.firstName +
+                              " " +
+                              item.client.lastName +
+                              " " +
+                              item.transport?.brand,
+                        start: {
+                          dateTime: value[0].$d.toISOString(),
+                          timeZone: "",
+                        },
+                        end: {
+                          dateTime: value[1].$d.toISOString(),
+                          timeZone: "",
+                        },
+                      },
+                      token
+                    )
+                      .unwrap()
+                      .then((response) => {
+                        console.log(response);
+                      });
+                  }}
+                />
+              </Descriptions.Item>
+            </Descriptions>
             <ReactToPrint
               trigger={() => (
                 <Button style={{ float: "right" }} icon={<PrinterOutlined />}>

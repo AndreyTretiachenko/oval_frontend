@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Layout, Form, Radio, Input } from "antd";
-import { useAddCompanyMutation, useAddPersonMutation } from "../../api";
+import { Modal, Layout, Form, Radio, Input, Button } from "antd";
+import {
+  useAddCompanyMutation,
+  useAddPersonMutation,
+  useApiDaDataFindByInnMutation,
+} from "../../api";
 import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 
@@ -11,6 +15,7 @@ function CreateClient({ open }) {
   const dispatch = useDispatch();
   const [addCompany] = useAddCompanyMutation();
   const [addPerson] = useAddPersonMutation();
+  const [findByInn] = useApiDaDataFindByInnMutation();
   const [formData, setFormData] = useState({
     client_type: "company",
     firstName: "",
@@ -143,11 +148,36 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
+                <Form.Item label="поиск по инн" name="find">
+                  <Button
+                    onClick={async () => {
+                      await findByInn({ query: form.getFieldValue("inn") })
+                        .unwrap()
+                        .then((response) => {
+                          setFormData({
+                            ...formData,
+                            name: response.suggestions[0]?.data.name
+                              .short_with_opf,
+                            adress:
+                              response.suggestions[0]?.data.address
+                                .unrestricted_value,
+                          });
+                          form.setFieldsValue({
+                            nameFl:
+                              response.suggestions[0]?.data.name.short_with_opf,
+                            adress:
+                              response.suggestions[0]?.data.address
+                                .unrestricted_value,
+                          });
+                        });
+                    }}>
+                    поиск
+                  </Button>
+                </Form.Item>
                 <Form.Item
                   label="КПП"
                   name="kpp"
                   rules={[
-                    { required: true, message: "необходимо ввести КПП" },
                     {
                       pattern: "^([-]?[1-9][0-9]*|0)$",
                       message: "допускает ввод только цифр",
