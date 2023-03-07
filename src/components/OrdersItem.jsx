@@ -109,6 +109,14 @@ function OrdersItem({ item }) {
         сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
               sumOrderMaterial() + sumOrderWork()
             }`}>
+            <ReactToPrint
+              trigger={() => (
+                <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
+                  распечатать
+                </Button>
+              )}
+              content={() => printOrder.current}
+            />
             <Descriptions title="подробнее о заказе" size="small">
               <Descriptions.Item label="планируемая дата выполнения">
                 <RangePicker
@@ -140,21 +148,11 @@ function OrdersItem({ item }) {
                       token
                     )
                       .unwrap()
-                      .then((response) => {
-                        console.log(response);
-                      });
+                      .then((response) => {});
                   }}
                 />
               </Descriptions.Item>
             </Descriptions>
-            <ReactToPrint
-              trigger={() => (
-                <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
-                  распечатать
-                </Button>
-              )}
-              content={() => printOrder.current}
-            />
             <OrderPrint r={printOrder} data={item} />
             <Descriptions title="Информация о заказчике" size="small">
               <Descriptions.Item
