@@ -53,6 +53,7 @@ function App() {
   const modals = useSelector((state) => state.modals);
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
 
+  //control access_token Google API for valid and change refresh_token on new access_token if necessary
   const getToken = async () => {
     await getGoogleOauthToken(
       `refresh_token=${refreshToken}&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&client_secret=${process.env.REACT_APP_GOOGLE_SECRET_KEY}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI}&grant_type=refresh_token`
