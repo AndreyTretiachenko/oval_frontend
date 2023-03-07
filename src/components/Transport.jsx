@@ -58,7 +58,7 @@ function Transport() {
         bordered
         columns={columns}
         dataSource={reverseArray(transports)}
-        pagination={{ pageSize: 9 }}
+        pagination={{ pageSize: 11 }}
       />
     </>
   );

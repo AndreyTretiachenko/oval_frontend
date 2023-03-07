@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ovalApi = createApi({
   reducerPath: "ovalAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://andreytretiachenko.ru:5001/api/v1/",
+    baseUrl: process.env.REACT_APP_API_BACKEND_BASE_URL,
     headers: { Authorization: "basic dXNlcjp1c2Vy" },
   }),
   tagTypes: [

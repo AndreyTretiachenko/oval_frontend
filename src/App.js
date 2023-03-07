@@ -11,7 +11,6 @@ import { updateModals } from "./features/modalsSlice";
 import CreareOrder from "./components/modals/CreareOrder";
 import CreateWorkList from "./components/modals/CreateWorkList";
 import Transport from "./components/Transport";
-import Payments from "./components/Payments";
 import Works from "./components/Works";
 import Materials from "./components/Materials";
 import CreateClient from "./components/modals/CreateClient";
@@ -32,8 +31,6 @@ const renderSwitch = (keyAction) => {
       return <Orders />;
     case "2":
       return <Clients />;
-    case "3":
-      return <Payments />;
     case "4":
       return <Transport />;
     case "6.1":
