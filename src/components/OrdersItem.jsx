@@ -148,7 +148,13 @@ function OrdersItem({ item }) {
                       token
                     )
                       .unwrap()
-                      .then((response) => {});
+                      .then((response) => {
+                        messageApi.open({
+                          type: "success",
+                          content: `событие добавлено в календарь`,
+                          duration: 1.5,
+                        });
+                      });
                   }}
                 />
               </Descriptions.Item>
