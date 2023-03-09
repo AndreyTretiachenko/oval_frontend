@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Layout, Form, Radio, Input } from "antd";
-import { useAddCompanyMutation, useAddPersonMutation } from "../../api";
+import { Modal, Layout, Form, Radio, Input, Button } from "antd";
+import {
+  useAddCompanyMutation,
+  useAddPersonMutation,
+  useApiDaDataFindByInnMutation,
+} from "../../api";
 import { useDispatch } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 
@@ -11,6 +15,7 @@ function CreateClient({ open }) {
   const dispatch = useDispatch();
   const [addCompany] = useAddCompanyMutation();
   const [addPerson] = useAddPersonMutation();
+  const [findByInn] = useApiDaDataFindByInnMutation();
   const [formData, setFormData] = useState({
     client_type: "company",
     firstName: "",
@@ -19,6 +24,8 @@ function CreateClient({ open }) {
     email: "",
     name: "",
     inn: 0,
+    kpp: 0,
+    adress: "",
   });
 
   const handleCancel = () => {
@@ -33,6 +40,8 @@ function CreateClient({ open }) {
       email: "",
       name: "",
       inn: 0,
+      kpp: 0,
+      adress: "",
     }));
   };
 
@@ -41,7 +50,10 @@ function CreateClient({ open }) {
       await addCompany({
         name: formData.name,
         inn: Number(formData.inn),
+        kpp: formData.kpp,
+        adress: formData.adress,
       }).finally(() => {
+        form.resetFields();
         dispatch(updateModals({ modal: 3 }));
       });
     } else {
@@ -67,7 +79,14 @@ function CreateClient({ open }) {
       okText="создать"
       cancelText="отмена"
       onCancel={handleCancel}
-      onOk={handleOk}>
+      onOk={() => {
+        if (formData.client_type === "company")
+          form.validateFields(["nameFl", "inn"]).then(() => handleOk());
+        else
+          form
+            .validateFields(["firstName", "phoneNumber"])
+            .then(() => handleOk());
+      }}>
       <Layout>
         <Header style={{ backgroundColor: "whitesmoke" }}>
           Для создание клиента неободимо заполнить все поля
@@ -75,6 +94,7 @@ function CreateClient({ open }) {
         <Content>
           <Form
             labelCol={{ span: 4 }}
+            autoComplete="off"
             form={form}
             initialValues={{ typeClient: "company" }}>
             <Form.Item label="Тип клиента" name="typeClient">
@@ -93,7 +113,15 @@ function CreateClient({ open }) {
             </Form.Item>
             {formData.client_type === "company" ? (
               <>
-                <Form.Item label="Название" name="nameFl">
+                <Form.Item
+                  label="Название"
+                  name="nameFl"
+                  rules={[
+                    {
+                      required: true,
+                      message: "необходимо заполнить название организации",
+                    },
+                  ]}>
                   <Input
                     value={formData.name}
                     onChange={(e) =>
@@ -101,18 +129,94 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="ИНН" name="inn">
+                <Form.Item
+                  label="ИНН"
+                  name="inn"
+                  rules={[
+                    { required: true, message: "необходимо ввести инн" },
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
+                  ]}>
                   <Input
                     value={formData.inn}
+                    showCount
+                    maxLength={12}
                     onChange={(e) =>
                       setFormData({ ...formData, inn: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item label="поиск по инн" name="find">
+                  <Button
+                    onClick={async () => {
+                      await findByInn({ query: form.getFieldValue("inn") })
+                        .unwrap()
+                        .then((response) => {
+                          setFormData({
+                            ...formData,
+                            name: response.suggestions[0]?.data.name
+                              .short_with_opf,
+                            adress:
+                              response.suggestions[0]?.data.address
+                                .unrestricted_value,
+                          });
+                          form.setFieldsValue({
+                            nameFl:
+                              response.suggestions[0]?.data.name.short_with_opf,
+                            adress:
+                              response.suggestions[0]?.data.address
+                                .unrestricted_value,
+                          });
+                        });
+                    }}>
+                    поиск
+                  </Button>
+                </Form.Item>
+                <Form.Item
+                  label="КПП"
+                  name="kpp"
+                  rules={[
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
+                  ]}>
+                  <Input
+                    value={formData.kpp}
+                    showCount
+                    maxLength={9}
+                    onChange={(e) =>
+                      setFormData({ ...formData, kpp: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="адрес"
+                  name="adress"
+                  rules={[
+                    { required: true, message: "необходимо ввести адресс" },
+                  ]}>
+                  <Input
+                    value={formData.kpp}
+                    onChange={(e) =>
+                      setFormData({ ...formData, adress: e.target.value })
                     }
                   />
                 </Form.Item>
               </>
             ) : (
               <>
-                <Form.Item label="Имя" name="firstName">
+                <Form.Item
+                  label="Имя"
+                  name="firstName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "необходимо ввести имя клиента",
+                    },
+                  ]}>
                   <Input
                     value={formData.firstName}
                     onChange={(e) =>
@@ -128,8 +232,18 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="Телефон" name="phoneNumber">
+                <Form.Item
+                  label="Телефон"
+                  name="phoneNumber"
+                  rules={[
+                    { required: true, message: "необходимо ввести телефон" },
+                    {
+                      pattern: "^([-]?[1-9][0-9]*|0)$",
+                      message: "допускает ввод только цифр",
+                    },
+                  ]}>
                   <Input
+                    addonBefore=" +7 "
                     value={formData.phoneNumber}
                     onChange={(e) =>
                       setFormData({
@@ -139,7 +253,12 @@ function CreateClient({ open }) {
                     }
                   />
                 </Form.Item>
-                <Form.Item label="Email" name="email">
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    { type: "email", message: "допускает ввод только цифр" },
+                  ]}>
                   <Input
                     value={formData.email}
                     onChange={(e) =>

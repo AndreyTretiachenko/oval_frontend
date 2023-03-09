@@ -25,11 +25,12 @@ function Materials() {
   return (
     <>
       <Table
+        size="small"
         bordered
         loading={isLoadingMaterials}
         columns={columns}
         dataSource={materials}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 9 }}
       />
     </>
   );

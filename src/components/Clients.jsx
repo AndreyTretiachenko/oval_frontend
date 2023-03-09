@@ -26,12 +26,13 @@ function Clients() {
       />
       <Divider />
       <Table
+        size="small"
         bordered
         loading={
           typeListClient === "company" ? isLoadingCompany : isLoadingPerson
         }
         pagination={{
-          pageSize: 10,
+          pageSize: 7,
         }}
         columns={
           typeListClient === "company"
@@ -39,6 +40,8 @@ function Clients() {
                 {
                   title: "Номер",
                   dataIndex: "id",
+                  width: "5%",
+                  align: "center",
                 },
                 {
                   title: "Наименование",
@@ -50,6 +53,19 @@ function Clients() {
                   title: "ИНН",
                   dataIndex: "inn",
                   key: "inn",
+                  width: "12%",
+                },
+                {
+                  title: "КПП",
+                  dataIndex: "kpp",
+                  key: "kpp",
+                  width: "10%",
+                },
+                {
+                  title: "адрес",
+                  dataIndex: "adress",
+                  key: "adress",
+                  width: "38%",
                 },
               ]
             : [
@@ -57,6 +73,7 @@ function Clients() {
                   title: "Номер",
                   dataIndex: "id",
                   key: "id",
+                  width: "5%",
                 },
                 {
                   title: "Имя",
@@ -73,6 +90,7 @@ function Clients() {
                   title: "Номер телефона",
                   dataIndex: "phoneNumber",
                   key: "phoneNumber",
+                  width: "15%",
                 },
                 {
                   title: "Email",
@@ -84,13 +102,18 @@ function Clients() {
         }
         dataSource={
           typeListClient === "company"
-            ? company?.map((item) => {
-                return item;
-              })
-            : person?.map((per) => {
-                return per;
-              })
-        }></Table>
+            ? company
+                ?.map((item) => {
+                  return item;
+                })
+                .reverse()
+            : person
+                ?.map((per) => {
+                  return per;
+                })
+                .reverse()
+        }
+      />
     </div>
   );
 }

@@ -4,10 +4,6 @@ import { Table } from "antd";
 
 const columns = [
   {
-    title: "Номер",
-    dataIndex: "id",
-  },
-  {
     title: "Бренд",
     dataIndex: "brand",
     key: "brand",
@@ -16,6 +12,16 @@ const columns = [
     title: "Модель",
     dataIndex: "model",
     key: "model",
+  },
+  {
+    title: "Модификация",
+    dataIndex: "modification",
+    key: "modification",
+  },
+  {
+    title: "Год выпуска",
+    dataIndex: "year",
+    key: "year",
   },
   {
     title: "VIN",
@@ -27,7 +33,20 @@ const columns = [
     dataIndex: "carNumber",
     key: "carNumber",
   },
+  {
+    title: "Номер двигателя",
+    dataIndex: "engineNumber",
+    key: "engineNumber",
+  },
 ];
+
+const reverseArray = (array) => {
+  let a = [];
+  for (let i = 0; i < array.length; i++) {
+    a[i] = array[array.length - 1 - i];
+  }
+  return a;
+};
 
 function Transport() {
   const { data: transports = [], isLoading: isLoadingTransport } =
@@ -35,10 +54,12 @@ function Transport() {
   return (
     <>
       <Table
+        size="small"
         bordered
+        loading={isLoadingTransport}
         columns={columns}
-        dataSource={transports}
-        pagination={{ pageSize: 10 }}
+        dataSource={reverseArray(transports)}
+        pagination={{ pageSize: 11 }}
       />
     </>
   );

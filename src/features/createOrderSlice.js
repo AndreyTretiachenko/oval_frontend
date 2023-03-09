@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   uid: "",
   client_id: 0,
+  person_id: 0,
   company_id: 0,
   comment: "",
+  transport_id: 0,
   worklist: [],
   materiallist: [],
 };

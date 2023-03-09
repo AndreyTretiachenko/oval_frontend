@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { List, message, Typography } from "antd";
 import OrdersItem from "./OrdersItem";
@@ -8,22 +9,24 @@ function Orders() {
   const { data = [], isLoading, error } = useGetOrdersQuery();
 
   return (
-    <div>
-      <List
-        size="small"
-        pagination={{
-          pageSize: 6,
-        }}
-        bordered
-        loading={isLoading}
-        dataSource={!isLoading ? [...data].reverse() : []}
-        renderItem={(item) => (
-          <List.Item key={item.id}>
-            <OrdersItem item={item} />
-          </List.Item>
-        )}
-      />
-    </div>
+    <>
+      <div>
+        <List
+          size="small"
+          pagination={{
+            pageSize: 9,
+          }}
+          bordered
+          loading={isLoading}
+          dataSource={!isLoading ? [...data].reverse() : []}
+          renderItem={(item) => (
+            <List.Item key={item.id}>
+              <OrdersItem item={item} />
+            </List.Item>
+          )}
+        />
+      </div>
+    </>
   );
 }
 

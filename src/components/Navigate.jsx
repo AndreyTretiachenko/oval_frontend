@@ -7,9 +7,7 @@ const { Sider } = Layout;
 function Navigate() {
   const dispatch = useDispatch();
   const menuItems = [
-    { key: "1", label: "Заказы" },
-    { key: "3", label: "Оплаты" },
-
+    { key: "1", label: "Заказ-няряды" },
     {
       key: "6",
       label: "Справочники",
@@ -41,11 +39,9 @@ function Navigate() {
           onClick={(e) =>
             dispatch(
               updateHeader({
-                header: [
-                  menuItems[0],
-                  menuItems[1],
-                  ...menuItems[2].children,
-                ].find((item) => item.key === e.key).label,
+                header: [menuItems[0], ...menuItems[1].children].find(
+                  (item) => item.key === e.key
+                ).label,
                 keyAction: e.key,
               })
             )
