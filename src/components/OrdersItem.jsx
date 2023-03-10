@@ -14,6 +14,7 @@ import {
   Modal,
   message,
   DatePicker,
+  Radio,
 } from "antd";
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -59,6 +60,16 @@ function OrdersItem({ item }) {
     JSON.parse(localStorage.getItem("refresh_token"))
   );
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
+  const optionsColor = [
+    {
+      label: 123,
+      value: 123,
+    },
+    {
+      label: <Button />,
+      value: 321,
+    },
+  ];
 
   //control access_token Google API for valid and change refresh_token on new access_token if necessary
   const getToken = async () => {
@@ -157,6 +168,9 @@ function OrdersItem({ item }) {
                       });
                   }}
                 />
+              </Descriptions.Item>
+              <Descriptions.Item label="цвет">
+                <Radio.Group options={optionsColor} optionType="button" />
               </Descriptions.Item>
             </Descriptions>
             <OrderPrint r={printOrder} data={item} />
