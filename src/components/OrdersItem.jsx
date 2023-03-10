@@ -14,6 +14,7 @@ import {
   Modal,
   message,
   DatePicker,
+  Radio,
 } from "antd";
 import ReactToPrint from "react-to-print";
 import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -30,6 +31,7 @@ import {
   useGetMaterialQuery,
   useGetUnitQuery,
   useGetWorkQuery,
+  useGetGoogleCalendarColorQuery,
 } from "../api";
 
 const { Panel } = Collapse;
@@ -52,13 +54,30 @@ function OrdersItem({ item }) {
   const [isOpenAddWork, setIsOpenAddWork] = useState();
   const [isOpenAddMaterial, setIsOpenAddMaterial] = useState();
   const printOrder = useRef();
-  const dispacth = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const [token, setToken] = useState();
   const [refreshToken, setRefreshToken] = useState(
     JSON.parse(localStorage.getItem("refresh_token"))
   );
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
+  const { data: CalendarColor } = useGetGoogleCalendarColorQuery();
+  console.log(CalendarColor);
+  const optionsColor = Object.entries(CalendarColor.event).map((color) => {
+    return {
+      label: (
+        <div
+          style={{
+            margin: 0,
+            padding: 0,
+            backgroundColor: color[1].background,
+          }}>
+          &nbsp;
+        </div>
+      ),
+      value: color[0],
+    };
+  });
+  console.log(optionsColor);
 
   //control access_token Google API for valid and change refresh_token on new access_token if necessary
   const getToken = async () => {
@@ -92,6 +111,7 @@ function OrdersItem({ item }) {
   return (
     <>
       {contextHolder}
+
       <div>
         <Collapse ghost key={item.id}>
           <Panel
@@ -117,7 +137,7 @@ function OrdersItem({ item }) {
               )}
               content={() => printOrder.current}
             />
-            <Descriptions title="подробнее о заказе" size="small">
+            <Descriptions title="подробнее о заказе" column={1}>
               <Descriptions.Item label="планируемая дата выполнения">
                 <RangePicker
                   format="YYYY-MM-DD HH:mm"
@@ -128,6 +148,7 @@ function OrdersItem({ item }) {
                     await getToken();
                     await addGoogleEvent(
                       {
+                        colorId: item.colorEvent,
                         summary:
                           item.client.type === "company"
                             ? item.client.name + " " + item.transport?.brand
@@ -155,6 +176,16 @@ function OrdersItem({ item }) {
                           duration: 1.5,
                         });
                       });
+                  }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="цвет">
+                <Select
+                  options={optionsColor}
+                  style={{ width: 70 }}
+                  size="small"
+                  onChange={(value) => {
+                    item = { ...item, colorEvent: value };
                   }}
                 />
               </Descriptions.Item>

@@ -7,6 +7,7 @@ export const OrderPrint = ({ r, data }) => {
     <div className="print">
       <div ref={r}>
         <table
+          width={"100%"}
           border="0"
           cellpadding="0"
           cellspacing="0"
