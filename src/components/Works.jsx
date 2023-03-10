@@ -1,6 +1,7 @@
 import React from "react";
 import { useGetWorkQuery } from "../api";
 import { Table } from "antd";
+import { OrderPrint } from "./OrderPrint";
 
 const columns = [
   {
