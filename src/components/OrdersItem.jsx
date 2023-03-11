@@ -18,7 +18,11 @@ import {
   Space,
 } from "antd";
 import ReactToPrint from "react-to-print";
-import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  PrinterOutlined,
+  PlusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
@@ -41,6 +45,7 @@ const { Content } = Layout;
 const { RangePicker } = DatePicker;
 
 function OrdersItem({ item }) {
+  const dispatch = useDispatch();
   const [addWork] = useAddWorksMutation();
   const [deleteWork] = useDeleteWorksMutation();
   const [deleteMaterial] = useDeleteMaterialsMutation();
@@ -453,24 +458,40 @@ function OrdersItem({ item }) {
                                   message: "необходимо выбрать работу",
                                 },
                               ]}>
-                              <Select
-                                onChange={(value) => {
-                                  formWork.setFieldValue("count", 1);
-                                  work.map((item) => {
-                                    if (item.id === value)
-                                      formWork.setFieldValue(
-                                        "price",
-                                        item.price
-                                      );
-                                  });
-                                }}
-                                options={work.map((item) => {
-                                  return {
-                                    value: item.id,
-                                    label: item.name,
-                                  };
-                                })}
-                              />
+                              <Space>
+                                <Select
+                                  style={{ width: 250 }}
+                                  onChange={(value) => {
+                                    formWork.setFieldValue("count", 1);
+                                    work.map((item) => {
+                                      if (item.id === value)
+                                        formWork.setFieldValue(
+                                          "price",
+                                          item.price
+                                        );
+                                    });
+                                  }}
+                                  options={work.map((item) => {
+                                    return {
+                                      value: item.id,
+                                      label: item.name,
+                                    };
+                                  })}
+                                />
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  shape="circle"
+                                  icon={<PlusOutlined />}
+                                  onClick={() =>
+                                    dispatch(
+                                      updateModals({
+                                        modal: 6,
+                                      })
+                                    )
+                                  }
+                                />
+                              </Space>
                             </Form.Item>
                             <Form.Item
                               label="Ед измерения"

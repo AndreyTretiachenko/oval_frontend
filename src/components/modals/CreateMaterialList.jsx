@@ -7,6 +7,7 @@ import {
   Button,
   Select,
   Input,
+  Space,
   InputNumber,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -167,24 +168,40 @@ function CreateMaterialList({ open }) {
         <Content>
           <Form labelCol={{ span: 6 }} form={form}>
             <Form.Item label="Материал" name="material" autoComplete="off">
-              <Select
-                onChange={(value) => {
-                  setMaterialData((prev) => {
+              <Space>
+                <Select
+                  style={{ width: 250 }}
+                  onChange={(value) => {
+                    setMaterialData((prev) => {
+                      return {
+                        ...prev,
+                        id: material.find((item) => value === item.id).id,
+                        price: material.find((item) => value === item.id).price,
+                        name: material.find((item) => value === item.id).name,
+                      };
+                    });
+                  }}
+                  options={material.map((item) => {
                     return {
-                      ...prev,
-                      id: material.find((item) => value === item.id).id,
-                      price: material.find((item) => value === item.id).price,
-                      name: material.find((item) => value === item.id).name,
+                      value: item.id,
+                      label: item.name,
                     };
-                  });
-                }}
-                options={material.map((item) => {
-                  return {
-                    value: item.id,
-                    label: item.name,
-                  };
-                })}
-              />
+                  })}
+                />
+                <Button
+                  type="primary"
+                  size="small"
+                  shape="circle"
+                  icon={<PlusOutlined />}
+                  onClick={() =>
+                    dispatch(
+                      updateModals({
+                        modal: 7,
+                      })
+                    )
+                  }
+                />
+              </Space>
             </Form.Item>
             <Form.Item label="Ед измерения" name="unit">
               <Select
