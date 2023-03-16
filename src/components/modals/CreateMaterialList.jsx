@@ -130,6 +130,7 @@ function CreateMaterialList({ open }) {
   return (
     <>
       <Modal
+        destroyOnClose
         open={open}
         centered
         width={"50%"}

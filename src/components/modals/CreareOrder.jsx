@@ -163,6 +163,7 @@ function CreareOrder({ open }) {
     <>
       {contextHolder}
       <Modal
+        destroyOnClose
         width={"70%"}
         style={{ top: 20 }}
         title="Создание заказ-наряда"
