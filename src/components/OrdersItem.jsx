@@ -62,7 +62,7 @@ function OrdersItem({ item }) {
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
   const { data: CalendarColor } = useGetGoogleCalendarColorQuery();
   console.log(CalendarColor);
-  const optionsColor = Object.entries(CalendarColor.event).map((color) => {
+  const optionsColor = Object?.entries(CalendarColor?.event).map((color) => {
     return {
       label: (
         <div
@@ -77,7 +77,6 @@ function OrdersItem({ item }) {
       value: color[0],
     };
   });
-  console.log(optionsColor);
 
   //control access_token Google API for valid and change refresh_token on new access_token if necessary
   const getToken = async () => {
