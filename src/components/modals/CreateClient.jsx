@@ -71,6 +71,7 @@ function CreateClient({ open }) {
 
   return (
     <Modal
+      destroyOnClose
       title="Cоздание клиента"
       open={open}
       width={"50%"}

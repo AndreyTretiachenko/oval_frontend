@@ -41,6 +41,7 @@ function CreateTransport({ open }) {
 
   return (
     <Modal
+      destroyOnClose
       title="Cоздание транспорта"
       open={open}
       width={"50%"}

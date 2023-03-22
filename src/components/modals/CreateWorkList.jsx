@@ -8,6 +8,7 @@ import {
   Select,
   Input,
   InputNumber,
+  Space,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
@@ -164,24 +165,40 @@ function CreateWorkList({ open }) {
         <Content>
           <Form labelCol={{ span: 5 }} form={form} autoComplete="off">
             <Form.Item label="Работа" name="work">
-              <Select
-                onChange={(value) => {
-                  setWorkData((prev) => {
+              <Space>
+                <Select
+                  style={{ width: 250 }}
+                  onChange={(value) => {
+                    setWorkData((prev) => {
+                      return {
+                        ...prev,
+                        id: work.find((item) => value === item.id).id,
+                        price: work.find((item) => value === item.id).price,
+                        name: work.find((item) => value === item.id).name,
+                      };
+                    });
+                  }}
+                  options={work.map((item) => {
                     return {
-                      ...prev,
-                      id: work.find((item) => value === item.id).id,
-                      price: work.find((item) => value === item.id).price,
-                      name: work.find((item) => value === item.id).name,
+                      value: item.id,
+                      label: item.name,
                     };
-                  });
-                }}
-                options={work.map((item) => {
-                  return {
-                    value: item.id,
-                    label: item.name,
-                  };
-                })}
-              />
+                  })}
+                />
+                <Button
+                  type="primary"
+                  size="small"
+                  shape="circle"
+                  icon={<PlusOutlined />}
+                  onClick={() =>
+                    dispatch(
+                      updateModals({
+                        modal: 6,
+                      })
+                    )
+                  }
+                />
+              </Space>
             </Form.Item>
             <Form.Item label="Ед измерения" name="unit">
               <Select
