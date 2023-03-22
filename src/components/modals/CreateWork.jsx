@@ -17,6 +17,7 @@ function CreateWork({ open }) {
     <>
       {contextHolder}
       <Modal
+        destroyOnClose
         title="Создание новой работы"
         width={"50%"}
         open={open}

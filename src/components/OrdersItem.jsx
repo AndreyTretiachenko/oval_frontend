@@ -14,10 +14,15 @@ import {
   Modal,
   message,
   DatePicker,
-  Radio,
+  Input,
+  Space,
 } from "antd";
 import ReactToPrint from "react-to-print";
-import { PrinterOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  PrinterOutlined,
+  PlusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
@@ -40,6 +45,7 @@ const { Content } = Layout;
 const { RangePicker } = DatePicker;
 
 function OrdersItem({ item }) {
+  const dispatch = useDispatch();
   const [addWork] = useAddWorksMutation();
   const [deleteWork] = useDeleteWorksMutation();
   const [deleteMaterial] = useDeleteMaterialsMutation();
@@ -47,6 +53,7 @@ function OrdersItem({ item }) {
   const [addGoogleEvent] = useAddGoogleEventMutation();
   const [formWork] = Form.useForm();
   const [formMaterial] = Form.useForm();
+  const [formEvent] = Form.useForm();
   const { data: work = [] } = useGetWorkQuery();
   const { data: unit = [] } = useGetUnitQuery();
   const { data: material = [] } = useGetMaterialQuery();
@@ -56,13 +63,14 @@ function OrdersItem({ item }) {
   const printOrder = useRef();
   const [messageApi, contextHolder] = message.useMessage();
   const [token, setToken] = useState();
+  const [isAddEventCalendar, setIsAddEventCalendar] = useState(false);
   const [refreshToken, setRefreshToken] = useState(
     JSON.parse(localStorage.getItem("refresh_token"))
   );
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
-  const { data: CalendarColor } = useGetGoogleCalendarColorQuery();
-  console.log(CalendarColor);
-  const optionsColor = Object.entries(CalendarColor.event).map((color) => {
+  const { data: CalendarColor = { event: {} } } =
+    useGetGoogleCalendarColorQuery();
+  const optionsColor = Object.entries(CalendarColor?.event).map((color) => {
     return {
       label: (
         <div
@@ -77,7 +85,6 @@ function OrdersItem({ item }) {
       value: color[0],
     };
   });
-  console.log(optionsColor);
 
   //control access_token Google API for valid and change refresh_token on new access_token if necessary
   const getToken = async () => {
@@ -129,104 +136,88 @@ function OrdersItem({ item }) {
         сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
               sumOrderMaterial() + sumOrderWork()
             }`}>
-            <ReactToPrint
-              trigger={() => (
-                <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
-                  распечатать
-                </Button>
-              )}
-              content={() => printOrder.current}
-            />
-            <Descriptions title="подробнее о заказе" column={1}>
-              <Descriptions.Item label="планируемая дата выполнения">
-                <RangePicker
-                  format="YYYY-MM-DD HH:mm"
-                  showTime={{
-                    format: "HH:mm",
-                  }}
-                  onOk={async (value) => {
-                    await getToken();
-                    await addGoogleEvent(
-                      {
-                        colorId: item.colorEvent,
+            <Space direction="vertical">
+              <div style={{ float: "right" }}>
+                <Space>
+                  <ReactToPrint
+                    trigger={() => (
+                      <Button
+                        style={{ float: "right" }}
+                        icon={<PrinterOutlined />}>
+                        распечатать
+                      </Button>
+                    )}
+                    content={() => printOrder.current}
+                  />
+                  <Button
+                    onClick={() => {
+                      formEvent.setFieldsValue({
                         summary:
                           item.client.type === "company"
-                            ? item.client.name + " " + item.transport?.brand
+                            ? item.client.name +
+                              " " +
+                              item.transport?.brand +
+                              " " +
+                              item.transport?.vin
                             : item.client.firstName +
                               " " +
                               item.client.lastName +
                               " " +
-                              item.transport?.brand,
-                        start: {
-                          dateTime: value[0].$d.toISOString(),
-                          timeZone: "",
-                        },
-                        end: {
-                          dateTime: value[1].$d.toISOString(),
-                          timeZone: "",
-                        },
-                      },
-                      token
-                    )
-                      .unwrap()
-                      .then((response) => {
-                        messageApi.open({
-                          type: "success",
-                          content: `событие добавлено в календарь`,
-                          duration: 1.5,
-                        });
+                              item.transport?.brand +
+                              " " +
+                              item.transport?.vin,
                       });
-                  }}
-                />
-              </Descriptions.Item>
-              <Descriptions.Item label="цвет">
-                <Select
-                  options={optionsColor}
-                  style={{ width: 70 }}
-                  size="small"
-                  onChange={(value) => {
-                    item = { ...item, colorEvent: value };
-                  }}
-                />
-              </Descriptions.Item>
-            </Descriptions>
-            <OrderPrint r={printOrder} data={item} />
-            <Descriptions title="Информация о заказчике" size="small">
-              <Descriptions.Item
-                label={
-                  item.client.type === "company" ? "Название" : "Имя Фамилия"
-                }>
-                {item.client.type === "company"
-                  ? item.client.name
-                  : item.client.firstName + " " + item.client.lastName}
-              </Descriptions.Item>
-              <Descriptions.Item label="Вид клиента">
-                {item.client.type === "company" ? "юр лицо" : "физ лицо"}
-              </Descriptions.Item>
+                      setIsAddEventCalendar(true);
+                    }}
+                    icon={<PlusCircleOutlined />}
+                    style={{ float: "right" }}>
+                    событие
+                  </Button>
+                  <Button
+                    icon={<PlusCircleOutlined />}
+                    style={{ float: "right" }}>
+                    задачу
+                  </Button>
+                </Space>
+              </div>
+              <OrderPrint r={printOrder} data={item} />
+              <Descriptions title="Информация о заказчике" size="small">
+                <Descriptions.Item
+                  label={
+                    item.client.type === "company" ? "Название" : "Имя Фамилия"
+                  }>
+                  {item.client.type === "company"
+                    ? item.client.name
+                    : item.client.firstName + " " + item.client.lastName}
+                </Descriptions.Item>
+                <Descriptions.Item label="Вид клиента">
+                  {item.client.type === "company" ? "юр лицо" : "физ лицо"}
+                </Descriptions.Item>
 
-              {item.client.type === "company" ? (
-                <>
-                  <Descriptions.Item label="ИНН">
-                    {item.client.inn}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="КПП">
-                    {item.client.kpp}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Адрес">
-                    {item.client.adress}
-                  </Descriptions.Item>
-                </>
-              ) : (
-                <>
-                  <Descriptions.Item label="Телефон">
-                    {item.client.phoneNumber}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Email">
-                    {item.client.email}
-                  </Descriptions.Item>
-                </>
-              )}
-            </Descriptions>
+                {item.client.type === "company" ? (
+                  <>
+                    <Descriptions.Item label="ИНН">
+                      {item.client.inn}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="КПП">
+                      {item.client.kpp}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Адрес">
+                      {item.client.adress}
+                    </Descriptions.Item>
+                  </>
+                ) : (
+                  <>
+                    <Descriptions.Item label="Телефон">
+                      {item.client.phoneNumber}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Email">
+                      {item.client.email}
+                    </Descriptions.Item>
+                  </>
+                )}
+              </Descriptions>
+            </Space>
             <Divider />
             <Descriptions title="Информация о транспорте" size="small">
               <Descriptions.Item label="Марка">
@@ -334,6 +325,83 @@ function OrdersItem({ item }) {
                         }))}
                       />
                       <Modal
+                        title="Создание события в календаре"
+                        open={isAddEventCalendar}
+                        onCancel={() => {
+                          setIsAddEventCalendar(false);
+                          formEvent.resetFields();
+                        }}
+                        onOk={() => {
+                          formEvent
+                            .validateFields(["DateRange"])
+                            .then(async () => {
+                              await getToken();
+                              await addGoogleEvent(
+                                {
+                                  colorId:
+                                    formEvent.getFieldValue("colorEvent"),
+                                  summary: formEvent.getFieldValue("summary"),
+                                  start: {
+                                    dateTime: formEvent
+                                      .getFieldValue("DateRange")[0]
+                                      .$d.toISOString(),
+                                    timeZone: "",
+                                  },
+                                  end: {
+                                    dateTime: formEvent
+                                      .getFieldValue("DateRange")[1]
+                                      .$d.toISOString(),
+                                    timeZone: "",
+                                  },
+                                },
+                                token
+                              )
+                                .unwrap()
+                                .then((response) => {
+                                  formEvent.resetFields();
+                                  setIsAddEventCalendar(false);
+                                  messageApi.open({
+                                    type: "success",
+                                    content: `событие добавлено в календарь`,
+                                    duration: 1.5,
+                                  });
+                                });
+                            });
+                        }}>
+                        <Form form={formEvent} labelCol={{ span: 6 }}>
+                          <Form.Item name={"summary"} label="Название">
+                            <Input />
+                          </Form.Item>
+                          <Form.Item
+                            name={"DateRange"}
+                            label="Дата и время"
+                            rules={[
+                              {
+                                required: true,
+                                message:
+                                  "необходимо выбрать дату и время события",
+                              },
+                            ]}>
+                            <RangePicker
+                              format="YYYY-MM-DD HH:mm"
+                              showTime={{
+                                format: "HH:mm",
+                              }}
+                            />
+                          </Form.Item>
+                          <Form.Item name={"colorEvent"} label="Цвет события">
+                            <Select
+                              options={optionsColor}
+                              style={{ width: 70 }}
+                              size="small"
+                              onChange={(value) => {
+                                item = { ...item, colorEvent: value };
+                              }}
+                            />
+                          </Form.Item>
+                        </Form>
+                      </Modal>
+                      <Modal
                         open={isOpenAddWork}
                         title="Добавить работу в список"
                         closable={false}
@@ -390,24 +458,40 @@ function OrdersItem({ item }) {
                                   message: "необходимо выбрать работу",
                                 },
                               ]}>
-                              <Select
-                                onChange={(value) => {
-                                  formWork.setFieldValue("count", 1);
-                                  work.map((item) => {
-                                    if (item.id === value)
-                                      formWork.setFieldValue(
-                                        "price",
-                                        item.price
-                                      );
-                                  });
-                                }}
-                                options={work.map((item) => {
-                                  return {
-                                    value: item.id,
-                                    label: item.name,
-                                  };
-                                })}
-                              />
+                              <Space>
+                                <Select
+                                  style={{ width: 250 }}
+                                  onChange={(value) => {
+                                    formWork.setFieldValue("count", 1);
+                                    work.map((item) => {
+                                      if (item.id === value)
+                                        formWork.setFieldValue(
+                                          "price",
+                                          item.price
+                                        );
+                                    });
+                                  }}
+                                  options={work.map((item) => {
+                                    return {
+                                      value: item.id,
+                                      label: item.name,
+                                    };
+                                  })}
+                                />
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  shape="circle"
+                                  icon={<PlusOutlined />}
+                                  onClick={() =>
+                                    dispatch(
+                                      updateModals({
+                                        modal: 6,
+                                      })
+                                    )
+                                  }
+                                />
+                              </Space>
                             </Form.Item>
                             <Form.Item
                               label="Ед измерения"
@@ -601,24 +685,40 @@ function OrdersItem({ item }) {
                                   message: "необходимо выбрать материал",
                                 },
                               ]}>
-                              <Select
-                                onChange={(value) => {
-                                  formMaterial.setFieldValue("count", 1);
-                                  material.map((item) => {
-                                    if (item.id === value)
-                                      formMaterial.setFieldValue(
-                                        "price",
-                                        item.price
-                                      );
-                                  });
-                                }}
-                                options={material.map((item) => {
-                                  return {
-                                    value: item.id,
-                                    label: item.name,
-                                  };
-                                })}
-                              />
+                              <Space>
+                                <Select
+                                  style={{ width: 250 }}
+                                  onChange={(value) => {
+                                    formMaterial.setFieldValue("count", 1);
+                                    material.map((item) => {
+                                      if (item.id === value)
+                                        formMaterial.setFieldValue(
+                                          "price",
+                                          item.price
+                                        );
+                                    });
+                                  }}
+                                  options={material.map((item) => {
+                                    return {
+                                      value: item.id,
+                                      label: item.name,
+                                    };
+                                  })}
+                                />
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  shape="circle"
+                                  icon={<PlusOutlined />}
+                                  onClick={() =>
+                                    dispatch(
+                                      updateModals({
+                                        modal: 7,
+                                      })
+                                    )
+                                  }
+                                />
+                              </Space>
                             </Form.Item>
                             <Form.Item
                               label="Ед измерения"

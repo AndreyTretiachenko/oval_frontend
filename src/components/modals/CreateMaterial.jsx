@@ -16,6 +16,7 @@ function CreateMaterial({ open }) {
     <>
       {contextHolder}
       <Modal
+        destroyOnClose
         title="Создание нового материала"
         width={"50%"}
         open={open}
