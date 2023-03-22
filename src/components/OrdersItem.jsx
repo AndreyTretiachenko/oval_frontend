@@ -685,24 +685,40 @@ function OrdersItem({ item }) {
                                   message: "необходимо выбрать материал",
                                 },
                               ]}>
-                              <Select
-                                onChange={(value) => {
-                                  formMaterial.setFieldValue("count", 1);
-                                  material.map((item) => {
-                                    if (item.id === value)
-                                      formMaterial.setFieldValue(
-                                        "price",
-                                        item.price
-                                      );
-                                  });
-                                }}
-                                options={material.map((item) => {
-                                  return {
-                                    value: item.id,
-                                    label: item.name,
-                                  };
-                                })}
-                              />
+                              <Space>
+                                <Select
+                                  style={{ width: 250 }}
+                                  onChange={(value) => {
+                                    formMaterial.setFieldValue("count", 1);
+                                    material.map((item) => {
+                                      if (item.id === value)
+                                        formMaterial.setFieldValue(
+                                          "price",
+                                          item.price
+                                        );
+                                    });
+                                  }}
+                                  options={material.map((item) => {
+                                    return {
+                                      value: item.id,
+                                      label: item.name,
+                                    };
+                                  })}
+                                />
+                                <Button
+                                  type="primary"
+                                  size="small"
+                                  shape="circle"
+                                  icon={<PlusOutlined />}
+                                  onClick={() =>
+                                    dispatch(
+                                      updateModals({
+                                        modal: 7,
+                                      })
+                                    )
+                                  }
+                                />
+                              </Space>
                             </Form.Item>
                             <Form.Item
                               label="Ед измерения"
