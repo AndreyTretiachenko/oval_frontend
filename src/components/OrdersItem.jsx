@@ -136,112 +136,178 @@ function OrdersItem({ item }) {
         сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
               sumOrderMaterial() + sumOrderWork()
             }`}>
-            <Space direction="vertical">
-              <div style={{ float: "right" }}>
-                <Space>
-                  <ReactToPrint
-                    trigger={() => (
-                      <Button
-                        style={{ float: "right" }}
-                        icon={<PrinterOutlined />}>
-                        распечатать
-                      </Button>
-                    )}
-                    content={() => printOrder.current}
-                  />
-                  <Button
-                    onClick={() => {
-                      formEvent.setFieldsValue({
-                        summary:
-                          item.client.type === "company"
-                            ? item.client.name +
-                              " " +
-                              item.transport?.brand +
-                              " " +
-                              item.transport?.vin
+            <div>
+              <Space>
+                <ReactToPrint
+                  trigger={() => (
+                    <Button
+                      style={{ float: "right" }}
+                      icon={<PrinterOutlined />}>
+                      распечатать
+                    </Button>
+                  )}
+                  content={() => printOrder.current}
+                />
+                <Button
+                  onClick={() => {
+                    formEvent.setFieldsValue({
+                      summary:
+                        item.client.type === "company"
+                          ? item.client.name +
+                            " " +
+                            item.transport?.brand +
+                            " " +
+                            item.transport?.vin
+                          : item.client.firstName +
+                            " " +
+                            item.client.lastName +
+                            " " +
+                            item.transport?.brand +
+                            " " +
+                            item.transport?.vin,
+                    });
+                    setIsAddEventCalendar(true);
+                  }}
+                  icon={<PlusCircleOutlined />}
+                  style={{ float: "right" }}>
+                  событие
+                </Button>
+                <Button
+                  icon={<PlusCircleOutlined />}
+                  style={{ float: "right" }}>
+                  задачу
+                </Button>
+              </Space>
+            </div>
+            <OrderPrint r={printOrder} data={item} />
+            <Tabs
+              defaultActiveKey="1"
+              items={[
+                {
+                  key: 1,
+                  label: (
+                    <>
+                      <Text style={{ marginRight: 10 }}>информация</Text>
+                    </>
+                  ),
+                  children: (
+                    <>
+                      <Descriptions title="Информация о заказчике" size="large">
+                        <Descriptions.Item
+                          label={
+                            item.client.type === "company"
+                              ? "Название"
+                              : "Имя Фамилия"
+                          }>
+                          {item.client.type === "company"
+                            ? item.client.name
                             : item.client.firstName +
                               " " +
-                              item.client.lastName +
-                              " " +
-                              item.transport?.brand +
-                              " " +
-                              item.transport?.vin,
-                      });
-                      setIsAddEventCalendar(true);
-                    }}
-                    icon={<PlusCircleOutlined />}
-                    style={{ float: "right" }}>
-                    событие
-                  </Button>
-                  <Button
-                    icon={<PlusCircleOutlined />}
-                    style={{ float: "right" }}>
-                    задачу
-                  </Button>
-                </Space>
-              </div>
-              <OrderPrint r={printOrder} data={item} />
-              <Descriptions title="Информация о заказчике" size="small">
-                <Descriptions.Item
-                  label={
-                    item.client.type === "company" ? "Название" : "Имя Фамилия"
-                  }>
-                  {item.client.type === "company"
-                    ? item.client.name
-                    : item.client.firstName + " " + item.client.lastName}
-                </Descriptions.Item>
-                <Descriptions.Item label="Вид клиента">
-                  {item.client.type === "company" ? "юр лицо" : "физ лицо"}
-                </Descriptions.Item>
+                              item.client.lastName}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Вид клиента">
+                          {item.client.type === "company"
+                            ? "юр лицо"
+                            : "физ лицо"}
+                        </Descriptions.Item>
 
-                {item.client.type === "company" ? (
-                  <>
-                    <Descriptions.Item label="ИНН">
-                      {item.client.inn}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="КПП">
-                      {item.client.kpp}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Адрес">
-                      {item.client.adress}
-                    </Descriptions.Item>
-                  </>
-                ) : (
-                  <>
-                    <Descriptions.Item label="Телефон">
-                      {item.client.phoneNumber}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Email">
-                      {item.client.email}
-                    </Descriptions.Item>
-                  </>
-                )}
-              </Descriptions>
-            </Space>
-            <Divider />
-            <Descriptions title="Информация о транспорте" size="small">
-              <Descriptions.Item label="Марка">
-                {item.transport?.brand}
-              </Descriptions.Item>
-              <Descriptions.Item label="Модель">
-                {item.transport?.model}
-              </Descriptions.Item>
-              <Descriptions.Item label="Модификация">
-                {item.transport?.modification}
-              </Descriptions.Item>
-              <Descriptions.Item label="Год выпуска">
-                {item.transport?.year}
-              </Descriptions.Item>
-              <Descriptions.Item label="VIN">
-                {item.transport?.vin}
-              </Descriptions.Item>
-              <Descriptions.Item label="Номер двигателя">
-                {item.transport?.engineNumber}
-              </Descriptions.Item>
-              <Descriptions.Item label="Гос номер">
-                {item.transport?.carNumber}
-              </Descriptions.Item>
-            </Descriptions>
+                        {item.client.type === "company" ? (
+                          <>
+                            <Descriptions.Item label="ИНН">
+                              {item.client.inn}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="КПП">
+                              {item.client.kpp}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Адрес">
+                              {item.client.adress}
+                            </Descriptions.Item>
+                          </>
+                        ) : (
+                          <>
+                            <Descriptions.Item label="Телефон">
+                              {item.client.phoneNumber}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Email">
+                              {item.client.email}
+                            </Descriptions.Item>
+                          </>
+                        )}
+                      </Descriptions>
+
+                      <Divider />
+                      <Descriptions
+                        title="Информация о транспорте"
+                        size="small">
+                        <Descriptions.Item label="Марка">
+                          {item.transport?.brand}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Модель">
+                          {item.transport?.model}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Модификация">
+                          {item.transport?.modification}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Год выпуска">
+                          {item.transport?.year}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="VIN">
+                          {item.transport?.vin}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Номер двигателя">
+                          {item.transport?.engineNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Гос номер">
+                          {item.transport?.carNumber}
+                        </Descriptions.Item>
+                      </Descriptions>
+                    </>
+                  ),
+                },
+                {
+                  key: 2,
+                  label: (
+                    <>
+                      <Text style={{ marginRight: 10 }}>история</Text>
+                    </>
+                  ),
+                  children: (
+                    <>
+                      <Table
+                        columns={[
+                          {
+                            title: "Действие",
+                            dataIndex: "action",
+                            key: "action",
+                            width: "50%",
+                          },
+                          {
+                            title: "Дата/Время",
+                            dataIndex: "date",
+                            key: "date",
+                            width: "30%",
+                          },
+                          {
+                            title: "Пользователь",
+                            dataIndex: "user",
+                            key: "user",
+                            width: "20%",
+                          },
+                        ]}
+                        dataSource={[
+                          {
+                            action: "заказ создан",
+                            date: "2023-23-23",
+                            user: "Владислав Одинцов",
+                          },
+                        ]}
+                      />
+                    </>
+                  ),
+                },
+              ]}
+            />
+
             <Divider />
             <Tabs
               defaultActiveKey="1"
@@ -277,21 +343,21 @@ function OrdersItem({ item }) {
                             width: "30%",
                           },
                           {
-                            title: "ед измерения",
+                            title: "Ед изм.",
                             dataIndex: "unit",
                             key: "unit",
                             width: "13%",
                           },
                           {
-                            title: "Количество",
+                            title: "Кол-во",
                             dataIndex: "count",
                             key: "count",
                             width: "10%",
                           },
                           { title: "Цена", dataIndex: "price", key: "price" },
-                          { title: "стоимость", dataIndex: "sum", key: "sum" },
+                          { title: "Стоимость", dataIndex: "sum", key: "sum" },
                           {
-                            title: "действия",
+                            title: "Действия",
                             dataIndex: "actions",
                             key: "actions",
                             width: "10%",
@@ -409,6 +475,7 @@ function OrdersItem({ item }) {
                         okText="Добавить"
                         cancelText="Отменить"
                         onOk={() => {
+                          console.log(formWork.getFieldsValue());
                           formWork
                             .validateFields(["work", "count", "price", "unit"])
                             .then(async () => {
@@ -464,6 +531,7 @@ function OrdersItem({ item }) {
                                   style={{ width: 250 }}
                                   onChange={(value) => {
                                     formWork.setFieldValue("count", 1);
+                                    formWork.setFieldValue("work", value);
                                     work.map((item) => {
                                       if (item.id === value)
                                         formWork.setFieldValue(
@@ -570,27 +638,27 @@ function OrdersItem({ item }) {
                         scroll={{ y: "calc(100vh - 4em)" }}
                         columns={[
                           {
-                            title: "название",
+                            title: "Название",
                             dataIndex: "name",
                             key: "name",
                             width: "30%",
                           },
                           {
-                            title: "eд измерения",
+                            title: "Ед изм.",
                             dataIndex: "unit",
                             key: "unit",
                             width: "13%",
                           },
                           {
-                            title: "количество",
+                            title: "Кол-во",
                             dataIndex: "count",
                             key: "count",
                             width: "10%",
                           },
-                          { title: "цена", dataIndex: "price", key: "price" },
-                          { title: "стоимость", dataIndex: "sum", key: "sum" },
+                          { title: "Цена", dataIndex: "price", key: "price" },
+                          { title: "Стоимость", dataIndex: "sum", key: "sum" },
                           {
-                            title: "действия",
+                            title: "Действия",
                             dataIndex: "actions",
                             key: "actions",
                             width: "10%",
@@ -692,6 +760,10 @@ function OrdersItem({ item }) {
                                   style={{ width: 250 }}
                                   onChange={(value) => {
                                     formMaterial.setFieldValue("count", 1);
+                                    formMaterial.setFieldValue(
+                                      "material",
+                                      value
+                                    );
                                     material.map((item) => {
                                       if (item.id === value)
                                         formMaterial.setFieldValue(
