@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ovalApi = createApi({
   reducerPath: "ovalAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_BACKEND_BASE_URL,
+    baseUrl: "https://andreytretiachenko.ru:5001/api/v1/",
     headers: { Authorization: "basic dXNlcjp1c2Vy" },
   }),
   tagTypes: [
@@ -179,6 +179,7 @@ export const ovalApi = createApi({
     }),
     getGoogleCalendarColor: builder.query({
       query: () => ({
+        baseUrl: "",
         url:
           "https://www.googleapis.com/calendar/v3/colors?access_token=" +
           JSON.parse(localStorage.getItem("token")).access_token,
@@ -192,6 +193,7 @@ export const ovalApi = createApi({
     }),
     getGoogleOauthToken: builder.mutation({
       query: (body) => ({
+        baseUrl: "",
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         url: "https://oauth2.googleapis.com/token",
@@ -200,6 +202,7 @@ export const ovalApi = createApi({
     }),
     addGoogleEvent: builder.mutation({
       query: (body) => ({
+        baseUrl: "",
         method: "POST",
         headers: { "Content-Type": "application/json" },
         url:
