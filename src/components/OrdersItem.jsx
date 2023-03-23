@@ -317,10 +317,10 @@ function OrdersItem({ item }) {
                         dataSource={item.workList[0]?.work?.map((work) => ({
                           name: work.work.name,
                           count: work.count,
-                          price: work.work.price,
+                          price: work.price,
                           id: work.id,
                           unit: work.unit.name,
-                          sum: work.count * work.work.price,
+                          sum: work.count * work.price,
                           actions: work.id,
                         }))}
                       />
@@ -417,6 +417,7 @@ function OrdersItem({ item }) {
                                 id_worklist: item.workList[0].id,
                                 id_work: formWork.getFieldValue("work"),
                                 unit_id: formWork.getFieldValue("unit"),
+                                price: formWork.getFieldValue("price"),
                               })
                                 .unwrap()
                                 .then((res) => {
@@ -616,10 +617,10 @@ function OrdersItem({ item }) {
                           (material) => ({
                             name: material.material.name,
                             count: material.count,
-                            price: material.material.price,
+                            price: material.price,
                             id: material.id,
                             unit: material.unit.name,
-                            sum: material.count * material.material.price,
+                            sum: material.count * material.price,
                             actions: material.id,
                           })
                         )}
@@ -646,6 +647,7 @@ function OrdersItem({ item }) {
                                 material_id:
                                   formMaterial.getFieldValue("material"),
                                 unit_id: formMaterial.getFieldValue("unit"),
+                                price: formMaterial.getFieldValue("price"),
                               })
                                 .unwrap()
                                 .then((res) => {
