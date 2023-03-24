@@ -40,7 +40,7 @@ import {
 } from "../api";
 
 const { Panel } = Collapse;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { Content } = Layout;
 const { RangePicker } = DatePicker;
 
@@ -322,7 +322,6 @@ function OrdersItem({ item }) {
                       <Table
                         bordered={true}
                         size="small"
-                        loading={isLoading}
                         pagination={{
                           pageSize: 5,
                         }}
