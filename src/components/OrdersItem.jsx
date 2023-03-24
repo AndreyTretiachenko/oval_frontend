@@ -279,7 +279,7 @@ function OrdersItem({ item }) {
                             title: "Действие",
                             dataIndex: "action",
                             key: "action",
-                            width: "50%",
+                            width: "70%",
                           },
                           {
                             title: "Дата/Время",
@@ -287,18 +287,11 @@ function OrdersItem({ item }) {
                             key: "date",
                             width: "30%",
                           },
-                          {
-                            title: "Пользователь",
-                            dataIndex: "user",
-                            key: "user",
-                            width: "20%",
-                          },
                         ]}
                         dataSource={[
                           {
                             action: "заказ создан",
                             date: "2023-23-23",
-                            user: "Владислав Одинцов",
                           },
                         ]}
                       />
