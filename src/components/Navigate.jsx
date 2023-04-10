@@ -33,15 +33,13 @@ function Navigate() {
             margin: 16,
             marginBottom: 32,
           }}>
-          <img alt="logo" src="logo.png" />
+          <img alt="logo" src="logobig.png" />
         </div>
         <Menu
           onClick={(e) =>
             dispatch(
               updateHeader({
-                header: [menuItems[0], ...menuItems[1].children].find(
-                  (item) => item.key === e.key
-                ).label,
+                header: [menuItems[0], ...menuItems[1].children].find((item) => item.key === e.key).label,
                 keyAction: e.key,
               })
             )
