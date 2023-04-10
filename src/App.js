@@ -45,9 +45,7 @@ function App() {
   const dispatch = useDispatch();
   const { header, keyAction } = useSelector((state) => state.navigate);
   const [token, setToken] = useState();
-  const [refreshToken, setRefreshToken] = useState(
-    JSON.parse(localStorage.getItem("refresh_token"))
-  );
+  const [refreshToken, setRefreshToken] = useState(JSON.parse(localStorage.getItem("refresh_token")));
   const modals = useSelector((state) => state.modals);
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
 
@@ -88,9 +86,7 @@ function App() {
         <CreareOrder open={modals?.find((item) => item.modal === 1).open} />
         <CreateWorkList open={modals?.find((item) => item.modal === 2).open} />
         <CreateClient open={modals?.find((item) => item.modal === 3).open} />
-        <CreateMaterialList
-          open={modals?.find((item) => item.modal === 4).open}
-        />
+        <CreateMaterialList open={modals?.find((item) => item.modal === 4).open} />
         <CreateTransport open={modals?.find((item) => item.modal === 5).open} />
         <CreateWork open={modals?.find((item) => item.modal === 6).open} />
         <CreateMaterial open={modals?.find((item) => item.modal === 7).open} />
@@ -99,6 +95,7 @@ function App() {
           <Header
             style={{
               paddingLeft: "30px",
+              height: "10vh",
               background: "white",
             }}>
             {header}
@@ -191,7 +188,7 @@ function App() {
             style={{
               margin: "24px 16px",
               padding: "24px",
-              height: "auto",
+              height: "74vh",
               backgroundColor: "white",
             }}>
             {renderSwitch(keyAction)}
@@ -201,9 +198,10 @@ function App() {
               padding: 0,
               marginBottom: 0,
               marginTop: 0,
+              height: "5vh",
               textAlign: "center",
             }}>
-            ©2023 Created by Andrey Tretiachenko
+            created by Andrey Tretiachenko © 2023
           </Footer>
         </Layout>
       </Layout>
