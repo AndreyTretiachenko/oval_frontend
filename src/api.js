@@ -3,28 +3,16 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ovalApi = createApi({
   reducerPath: "ovalAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://andreytretiachenko.ru:5001/api/v1/",
+    baseUrl: "https://service.truck29.ru:5001/api/v1/",
     headers: { Authorization: "basic dXNlcjp1c2Vy" },
   }),
-  tagTypes: [
-    "order",
-    "worklist",
-    "works",
-    "company",
-    "person",
-    "transport",
-    "work",
-    "material",
-  ],
+  tagTypes: ["order", "worklist", "works", "company", "person", "transport", "work", "material"],
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => "order",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "order", id })),
-              { type: "order", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "order", id })), { type: "order", id: "LIST" }]
           : [{ type: "order", id: "LIST" }],
     }),
     addOrder: builder.mutation({
@@ -39,10 +27,7 @@ export const ovalApi = createApi({
       query: () => "company",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "company", id })),
-              { type: "company", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "company", id })), { type: "company", id: "LIST" }]
           : [{ type: "company", id: "LIST" }],
     }),
     addCompany: builder.mutation({
@@ -57,10 +42,7 @@ export const ovalApi = createApi({
       query: () => "work",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "work", id })),
-              { type: "work", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "work", id })), { type: "work", id: "LIST" }]
           : [{ type: "work", id: "LIST" }],
     }),
     addWork: builder.mutation({
@@ -75,10 +57,7 @@ export const ovalApi = createApi({
       query: () => "material",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "material", id })),
-              { type: "material", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "material", id })), { type: "material", id: "LIST" }]
           : [{ type: "material", id: "LIST" }],
     }),
     addMaterial: builder.mutation({
@@ -133,10 +112,7 @@ export const ovalApi = createApi({
       query: () => "transport",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "transport", id })),
-              { type: "transport", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "transport", id })), { type: "transport", id: "LIST" }]
           : [{ type: "transport", id: "LIST" }],
     }),
     addTransport: builder.mutation({
@@ -155,10 +131,7 @@ export const ovalApi = createApi({
       query: () => "person",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "person", id })),
-              { type: "person", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "person", id })), { type: "person", id: "LIST" }]
           : [{ type: "person", id: "LIST" }],
     }),
     addPerson: builder.mutation({
@@ -172,9 +145,7 @@ export const ovalApi = createApi({
     getGoogleCalendar: builder.query({
       query: (token) => ({
         baseUrl: "",
-        url:
-          "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=" +
-          token,
+        url: "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=" + token,
       }),
     }),
     getGoogleCalendarColor: builder.query({
@@ -215,10 +186,7 @@ export const ovalApi = createApi({
       query: () => "works",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "works", id })),
-              { type: "works", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "works", id })), { type: "works", id: "LIST" }]
           : [{ type: "works", id: "LIST" }],
     }),
     addWorks: builder.mutation({
@@ -247,10 +215,7 @@ export const ovalApi = createApi({
       query: () => "worklist",
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "worklist", id })),
-              { type: "worklist", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "worklist", id })), { type: "worklist", id: "LIST" }]
           : [{ type: "worklist", id: "LIST" }],
     }),
     addWorkList: builder.mutation({
