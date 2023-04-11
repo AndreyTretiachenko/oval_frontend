@@ -95,7 +95,7 @@ function OrdersItem({ item }) {
   const sumOrderMaterial = () => {
     let sum = 0;
     item.materialList[0].materials.map((material) => {
-      sum = sum + material.count * material.material.price;
+      sum = sum + material.count * material.price;
     });
     return sum;
   };
@@ -103,7 +103,7 @@ function OrdersItem({ item }) {
   const sumOrderWork = () => {
     let sum = 0;
     item.workList[0]?.work?.map((work) => {
-      sum = sum + work.count * work.work.price;
+      sum = sum + work.count * work.price;
     });
     return sum;
   };
