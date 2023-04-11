@@ -18,11 +18,7 @@ import {
   Space,
 } from "antd";
 import ReactToPrint from "react-to-print";
-import {
-  PrinterOutlined,
-  PlusCircleOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { PrinterOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { OrderPrint } from "./OrderPrint";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../features/modalsSlice";
@@ -64,12 +60,9 @@ function OrdersItem({ item }) {
   const [messageApi, contextHolder] = message.useMessage();
   const [token, setToken] = useState();
   const [isAddEventCalendar, setIsAddEventCalendar] = useState(false);
-  const [refreshToken, setRefreshToken] = useState(
-    JSON.parse(localStorage.getItem("refresh_token"))
-  );
+  const [refreshToken, setRefreshToken] = useState(JSON.parse(localStorage.getItem("refresh_token")));
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
-  const { data: CalendarColor = { event: {} } } =
-    useGetGoogleCalendarColorQuery();
+  const { data: CalendarColor = { event: {} } } = useGetGoogleCalendarColorQuery();
   const optionsColor = Object.entries(CalendarColor?.event).map((color) => {
     return {
       label: (
@@ -125,13 +118,9 @@ function OrdersItem({ item }) {
             key={item.id}
             header={`Заказ-наряд №${item.id} от ${
               item.date_created &&
-              new Date(Date.parse(item.date_created)).toLocaleDateString(
-                "ru-RU"
-              ) +
+              new Date(Date.parse(item.date_created)).toLocaleDateString("ru-RU") +
                 " " +
-                new Date(Date.parse(item.date_created)).toLocaleTimeString(
-                  "ru-RU"
-                )
+                new Date(Date.parse(item.date_created)).toLocaleTimeString("ru-RU")
             },
         сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
               sumOrderMaterial() + sumOrderWork()
@@ -140,9 +129,7 @@ function OrdersItem({ item }) {
               <Space>
                 <ReactToPrint
                   trigger={() => (
-                    <Button
-                      style={{ float: "right" }}
-                      icon={<PrinterOutlined />}>
+                    <Button style={{ float: "right" }} icon={<PrinterOutlined />}>
                       распечатать
                     </Button>
                   )}
@@ -153,11 +140,7 @@ function OrdersItem({ item }) {
                     formEvent.setFieldsValue({
                       summary:
                         item.client.type === "company"
-                          ? item.client.name +
-                            " " +
-                            item.transport?.brand +
-                            " " +
-                            item.transport?.vin
+                          ? item.client.name + " " + item.transport?.brand + " " + item.transport?.vin
                           : item.client.firstName +
                             " " +
                             item.client.lastName +
@@ -172,9 +155,7 @@ function OrdersItem({ item }) {
                   style={{ float: "right" }}>
                   событие
                 </Button>
-                <Button
-                  icon={<PlusCircleOutlined />}
-                  style={{ float: "right" }}>
+                <Button icon={<PlusCircleOutlined />} style={{ float: "right" }}>
                   задачу
                 </Button>
               </Space>
@@ -193,73 +174,38 @@ function OrdersItem({ item }) {
                   children: (
                     <>
                       <Descriptions title="Информация о заказчике" size="large">
-                        <Descriptions.Item
-                          label={
-                            item.client.type === "company"
-                              ? "Название"
-                              : "Имя Фамилия"
-                          }>
+                        <Descriptions.Item label={item.client.type === "company" ? "Название" : "Имя Фамилия"}>
                           {item.client.type === "company"
                             ? item.client.name
-                            : item.client.firstName +
-                              " " +
-                              item.client.lastName}
+                            : item.client.firstName + " " + item.client.lastName}
                         </Descriptions.Item>
                         <Descriptions.Item label="Вид клиента">
-                          {item.client.type === "company"
-                            ? "юр лицо"
-                            : "физ лицо"}
+                          {item.client.type === "company" ? "юр лицо" : "физ лицо"}
                         </Descriptions.Item>
 
                         {item.client.type === "company" ? (
                           <>
-                            <Descriptions.Item label="ИНН">
-                              {item.client.inn}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="КПП">
-                              {item.client.kpp}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Адрес">
-                              {item.client.adress}
-                            </Descriptions.Item>
+                            <Descriptions.Item label="ИНН">{item.client.inn}</Descriptions.Item>
+                            <Descriptions.Item label="КПП">{item.client.kpp}</Descriptions.Item>
+                            <Descriptions.Item label="Адрес">{item.client.adress}</Descriptions.Item>
                           </>
                         ) : (
                           <>
-                            <Descriptions.Item label="Телефон">
-                              {item.client.phoneNumber}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Email">
-                              {item.client.email}
-                            </Descriptions.Item>
+                            <Descriptions.Item label="Телефон">{item.client.phoneNumber}</Descriptions.Item>
+                            <Descriptions.Item label="Email">{item.client.email}</Descriptions.Item>
                           </>
                         )}
                       </Descriptions>
 
                       <Divider />
-                      <Descriptions
-                        title="Информация о транспорте"
-                        size="small">
-                        <Descriptions.Item label="Марка">
-                          {item.transport?.brand}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Модель">
-                          {item.transport?.model}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Модификация">
-                          {item.transport?.modification}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Год выпуска">
-                          {item.transport?.year}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="VIN">
-                          {item.transport?.vin}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Номер двигателя">
-                          {item.transport?.engineNumber}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Гос номер">
-                          {item.transport?.carNumber}
-                        </Descriptions.Item>
+                      <Descriptions title="Информация о транспорте" size="small">
+                        <Descriptions.Item label="Марка">{item.transport?.brand}</Descriptions.Item>
+                        <Descriptions.Item label="Модель">{item.transport?.model}</Descriptions.Item>
+                        <Descriptions.Item label="Модификация">{item.transport?.modification}</Descriptions.Item>
+                        <Descriptions.Item label="Год выпуска">{item.transport?.year}</Descriptions.Item>
+                        <Descriptions.Item label="VIN">{item.transport?.vin}</Descriptions.Item>
+                        <Descriptions.Item label="Номер двигателя">{item.transport?.engineNumber}</Descriptions.Item>
+                        <Descriptions.Item label="Гос номер">{item.transport?.carNumber}</Descriptions.Item>
                       </Descriptions>
                     </>
                   ),
@@ -310,11 +256,7 @@ function OrdersItem({ item }) {
                   label: (
                     <>
                       <Text style={{ marginRight: 10 }}>Работа</Text>
-                      <Button
-                        icon={<PlusCircleOutlined />}
-                        type="link"
-                        onClick={() => setIsOpenAddWork(true)}
-                      />
+                      <Button icon={<PlusCircleOutlined />} type="link" onClick={() => setIsOpenAddWork(true)} />
                     </>
                   ),
                   children: (
@@ -325,8 +267,8 @@ function OrdersItem({ item }) {
                         pagination={{
                           pageSize: 5,
                         }}
-                        tableLayout="auto"
-                        scroll={{ y: "calc(100vh - 4em)" }}
+                        // tableLayout="auto"
+                        // scroll={{ y: "calc(100vh - 4em)" }}
                         columns={[
                           {
                             title: "Название",
@@ -390,41 +332,34 @@ function OrdersItem({ item }) {
                           formEvent.resetFields();
                         }}
                         onOk={() => {
-                          formEvent
-                            .validateFields(["DateRange"])
-                            .then(async () => {
-                              await getToken();
-                              await addGoogleEvent(
-                                {
-                                  colorId:
-                                    formEvent.getFieldValue("colorEvent"),
-                                  summary: formEvent.getFieldValue("summary"),
-                                  start: {
-                                    dateTime: formEvent
-                                      .getFieldValue("DateRange")[0]
-                                      .$d.toISOString(),
-                                    timeZone: "",
-                                  },
-                                  end: {
-                                    dateTime: formEvent
-                                      .getFieldValue("DateRange")[1]
-                                      .$d.toISOString(),
-                                    timeZone: "",
-                                  },
+                          formEvent.validateFields(["DateRange"]).then(async () => {
+                            await getToken();
+                            await addGoogleEvent(
+                              {
+                                colorId: formEvent.getFieldValue("colorEvent"),
+                                summary: formEvent.getFieldValue("summary"),
+                                start: {
+                                  dateTime: formEvent.getFieldValue("DateRange")[0].$d.toISOString(),
+                                  timeZone: "",
                                 },
-                                token
-                              )
-                                .unwrap()
-                                .then((response) => {
-                                  formEvent.resetFields();
-                                  setIsAddEventCalendar(false);
-                                  messageApi.open({
-                                    type: "success",
-                                    content: `событие добавлено в календарь`,
-                                    duration: 1.5,
-                                  });
+                                end: {
+                                  dateTime: formEvent.getFieldValue("DateRange")[1].$d.toISOString(),
+                                  timeZone: "",
+                                },
+                              },
+                              token
+                            )
+                              .unwrap()
+                              .then((response) => {
+                                formEvent.resetFields();
+                                setIsAddEventCalendar(false);
+                                messageApi.open({
+                                  type: "success",
+                                  content: `событие добавлено в календарь`,
+                                  duration: 1.5,
                                 });
-                            });
+                              });
+                          });
                         }}>
                         <Form form={formEvent} labelCol={{ span: 6 }}>
                           <Form.Item name={"summary"} label="Название">
@@ -436,8 +371,7 @@ function OrdersItem({ item }) {
                             rules={[
                               {
                                 required: true,
-                                message:
-                                  "необходимо выбрать дату и время события",
+                                message: "необходимо выбрать дату и время события",
                               },
                             ]}>
                             <RangePicker
@@ -468,38 +402,36 @@ function OrdersItem({ item }) {
                         cancelText="Отменить"
                         onOk={() => {
                           console.log(formWork.getFieldsValue());
-                          formWork
-                            .validateFields(["work", "count", "price", "unit"])
-                            .then(async () => {
-                              await addWork({
-                                count: formWork.getFieldValue("count"),
-                                id_worklist: item.workList[0].id,
-                                id_work: formWork.getFieldValue("work"),
-                                unit_id: formWork.getFieldValue("unit"),
-                                price: formWork.getFieldValue("price"),
+                          formWork.validateFields(["work", "count", "price", "unit"]).then(async () => {
+                            await addWork({
+                              count: formWork.getFieldValue("count"),
+                              id_worklist: item.workList[0].id,
+                              id_work: formWork.getFieldValue("work"),
+                              unit_id: formWork.getFieldValue("unit"),
+                              price: formWork.getFieldValue("price"),
+                            })
+                              .unwrap()
+                              .then((res) => {
+                                if (res.status === "successful") {
+                                  setIsOpenAddWork(false);
+                                  messageApi.open({
+                                    type: "success",
+                                    content: `работа добавлена`,
+                                    duration: 1.5,
+                                  });
+                                } else {
+                                  messageApi.open({
+                                    type: "error",
+                                    content: `ошибка добавления работы`,
+                                    duration: 1.5,
+                                  });
+                                }
                               })
-                                .unwrap()
-                                .then((res) => {
-                                  if (res.status === "successful") {
-                                    setIsOpenAddWork(false);
-                                    messageApi.open({
-                                      type: "success",
-                                      content: `работа добавлена`,
-                                      duration: 1.5,
-                                    });
-                                  } else {
-                                    messageApi.open({
-                                      type: "error",
-                                      content: `ошибка добавления работы`,
-                                      duration: 1.5,
-                                    });
-                                  }
-                                })
-                                .finally(() => {
-                                  formWork.resetFields();
-                                  setIsLoading(false);
-                                });
-                            });
+                              .finally(() => {
+                                formWork.resetFields();
+                                setIsLoading(false);
+                              });
+                          });
                         }}
                         onCancel={() => {
                           setIsOpenAddWork(false);
@@ -525,11 +457,7 @@ function OrdersItem({ item }) {
                                     formWork.setFieldValue("count", 1);
                                     formWork.setFieldValue("work", value);
                                     work.map((item) => {
-                                      if (item.id === value)
-                                        formWork.setFieldValue(
-                                          "price",
-                                          item.price
-                                        );
+                                      if (item.id === value) formWork.setFieldValue("price", item.price);
                                     });
                                   }}
                                   options={work.map((item) => {
@@ -581,11 +509,7 @@ function OrdersItem({ item }) {
                                   message: "необходимо указать количество",
                                 },
                               ]}>
-                              <InputNumber
-                                min={1}
-                                max={1000}
-                                defaultValue={1}
-                              />
+                              <InputNumber min={1} max={1000} defaultValue={1} />
                             </Form.Item>
                             <Form.Item
                               label="Цена"
@@ -626,8 +550,8 @@ function OrdersItem({ item }) {
                           pageSize: 5,
                         }}
                         size="small"
-                        tableLayout="auto"
-                        scroll={{ y: "calc(100vh - 4em)" }}
+                        // tableLayout="auto"
+                        // scroll={{ y: "calc(100vh - 4em)" }}
                         columns={[
                           {
                             title: "Название",
@@ -673,17 +597,15 @@ function OrdersItem({ item }) {
                             ),
                           },
                         ]}
-                        dataSource={item?.materialList[0]?.materials?.map(
-                          (material) => ({
-                            name: material.material.name,
-                            count: material.count,
-                            price: material.price,
-                            id: material.id,
-                            unit: material.unit.name,
-                            sum: material.count * material.price,
-                            actions: material.id,
-                          })
-                        )}
+                        dataSource={item?.materialList[0]?.materials?.map((material) => ({
+                          name: material.material.name,
+                          count: material.count,
+                          price: material.price,
+                          id: material.id,
+                          unit: material.unit.name,
+                          sum: material.count * material.price,
+                          actions: material.id,
+                        }))}
                       />
                       <Modal
                         open={isOpenAddMaterial}
@@ -693,42 +615,34 @@ function OrdersItem({ item }) {
                         okText="Добавить"
                         cancelText="Отменить"
                         onOk={() => {
-                          formMaterial
-                            .validateFields([
-                              "material",
-                              "count",
-                              "unit",
-                              "price",
-                            ])
-                            .then(async (values) => {
-                              await addMaterial({
-                                count: formMaterial.getFieldValue("count"),
-                                materiallist_id: item.materialList[0].id,
-                                material_id:
-                                  formMaterial.getFieldValue("material"),
-                                unit_id: formMaterial.getFieldValue("unit"),
-                                price: formMaterial.getFieldValue("price"),
+                          formMaterial.validateFields(["material", "count", "unit", "price"]).then(async (values) => {
+                            await addMaterial({
+                              count: formMaterial.getFieldValue("count"),
+                              materiallist_id: item.materialList[0].id,
+                              material_id: formMaterial.getFieldValue("material"),
+                              unit_id: formMaterial.getFieldValue("unit"),
+                              price: formMaterial.getFieldValue("price"),
+                            })
+                              .unwrap()
+                              .then((res) => {
+                                if (res.status === "successful")
+                                  messageApi.open({
+                                    type: "success",
+                                    content: `материал добавлен`,
+                                    duration: 1.5,
+                                  });
+                                else
+                                  messageApi.open({
+                                    type: "error",
+                                    content: `ошибка добавления материала`,
+                                    duration: 1.5,
+                                  });
                               })
-                                .unwrap()
-                                .then((res) => {
-                                  if (res.status === "successful")
-                                    messageApi.open({
-                                      type: "success",
-                                      content: `материал добавлен`,
-                                      duration: 1.5,
-                                    });
-                                  else
-                                    messageApi.open({
-                                      type: "error",
-                                      content: `ошибка добавления материала`,
-                                      duration: 1.5,
-                                    });
-                                })
-                                .then(() => setIsOpenAddMaterial(false))
-                                .finally(() => {
-                                  formMaterial.resetFields();
-                                });
-                            });
+                              .then(() => setIsOpenAddMaterial(false))
+                              .finally(() => {
+                                formMaterial.resetFields();
+                              });
+                          });
                         }}
                         onCancel={() => {
                           setIsOpenAddMaterial(false);
@@ -752,16 +666,9 @@ function OrdersItem({ item }) {
                                   style={{ width: 250 }}
                                   onChange={(value) => {
                                     formMaterial.setFieldValue("count", 1);
-                                    formMaterial.setFieldValue(
-                                      "material",
-                                      value
-                                    );
+                                    formMaterial.setFieldValue("material", value);
                                     material.map((item) => {
-                                      if (item.id === value)
-                                        formMaterial.setFieldValue(
-                                          "price",
-                                          item.price
-                                        );
+                                      if (item.id === value) formMaterial.setFieldValue("price", item.price);
                                     });
                                   }}
                                   options={material.map((item) => {
@@ -792,8 +699,7 @@ function OrdersItem({ item }) {
                               rules={[
                                 {
                                   required: true,
-                                  message:
-                                    "необходимо выбрать единицы измерения",
+                                  message: "необходимо выбрать единицы измерения",
                                 },
                               ]}>
                               <Select
@@ -814,11 +720,7 @@ function OrdersItem({ item }) {
                                   message: "необходимо указать количество",
                                 },
                               ]}>
-                              <InputNumber
-                                min={1}
-                                max={1000}
-                                defaultValue={1}
-                              />
+                              <InputNumber min={1} max={1000} defaultValue={1} />
                             </Form.Item>
                             <Form.Item
                               label="Цена"
