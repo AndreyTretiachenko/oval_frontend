@@ -188,7 +188,7 @@ function App() {
             style={{
               margin: "24px 16px",
               padding: "24px",
-              height: "74vh",
+              height: "auto",
               backgroundColor: "white",
             }}>
             {renderSwitch(keyAction)}

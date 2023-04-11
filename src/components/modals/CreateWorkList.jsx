@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Table,
-  Layout,
-  Form,
-  Button,
-  Select,
-  Input,
-  InputNumber,
-  Space,
-} from "antd";
+import { Modal, Table, Layout, Form, Button, Select, Input, InputNumber, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
@@ -54,16 +44,7 @@ function CreateWorkList({ open }) {
       key: "actions",
       render: (id) => (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a
-          onClick={() =>
-            dispatch(
-              setWorklist(
-                [...workListData].filter((item) => item.id_item !== id)
-              )
-            )
-          }>
-          удалить
-        </a>
+        <a onClick={() => dispatch(setWorklist([...workListData].filter((item) => item.id_item !== id)))}>удалить</a>
       ),
     },
   ];
@@ -145,9 +126,7 @@ function CreateWorkList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button
-              onClick={() => setIsOpenAddWork(true)}
-              icon={<PlusOutlined />}>
+            <Button onClick={() => setIsOpenAddWork(true)} icon={<PlusOutlined />}>
               Добавить
             </Button>
           </Content>
@@ -158,13 +137,23 @@ function CreateWorkList({ open }) {
         title="Создание работы"
         closable={false}
         centered
-        onOk={handleOkCreateWork}
+        cancelText="отмена"
+        okText="создать"
+        onOk={() => form.validateFields().then((values) => handleOkCreateWork)}
         onCancel={handleCancelAddWork}
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
         <Content>
           <Form labelCol={{ span: 5 }} form={form} autoComplete="off">
-            <Form.Item label="Работа" name="work">
+            <Form.Item
+              label="Работа"
+              name="work"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо выбрать наименование работы",
+                },
+              ]}>
               <Space>
                 <Select
                   style={{ width: 250 }}
@@ -200,7 +189,15 @@ function CreateWorkList({ open }) {
                 />
               </Space>
             </Form.Item>
-            <Form.Item label="Ед измерения" name="unit">
+            <Form.Item
+              label="Ед измерения"
+              name="unit"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо выбрать ед измерения работы",
+                },
+              ]}>
               <Select
                 onChange={(value) =>
                   setWorkData({
@@ -216,7 +213,15 @@ function CreateWorkList({ open }) {
                 })}
               />
             </Form.Item>
-            <Form.Item label="Количество" name="count">
+            <Form.Item
+              label="Количество"
+              name="count"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать количество работы",
+                },
+              ]}>
               <InputNumber
                 min={1}
                 max={1000}
@@ -229,12 +234,16 @@ function CreateWorkList({ open }) {
                 }
               />
             </Form.Item>
-            <Form.Item label="Цена" name="price">
-              <Input
-                onChange={(e) =>
-                  setWorkData({ ...workData, price: e.target.value })
-                }
-              />
+            <Form.Item
+              label="Цена"
+              name="price"
+              rules={[
+                {
+                  required: true,
+                  message: "необходимо указать цену работы",
+                },
+              ]}>
+              <Input onChange={(e) => setWorkData({ ...workData, price: e.target.value })} />
             </Form.Item>
           </Form>
         </Content>
