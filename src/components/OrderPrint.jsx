@@ -45,7 +45,14 @@ export const OrderPrint = ({ r, data }) => {
                 &nbsp;
               </td>
               <td class="column1 style110 s style112" colspan="7">
-                {data.client.name} ИНН {data.client.inn}, КПП {data.client.kpp}
+                {data.client.type === "company"
+                  ? data.client.name +
+                    ", ИНН " +
+                    (data.client.inn ? data.client.inn : "-") +
+                    (data.client.kpp ? ", КПП " + data.client.kpp : "")
+                  : (data.client.firstName ? data.client.firstName : " ") +
+                    " " +
+                    (data.client.lastName ? data.client.lastName : " ")}
               </td>
             </tr>
             <tr class="row3">
