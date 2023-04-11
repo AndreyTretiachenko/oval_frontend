@@ -158,6 +158,7 @@ function CreateWorkList({ open }) {
                 <Select
                   style={{ width: 250 }}
                   onChange={(value) => {
+                    form.setFieldValue("work", value);
                     setWorkData((prev) => {
                       return {
                         ...prev,
@@ -199,12 +200,13 @@ function CreateWorkList({ open }) {
                 },
               ]}>
               <Select
-                onChange={(value) =>
+                onChange={(value) => {
+                  form.setFieldValue("unit", value);
                   setWorkData({
                     ...workData,
                     unit: value,
-                  })
-                }
+                  });
+                }}
                 options={unit.map((item) => {
                   return {
                     label: item.name,
@@ -226,12 +228,13 @@ function CreateWorkList({ open }) {
                 min={1}
                 max={1000}
                 defaultValue={1}
-                onChange={(value) =>
+                onChange={(value) => {
+                  form.setFieldValue("count", value);
                   setWorkData({
                     ...workData,
                     count: value,
-                  })
-                }
+                  });
+                }}
               />
             </Form.Item>
             <Form.Item
@@ -243,7 +246,12 @@ function CreateWorkList({ open }) {
                   message: "необходимо указать цену работы",
                 },
               ]}>
-              <Input onChange={(e) => setWorkData({ ...workData, price: e.target.value })} />
+              <Input
+                onChange={(e) => {
+                  form.setFieldValue("count", e.target.value);
+                  setWorkData({ ...workData, price: e.target.value });
+                }}
+              />
             </Form.Item>
           </Form>
         </Content>
