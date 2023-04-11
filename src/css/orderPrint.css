@@ -4,12 +4,14 @@
   margin-top: 0.39370078740157in;
   margin-bottom: 0.78740157480315in;
 }
-/* body {
-  margin-left: 0.39370078740157in;
-  margin-right: 0in;
-  margin-top: 0.39370078740157in;
-  margin-bottom: 0.78740157480315in;
-} */
+@media print {
+  body {
+    margin-left: 0.39370078740157in;
+    margin-right: 0in;
+    margin-top: 0.39370078740157in;
+    margin-bottom: 0.78740157480315in;
+  }
+}
 .print {
   display: none;
 }
@@ -4759,43 +4761,43 @@ th.style179 {
   background-color: #ffffff;
 }
 table.sheet0 col.col0 {
-  width: 39.31111066pt;
+  width: 85.31111066pt;
 }
 table.sheet0 col.col1 {
-  width: 39.31111066pt;
+  width: 45.31111066pt;
 }
 table.sheet0 col.col2 {
-  width: 39.31111066pt;
+  width: 45.31111066pt;
 }
 table.sheet0 col.col3 {
-  width: 40.6666662pt;
+  width: 45.6666662pt;
 }
 table.sheet0 col.col4 {
-  width: 45.41111059pt;
+  width: 50.41111059pt;
 }
 table.sheet0 col.col5 {
-  width: 44.73333282pt;
+  width: 49.73333282pt;
 }
 table.sheet0 col.col6 {
-  width: 48.12222167pt;
+  width: 53.12222167pt;
 }
 table.sheet0 col.col7 {
-  width: 50.15555498pt;
+  width: 55.15555498pt;
 }
 table.sheet0 col.col8 {
-  width: 48.79999944pt;
+  width: 53.79999944pt;
 }
 table.sheet0 col.col9 {
-  width: 50.15555498pt;
+  width: 55.15555498pt;
 }
 table.sheet0 col.col10 {
-  width: 54.2222216pt;
+  width: 59.2222216pt;
 }
 table.sheet0 col.col11 {
-  width: 51.51111052pt;
+  width: 56.51111052pt;
 }
 table.sheet0 col.col12 {
-  width: 39.31111066pt;
+  width: 45.31111066pt;
 }
 table.sheet0 col.col13 {
   width: 42pt;
