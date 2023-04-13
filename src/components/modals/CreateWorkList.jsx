@@ -249,9 +249,8 @@ function CreateWorkList({ open }) {
               <InputNumber
                 min={1}
                 max={1000}
-                defaultValue={1}
                 onChange={(value) => {
-                  form.setFieldValue("count", value);
+                  console.log(value);
                   setWorkData({
                     ...workData,
                     count: value,
