@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Table, Layout, Form, Button, Select, Input, Space, InputNumber } from "antd";
+import {
+  Modal,
+  Table,
+  Layout,
+  Form,
+  Button,
+  Select,
+  Input,
+  Space,
+  InputNumber,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
 import { useGetMaterialQuery, useGetUnitQuery } from "../../api";
 import { PlusOutlined } from "@ant-design/icons";
-import { setMateriallist, setDefaulMaterialList } from "../../features/materialListSlice";
+import {
+  setMateriallist,
+  setDefaulMaterialList,
+} from "../../features/materialListSlice";
 import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
@@ -43,7 +56,14 @@ function CreateMaterialList({ open }) {
       key: "actions",
       render: (id) => (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a onClick={() => dispatch(setMateriallist([...materialListData].filter((item) => item.id_item !== id)))}>
+        <a
+          onClick={() =>
+            dispatch(
+              setMateriallist(
+                [...materialListData].filter((item) => item.id_item !== id)
+              )
+            )
+          }>
           удалить
         </a>
       ),
@@ -71,7 +91,9 @@ function CreateMaterialList({ open }) {
   };
 
   const handleOk = () => {
-    dispatch(setCreateOrderValue({ ...formValue, materiallist: materialListData }));
+    dispatch(
+      setCreateOrderValue({ ...formValue, materiallist: materialListData })
+    );
     form.resetFields();
     dispatch(updateModals({ modal: 4 }));
   };
@@ -128,7 +150,9 @@ function CreateMaterialList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button onClick={() => setIsOpenAddMaterial(true)} icon={<PlusOutlined />}>
+            <Button
+              onClick={() => setIsOpenAddMaterial(true)}
+              icon={<PlusOutlined />}>
               Добавить
             </Button>
           </Content>
@@ -141,7 +165,9 @@ function CreateMaterialList({ open }) {
         centered
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial)}
+        onOk={() =>
+          form.validateFields().then((values) => handleOkCreateMaterial)
+        }
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Content>
@@ -251,7 +277,7 @@ function CreateMaterialList({ open }) {
               <InputNumber
                 step={0.01}
                 onChange={(e) => {
-                  form.setFieldValue("count", e.target.value);
+                  form.setFieldValue("price", e.target.value);
                   setMaterialData({ ...materialData, price: e.target.value });
                 }}
               />
