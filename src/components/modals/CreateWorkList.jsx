@@ -180,6 +180,7 @@ function CreateWorkList({ open }) {
                   style={{ width: 250 }}
                   onChange={(value) => {
                     form.setFieldValue("work", value);
+                    form.setFieldValue("count", 1);
                     setWorkData((prev) => {
                       return {
                         ...prev,
