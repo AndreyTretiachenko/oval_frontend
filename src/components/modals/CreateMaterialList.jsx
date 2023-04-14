@@ -135,6 +135,7 @@ function CreateMaterialList({ open }) {
         </Layout>
       </Modal>
       <Modal
+        destroyOnClose
         open={isOpenAddMaterial}
         title="Создание материала"
         closable={false}

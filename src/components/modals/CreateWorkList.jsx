@@ -108,6 +108,7 @@ function CreateWorkList({ open }) {
   return (
     <>
       <Modal
+        destroyOnClose
         open={open}
         centered
         width={"50%"}
@@ -134,6 +135,7 @@ function CreateWorkList({ open }) {
         </Layout>
       </Modal>
       <Modal
+        destroyOnClose
         open={isOpenAddWork}
         title="Создание работы"
         closable={false}
