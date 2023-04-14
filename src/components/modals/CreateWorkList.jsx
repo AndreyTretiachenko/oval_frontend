@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Table,
-  Layout,
-  Form,
-  Button,
-  Select,
-  Input,
-  InputNumber,
-  Space,
-} from "antd";
+import { Modal, Table, Layout, Form, Button, Select, Input, InputNumber, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
@@ -54,16 +44,7 @@ function CreateWorkList({ open }) {
       key: "actions",
       render: (id) => (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a
-          onClick={() =>
-            dispatch(
-              setWorklist(
-                [...workListData].filter((item) => item.id_item !== id)
-              )
-            )
-          }>
-          удалить
-        </a>
+        <a onClick={() => dispatch(setWorklist([...workListData].filter((item) => item.id_item !== id)))}>удалить</a>
       ),
     },
   ];
@@ -95,6 +76,7 @@ function CreateWorkList({ open }) {
   };
 
   const handleOkCreateWork = () => {
+    console.log(1);
     const id_uuid = uuid();
     setIsOpenAddWork(false);
     dispatch(
@@ -145,9 +127,7 @@ function CreateWorkList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button
-              onClick={() => setIsOpenAddWork(true)}
-              icon={<PlusOutlined />}>
+            <Button onClick={() => setIsOpenAddWork(true)} icon={<PlusOutlined />}>
               Добавить
             </Button>
           </Content>
@@ -160,7 +140,13 @@ function CreateWorkList({ open }) {
         centered
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateWork)}
+        onOk={() => {
+          console.log(form.getFieldsValue());
+          form
+            .validateFields(["work", "count", "unit", "price"])
+            .then(() => handleOkCreateWork())
+            .catch((err) => console.log(err));
+        }}
         onCancel={handleCancelAddWork}
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
@@ -250,7 +236,7 @@ function CreateWorkList({ open }) {
                 min={1}
                 max={1000}
                 onChange={(value) => {
-                  console.log(value);
+                  form.setFieldValue("count", value);
                   setWorkData({
                     ...workData,
                     count: value,
@@ -267,10 +253,11 @@ function CreateWorkList({ open }) {
                   message: "необходимо указать цену работы",
                 },
               ]}>
-              <Input
-                onChange={(e) => {
-                  form.setFieldValue("price", e.target.value);
-                  setWorkData({ ...workData, price: e.target.value });
+              <InputNumber
+                step={0.01}
+                onChange={(value) => {
+                  setWorkData({ ...workData, price: value });
+                  form.setFieldValue("price", value);
                 }}
               />
             </Form.Item>

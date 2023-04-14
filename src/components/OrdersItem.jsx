@@ -728,7 +728,7 @@ function OrdersItem({ item }) {
                               rules={[
                                 {
                                   required: true,
-                                  message: "необходимо укащать цену",
+                                  message: "необходимо указать цену",
                                 },
                               ]}>
                               <InputNumber step={0.01} />
