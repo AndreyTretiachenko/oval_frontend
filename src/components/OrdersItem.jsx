@@ -327,6 +327,8 @@ function OrdersItem({ item }) {
                       <Modal
                         title="Создание события в календаре"
                         open={isAddEventCalendar}
+                        cancelText="Отмена"
+                        okText="Создать"
                         onCancel={() => {
                           setIsAddEventCalendar(false);
                           formEvent.resetFields();
