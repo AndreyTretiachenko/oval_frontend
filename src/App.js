@@ -98,7 +98,7 @@ function App() {
               background: "white",
             }}>
             {header}
-
+            <GoogleButton />
             <Dropdown
               menu={{
                 items: [

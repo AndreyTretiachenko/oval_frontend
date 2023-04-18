@@ -2,13 +2,11 @@ import React from "react";
 import { Layout, Menu } from "antd";
 import { useDispatch } from "react-redux";
 import { updateHeader } from "../features/navigateSlice";
-import GoogleButton from "./GoogleButton";
 const { Sider } = Layout;
 
 function Navigate() {
   const dispatch = useDispatch();
   const menuItems = [
-    { key: 0, label: <GoogleButton /> },
     { key: "1", label: "Заказ-няряды" },
     {
       key: "6",
