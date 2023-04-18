@@ -19,7 +19,7 @@
     {
       "src": "logo.svg",
       "type": "image/svg",
-      "sizes": "512*512"
+      "sizes": "512x512"
     }
   ]
 }
