@@ -164,6 +164,7 @@ function CreateMaterialList({ open }) {
                   style={{ width: 250 }}
                   onChange={(value) => {
                     form.setFieldValue("material", value);
+                    form.setFieldValue("count", 1);
                     setMaterialData((prev) => {
                       return {
                         ...prev,

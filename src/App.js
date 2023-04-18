@@ -17,7 +17,6 @@ import CreateClient from "./components/modals/CreateClient";
 import CreateMaterialList from "./components/modals/CreateMaterialList";
 import CreateTransport from "./components/modals/CreateTransport";
 import CreateWork from "./components/modals/CreateWork";
-
 import GoogleButton from "./components/GoogleButton";
 import { useGetGoogleOauthTokenMutation } from "./api";
 import CreateMaterial from "./components/modals/CreateMaterial";
@@ -99,7 +98,7 @@ function App() {
               background: "white",
             }}>
             {header}
-            <GoogleButton />
+
             <Dropdown
               menu={{
                 items: [
