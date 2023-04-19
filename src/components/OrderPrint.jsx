@@ -20,7 +20,7 @@ export const OrderPrint = ({ r, data }) => {
             <tr class="row0">
               <td class="column0 style1 s">[%template%]</td>
               <td class="column1 style141 s style143" colspan="7">
-                Заказ-наряд:{data.id} от {new Date(Date.parse(data.date_created)).toLocaleDateString("ru-RU")} (Акт
+                Заказ-наряд: №{data.id} от {new Date(Date.parse(data.date_created)).toLocaleDateString("ru-RU")} (Акт
                 выполненных работ)
               </td>
               <td class="column8 style162 s style164" colspan="3">
