@@ -224,7 +224,7 @@ export const OrderPrint = ({ r, data }) => {
                 Примечания\Пояснения
               </td>
             </tr>
-            {data.workList[0].work.map((work) => (
+            {data?.workList[0]?.work?.map((work) => (
               <tr class="row16">
                 <td class="column0" style={{ border: 0, background: "white" }}>
                   &nbsp;
@@ -258,7 +258,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column5 style16 null"></td>
               <td class="column6 style17 s">Итого:</td>
               <td class="column7 style18 f">
-                {data.workList[0].work.reduce((acc, cur) => acc + cur.count * cur.work.price, 0)}
+                {data?.workList[0]?.work?.reduce((acc, cur) => acc + cur.count * cur.work.price, 0)}
                 р.
               </td>
               <td class="column8 style16 null"></td>
@@ -381,7 +381,7 @@ export const OrderPrint = ({ r, data }) => {
                 Артикул
               </td>
             </tr>
-            {data.materialList[0].materials.map((material) => (
+            {data?.materialList[0]?.materials?.map((material) => (
               <tr class="row28">
                 <td class="column0">&nbsp;</td>
                 <td class="column1 style171 s style173" colspan="4">
@@ -408,7 +408,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style44 null"></td>
               <td class="column9 style43 s">Итого:</td>
               <td class="column10 style45 f">
-                {data.materialList[0].materials.reduce((acc, cur) => acc + cur.count * cur.material.price, 0)}
+                {data?.materialList[0]?.materials?.reduce((acc, cur) => acc + cur.count * cur.material.price, 0)}
                 р.
               </td>
             </tr>
@@ -419,8 +419,8 @@ export const OrderPrint = ({ r, data }) => {
                 С объемом работ и стоимостью заказа
               </td>
               <td class="column6 style101 f style102" colspan="2">
-                {data.workList[0].work.reduce((acc, cur) => acc + cur.count * cur.work.price, 0) +
-                  data.materialList[0].materials.reduce((acc, cur) => acc + cur.count * cur.material.price, 0)}
+                {data?.workList[0]?.work?.reduce((acc, cur) => acc + cur.count * cur.work.price, 0) +
+                  data?.materialList[0]?.materials?.reduce((acc, cur) => acc + cur.count * cur.material.price, 0)}
               </td>
               <td class="column8 style24 s">&nbsp;руб.</td>
               <td class="column9 style27 null"></td>

@@ -407,7 +407,7 @@ function OrdersItem({ item }) {
                           formWork.validateFields(["work", "count", "price", "unit"]).then(async () => {
                             await addWork({
                               count: formWork.getFieldValue("count"),
-                              id_worklist: item.workList[0].id,
+                              id_worklist: item?.workList[0]?.id,
                               id_work: formWork.getFieldValue("work"),
                               unit_id: formWork.getFieldValue("unit"),
                               price: formWork.getFieldValue("price"),
