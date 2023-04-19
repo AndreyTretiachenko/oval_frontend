@@ -94,7 +94,7 @@ function OrdersItem({ item }) {
 
   const sumOrderMaterial = () => {
     let sum = 0;
-    item.materialList[0].materials.map((material) => {
+    item?.materialList[0]?.materials?.map((material) => {
       sum = sum + material.count * material.price;
     });
     return sum;
