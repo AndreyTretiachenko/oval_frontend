@@ -233,8 +233,8 @@ export const OrderPrint = ({ r, data }) => {
                   &nbsp;{work.work.name}
                 </td>
                 <td class="column5 style36 n">{work.count} &nbsp;</td>
-                <td class="column6 style14 n">{work.work.price}р.&nbsp;</td>
-                <td class="column7 style14 f">{work.count * work.work.price}р.&nbsp;</td>
+                <td class="column6 style14 n">{work.price}р.&nbsp;</td>
+                <td class="column7 style14 f">{work.count * work.price}р.&nbsp;</td>
                 <td class="column8 style47 null style49" colspan="3"></td>
               </tr>
             ))}
@@ -258,7 +258,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column5 style16 null"></td>
               <td class="column6 style17 s">Итого:</td>
               <td class="column7 style18 f">
-                {data?.workList[0]?.work?.reduce((acc, cur) => acc + cur.count * cur.work.price, 0)}
+                {data?.workList[0]?.work?.reduce((acc, cur) => acc + cur.count * cur.price, 0)}
                 р.
               </td>
               <td class="column8 style16 null"></td>
@@ -392,8 +392,8 @@ export const OrderPrint = ({ r, data }) => {
                 </td>
                 <td class="column7 style37 s">{material.unit.name}</td>
                 <td class="column8 style38 n">{material.count}</td>
-                <td class="column9 style39 n">&nbsp;&nbsp;{material.material.price}р.</td>
-                <td class="column10 style40 f">&nbsp;&nbsp;{material.material.price * material.count}р.</td>
+                <td class="column9 style39 n">&nbsp;&nbsp;{material.price}р.</td>
+                <td class="column10 style40 f">&nbsp;&nbsp;{material.price * material.count}р.</td>
               </tr>
             ))}
             <tr class="row31">
@@ -408,7 +408,7 @@ export const OrderPrint = ({ r, data }) => {
               <td class="column8 style44 null"></td>
               <td class="column9 style43 s">Итого:</td>
               <td class="column10 style45 f">
-                {data?.materialList[0]?.materials?.reduce((acc, cur) => acc + cur.count * cur.material.price, 0)}
+                {data?.materialList[0]?.materials?.reduce((acc, cur) => acc + cur.count * cur.price, 0)}
                 р.
               </td>
             </tr>
