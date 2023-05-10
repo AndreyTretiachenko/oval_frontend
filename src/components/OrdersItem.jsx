@@ -122,9 +122,9 @@ function OrdersItem({ item }) {
                 " " +
                 new Date(Date.parse(item.date_created)).toLocaleTimeString("ru-RU")
             },
-        сумма запчастей: ${sumOrderMaterial()} руб, сумма работ: ${sumOrderWork()} руб, итого по заказу: ${
-              sumOrderMaterial() + sumOrderWork()
-            }`}>
+        ${
+          item.client?.type === "company" ? item.client?.name : item.client?.firstName + " " + item.client?.lastName
+        }, VIN: ${item.transport?.vin}, итого по заказу: ${sumOrderMaterial() + sumOrderWork()}`}>
             <div>
               <Space>
                 <ReactToPrint
