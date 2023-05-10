@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Table,
-  Layout,
-  Form,
-  Button,
-  Select,
-  Input,
-  InputNumber,
-  Space,
-} from "antd";
+import { Modal, Table, Layout, Form, Button, Select, Input, InputNumber, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateModals } from "../../features/modalsSlice";
 import { Content, Header } from "antd/es/layout/layout";
@@ -54,16 +44,7 @@ function CreateWorkList({ open }) {
       key: "actions",
       render: (id) => (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a
-          onClick={() =>
-            dispatch(
-              setWorklist(
-                [...workListData].filter((item) => item.id_item !== id)
-              )
-            )
-          }>
-          удалить
-        </a>
+        <a onClick={() => dispatch(setWorklist([...workListData].filter((item) => item.id_item !== id)))}>удалить</a>
       ),
     },
   ];
@@ -127,6 +108,7 @@ function CreateWorkList({ open }) {
     <>
       <Modal
         open={open}
+        destroyOnClose
         centered
         width={"50%"}
         title="Создание сметы на работы"
@@ -145,15 +127,14 @@ function CreateWorkList({ open }) {
                 pageSize: 5,
               }}
             />
-            <Button
-              onClick={() => setIsOpenAddWork(true)}
-              icon={<PlusOutlined />}>
+            <Button onClick={() => setIsOpenAddWork(true)} icon={<PlusOutlined />}>
               Добавить
             </Button>
           </Content>
         </Layout>
       </Modal>
       <Modal
+        destroyOnClose
         open={isOpenAddWork}
         title="Создание работы"
         closable={false}
