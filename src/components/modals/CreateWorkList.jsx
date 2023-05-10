@@ -10,6 +10,7 @@ import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
 function CreateWorkList({ open }) {
+  const { data: units = [] } = useGetUnitQuery();
   const columns = [
     {
       title: "Наименование",
@@ -27,6 +28,7 @@ function CreateWorkList({ open }) {
       title: "Ед измерения",
       dataIndex: "unit",
       key: "unit",
+      render: (unit) => units.find((item) => item.id === unit).name,
     },
     {
       title: "Цена",
@@ -61,7 +63,6 @@ function CreateWorkList({ open }) {
   });
   const workListData = useSelector((state) => state.worklist.data);
   const { data: work = [] } = useGetWorkQuery();
-  const { data: unit = [] } = useGetUnitQuery();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 2 }));
@@ -110,7 +111,7 @@ function CreateWorkList({ open }) {
         open={open}
         destroyOnClose
         centered
-        width={"50%"}
+        width={"65%"}
         title="Создание сметы на работы"
         closable={false}
         maskClosable={false}
@@ -139,9 +140,10 @@ function CreateWorkList({ open }) {
         title="Создание работы"
         closable={false}
         centered
+        width={"50%"}
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateWork)}
+        onOk={() => form.validateFields().then((values) => handleOkCreateWork())}
         onCancel={handleCancelAddWork}
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
@@ -158,7 +160,7 @@ function CreateWorkList({ open }) {
               ]}>
               <Space>
                 <Select
-                  style={{ width: 250 }}
+                  style={{ width: 450 }}
                   onChange={(value) => {
                     form.setFieldValue("work", value);
                     form.setFieldValue("count", 1);
@@ -203,6 +205,7 @@ function CreateWorkList({ open }) {
                 },
               ]}>
               <Select
+                style={{ width: 150 }}
                 onChange={(value) => {
                   form.setFieldValue("unit", value);
                   setWorkData({
@@ -210,7 +213,7 @@ function CreateWorkList({ open }) {
                     unit: value,
                   });
                 }}
-                options={unit.map((item) => {
+                options={units.map((item) => {
                   return {
                     label: item.name,
                     value: item.id,
@@ -230,6 +233,7 @@ function CreateWorkList({ open }) {
               <InputNumber
                 min={1}
                 max={1000}
+                style={{ width: 80 }}
                 onChange={(value) => {
                   console.log(value);
                   setWorkData({
@@ -249,7 +253,9 @@ function CreateWorkList({ open }) {
                 },
               ]}>
               <Input
+                style={{ width: 150 }}
                 onChange={(e) => {
+                  console.log(e);
                   form.setFieldValue("price", e.target.value);
                   setWorkData({ ...workData, price: e.target.value });
                 }}
