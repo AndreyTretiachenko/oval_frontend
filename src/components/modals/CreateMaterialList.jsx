@@ -141,7 +141,7 @@ function CreateMaterialList({ open }) {
         centered
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial)}
+        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial())}
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Content>
