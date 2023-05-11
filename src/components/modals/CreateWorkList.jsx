@@ -258,8 +258,8 @@ function CreateWorkList({ open }) {
               ]}>
               <Input
                 onChange={(e) => {
-                  form.setFieldValue("price", e.target.value);
-                  setWorkData({ ...workData, price: e.target.value });
+                  form.setFieldValue("price", Number(e.target.value));
+                  setWorkData({ ...workData, price: Number(e.target.value) });
                 }}
               />
             </Form.Item>
