@@ -111,7 +111,6 @@ function CreateWorkList({ open }) {
       <Modal
         destroyOnClose
         open={open}
-        destroyOnClose
         centered
         width={"65%"}
         title="Создание сметы на работы"
@@ -145,7 +144,7 @@ function CreateWorkList({ open }) {
         width={"50%"}
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateWork)}
+        onOk={() => form.validateFields().then((values) => handleOkCreateWork())}
         onCancel={handleCancelAddWork}
         maskClosable={false}>
         <Header style={{ backgroundColor: "whitesmoke" }}></Header>
@@ -162,7 +161,10 @@ function CreateWorkList({ open }) {
               ]}>
               <Space>
                 <Select
-                  style={{ width: 450 }}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                  style={{ width: 350 }}
                   onChange={(value) => {
                     form.setFieldValue("work", value);
                     form.setFieldValue("count", 1);

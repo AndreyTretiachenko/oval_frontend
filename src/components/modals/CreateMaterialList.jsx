@@ -138,14 +138,13 @@ function CreateMaterialList({ open }) {
       <Modal
         destroyOnClose
         open={isOpenAddMaterial}
-        destroyOnClose
         title="Создание материала"
         closable={false}
         centered
         width={"50%"}
         cancelText="отмена"
         okText="создать"
-        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial)}
+        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial())}
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Content>
@@ -162,7 +161,10 @@ function CreateMaterialList({ open }) {
               ]}>
               <Space>
                 <Select
-                  style={{ width: 450 }}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                  style={{ width: 350 }}
                   onChange={(value) => {
                     form.setFieldValue("material", value);
                     form.setFieldValue("count", 1);
