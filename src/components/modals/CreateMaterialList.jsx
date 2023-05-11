@@ -10,6 +10,7 @@ import uuid from "react-uuid";
 import { setCreateOrderValue } from "../../features/createOrderSlice";
 
 function CreateMaterialList({ open }) {
+  const { data: units = [] } = useGetUnitQuery();
   const columns = [
     {
       title: "Наименование",
@@ -24,8 +25,9 @@ function CreateMaterialList({ open }) {
     },
     {
       title: "Ед измерения",
-      dataIndex: "count",
-      key: "count",
+      dataIndex: "unit",
+      key: "unit",
+      render: (unit) => units.find((item) => item.id === unit).name,
     },
     {
       title: "Цена",
@@ -62,7 +64,6 @@ function CreateMaterialList({ open }) {
   });
   const materialListData = useSelector((state) => state.materiallist.data);
   const { data: material = [] } = useGetMaterialQuery();
-  const { data: unit = [] } = useGetUnitQuery();
 
   const handleCancel = () => {
     dispatch(updateModals({ modal: 4 }));
@@ -111,7 +112,7 @@ function CreateMaterialList({ open }) {
         destroyOnClose
         open={open}
         centered
-        width={"50%"}
+        width={"65%"}
         title="Создание сметы на материалы"
         closable={false}
         maskClosable={false}
@@ -137,14 +138,14 @@ function CreateMaterialList({ open }) {
       <Modal
         destroyOnClose
         open={isOpenAddMaterial}
+        destroyOnClose
         title="Создание материала"
         closable={false}
         centered
+        width={"50%"}
         cancelText="отмена"
         okText="создать"
-        onOk={() =>
-          form.validateFields(["material", "count", "unit", "price"]).then((values) => handleOkCreateMaterial())
-        }
+        onOk={() => form.validateFields().then((values) => handleOkCreateMaterial)}
         onCancel={handleCancelAddMaterial}
         maskClosable={false}>
         <Content>
@@ -161,7 +162,7 @@ function CreateMaterialList({ open }) {
               ]}>
               <Space>
                 <Select
-                  style={{ width: 250 }}
+                  style={{ width: 450 }}
                   onChange={(value) => {
                     form.setFieldValue("material", value);
                     form.setFieldValue("count", 1);
@@ -206,6 +207,7 @@ function CreateMaterialList({ open }) {
                 },
               ]}>
               <Select
+                style={{ width: 150 }}
                 onChange={(value) => {
                   form.setFieldValue("unit", value);
                   setMaterialData({
@@ -213,7 +215,7 @@ function CreateMaterialList({ open }) {
                     unit: value,
                   });
                 }}
-                options={unit.map((item) => {
+                options={units.map((item) => {
                   return {
                     label: item.name,
                     value: item.id,
@@ -233,6 +235,7 @@ function CreateMaterialList({ open }) {
               <InputNumber
                 min={1}
                 max={1000}
+                style={{ width: 80 }}
                 defaultValue={1}
                 onChange={(value) => {
                   form.setFieldValue("count", value);
@@ -254,9 +257,10 @@ function CreateMaterialList({ open }) {
               ]}>
               <InputNumber
                 step={0.01}
+                style={{ width: 150 }}
                 onChange={(e) => {
-                  form.setFieldValue("price", e.target.value);
-                  setMaterialData({ ...materialData, price: e.target.value });
+                  form.setFieldValue("price", e);
+                  setMaterialData({ ...materialData, price: e });
                 }}
               />
             </Form.Item>
