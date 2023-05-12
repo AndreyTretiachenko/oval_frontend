@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  Layout,
-  Modal,
-  Radio,
-  Space,
-  Divider,
-  message,
-  Input,
-  Select,
-  Typography,
-} from "antd";
+import { Button, Form, Layout, Modal, Radio, Space, Divider, message, Input, Select, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import uuid from "react-uuid";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,10 +16,7 @@ import {
 } from "../../api";
 import { Content, Header } from "antd/es/layout/layout";
 import { setDefaulWorkList } from "../../features/workListSlice";
-import {
-  setCreateOrderValue,
-  setDefaultCreateOrderValue,
-} from "../../features/createOrderSlice";
+import { setCreateOrderValue, setDefaultCreateOrderValue } from "../../features/createOrderSlice";
 import { setDefaulMaterialList } from "../../features/materialListSlice";
 
 const { TextArea } = Input;
@@ -45,8 +30,7 @@ function CreareOrder({ open }) {
   const [addMateriallist] = useAddMateriallistMutation();
   const [addMaterials] = useAddMaterialsMutation();
   const { data: person = [], isLoading: isPersonLoading } = useGetPersonQuery();
-  const { data: company = [], isLoading: isCompanyLoading } =
-    useGetCompanyQuery();
+  const { data: company = [], isLoading: isCompanyLoading } = useGetCompanyQuery();
   const formValue = useSelector((state) => state.createOrder);
   const [typeListClient, setTypeListClient] = useState("company");
   const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +58,7 @@ function CreareOrder({ open }) {
                     count: work.count,
                     id_worklist: res.workList,
                     id_work: work.id,
+                    price: work.price,
                     unit_id: work.unit,
                   }).unwrap()
                 );
@@ -107,6 +92,7 @@ function CreareOrder({ open }) {
                     count: material.count,
                     material_id: material.id,
                     materiallist_id: res.materialList,
+                    price: material.price,
                     unit_id: material.unit,
                   }).unwrap();
                 });
@@ -181,14 +167,9 @@ function CreareOrder({ open }) {
         cancelText="Отмена"
         onCancel={handleCancel}>
         <Layout>
-          <Header style={{ backgroundColor: "whitesmoke" }}>
-            Для создание заказа неободимо заполнить все поля
-          </Header>
+          <Header style={{ backgroundColor: "whitesmoke" }}>Для создание заказа неободимо заполнить все поля</Header>
           <Content>
-            <Form
-              labelCol={{ span: 4 }}
-              form={formOrder}
-              initialValues={{ type: "company" }}>
+            <Form labelCol={{ span: 4 }} form={formOrder} initialValues={{ type: "company" }}>
               <Form.Item label="Тип клиента" name="type">
                 <Radio.Group
                   options={[
@@ -205,24 +186,14 @@ function CreareOrder({ open }) {
               <Form.Item
                 label="Клиент"
                 name="client"
-                rules={[
-                  { required: true, message: "необходимо выбрать клиента" },
-                ]}>
+                rules={[{ required: true, message: "необходимо выбрать клиента" }]}>
                 <Space>
                   <Select
                     showSearch
                     clearIcon
                     optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? "")
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
-                    loading={
-                      typeListClient === "company"
-                        ? isCompanyLoading
-                        : isPersonLoading
-                    }
+                    filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
+                    loading={typeListClient === "company" ? isCompanyLoading : isPersonLoading}
                     style={{ width: 300 }}
                     onChange={(value) => {
                       formOrder.setFieldValue("client", value);
@@ -283,11 +254,7 @@ function CreareOrder({ open }) {
                     showSearch
                     clearIcon
                     optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      (option?.label ?? "")
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                    }
+                    filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
                     style={{ width: 400 }}
                     onChange={(value) => {
                       formOrder.setFieldValue("transport", value);
@@ -341,11 +308,7 @@ function CreareOrder({ open }) {
                     }
                   />
                   <Button
-                    disabled={
-                      formValue.person_id !== 0 || formValue.company_id !== 0
-                        ? false
-                        : true
-                    }
+                    disabled={formValue.person_id !== 0 || formValue.company_id !== 0 ? false : true}
                     type="primary"
                     size="small"
                     shape="circle"
@@ -371,9 +334,7 @@ function CreareOrder({ open }) {
                   }>
                   открыть
                 </Button>
-                <span style={{ marginLeft: 10 }}>
-                  работы на сумму: {sumWorks()} рублей
-                </span>
+                <span style={{ marginLeft: 10 }}>работы на сумму: {sumWorks()} рублей</span>
               </Form.Item>
               <Form.Item label="Список материалов" name="materials">
                 <Button
@@ -386,9 +347,7 @@ function CreareOrder({ open }) {
                   }>
                   открыть
                 </Button>
-                <span style={{ marginLeft: 10 }}>
-                  материалы на сумму: {sumMaterial()} рублей
-                </span>
+                <span style={{ marginLeft: 10 }}>материалы на сумму: {sumMaterial()} рублей</span>
               </Form.Item>
               <Divider />
               <Form.Item label="Итого сумма" name="resultSumOrder">
