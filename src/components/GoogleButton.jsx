@@ -39,11 +39,16 @@ function GoogleButton({ token }) {
   }, [getCode]);
 
   return (
-    <Button
-      style={JSON.parse(localStorage.getItem("refresh_token")) ? { display: "none" } : { marginLeft: 20 }}
-      href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&prompt=consent&access_type=offline&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=${process.env.REACT_APP_GOOGLE_SCOPE}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI_DEV}`}>
-      авторизация
-    </Button>
+    <>
+      <span style={!JSON.parse(localStorage.getItem("refresh_token")) ? { display: "none" } : { marginLeft: 10 }}>
+        пользователь: {JSON.parse(localStorage.getItem("profile"))?.name}
+      </span>
+      <Button
+        style={JSON.parse(localStorage.getItem("refresh_token")) ? { display: "none" } : { marginLeft: 20 }}
+        href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&prompt=consent&access_type=offline&client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=${process.env.REACT_APP_GOOGLE_SCOPE}&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI_DEV}`}>
+        авторизация
+      </Button>
+    </>
   );
 }
 
