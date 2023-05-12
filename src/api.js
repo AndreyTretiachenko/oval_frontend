@@ -148,6 +148,12 @@ export const ovalApi = createApi({
         url: "https://www.googleapis.com/calendar/v3/users/me/calendarList?access_token=" + token,
       }),
     }),
+    getGoogleProfile: builder.query({
+      query: (token) => ({
+        baseUrl: "",
+        url: "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + token,
+      }),
+    }),
     getGoogleCalendarColor: builder.query({
       query: () => ({
         baseUrl: "",
@@ -275,4 +281,5 @@ export const {
   useApiDaDataFindByInnMutation,
   useAddGoogleEventMutation,
   useGetGoogleCalendarColorQuery,
+  useLazyGetGoogleProfileQuery,
 } = ovalApi;

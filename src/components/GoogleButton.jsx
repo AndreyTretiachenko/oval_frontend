@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "antd";
-import { useGetGoogleOauthTokenMutation } from "../api";
+import { useGetGoogleOauthTokenMutation, useLazyGetGoogleProfileQuery } from "../api";
 
 function GoogleButton({ token }) {
   const params = new URLSearchParams(window.location.search);
   const [getCode, setGetCode] = useState();
   const [getGoogleOauthToken] = useGetGoogleOauthTokenMutation();
+  const [getGooglePrifile] = useLazyGetGoogleProfileQuery();
 
   const getToken = async () => {
     await getGoogleOauthToken(
@@ -14,10 +15,13 @@ function GoogleButton({ token }) {
       }&redirect_uri=${process.env.REACT_APP_GOOGLE_REDIRECT_URI_DEV}&grant_type=authorization_code`
     )
       .unwrap()
-      .then((response) => {
+      .then(async (response) => {
         localStorage.setItem("token", JSON.stringify(response));
         localStorage.setItem("refresh_token", JSON.stringify(response.refresh_token));
         localStorage.setItem("auth", JSON.stringify(response));
+        await getGooglePrifile(response.access_token)
+          .unwrap()
+          .then((res) => localStorage.setItem("profile", JSON.stringify(res)));
         setGetCode(false);
         window.location.replace(process.env.REACT_APP_GOOGLE_REDIRECT_URI_DEV);
       })
